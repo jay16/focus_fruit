@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%= javascript_include_tag "jquery-latest" %> 
+  <%= javascript_include_tag "bootstrap.min" %>
+  <%= stylesheet_link_tag "bootstrap.min" %>
+
+  <% if mobile? %>
+    <%= stylesheet_link_tag "mobile" %>
+    <meta name="apple-mobile-web-app-capable" content="no">
+    <meta content='True' name='HandheldFriendly' />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <link rel="apple-touch-icon-precomposed" href="<%= asset_path("favicon.so.ico") %>" />
+  <% end %>
+
+<style>
+.accordion-group .accordion-heading {  background: #C4CBDF; }
+</style>
+</head>
+
+<body <% if mobile? %> style="max-width:1000px;min-width:100px;"<% end %>>
+<div class="container-fluid" style="margin:42px 2px 2px 2px;padding: 0px;">
+    <div class="row-fluid" style="margin-left:0px;">
+    <div class="span12">
+      <div class="accordion" id="fruite_people">
+      
+          <div class="accordion-group">
+              <div class="accordion-heading">
+                  <a class="accordion-toggle" data-parent="#fruite_people" data-toggle="collapse" href="#fruit_group_1">
+                    坚果狂欢|<span class="collapse-state">展开</span>
+		  </a>
+              </div>
+
+              <div class="accordion-body collapse in" id="fruit_group_1">
+                  <div class="accordion-inner">
+                          <div class="row-fluid fruit" id="fruit_1">
+                              <div class="span6">
+                                  <a>芒果干  每袋</a>
+                              </div>
+                              <div class="span2">
+                                <span class="label label-warning">￥<span class="price">4</span></span>
+                              </div>
+                              <div class="span4">
+
+                                  <a class="btn btn-mini buy-less"> <i class="icon-minus"> </i> </a>
+                                  <span class="count">0</span>
+                                  <a class="btn btn-mini btn-primary buy-more"> <i class="icon-plus icon-white"> </i>
+                                  </a>
+                              </div>
+                          </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="accordion-group">
+              <div class="accordion-heading">
+                  <a class="accordion-toggle" data-parent="#accordion2" data-toggle="collapse" href="#fruit_group_2">
+		    坚果狂欢|<span class="collapse-state">展开</span>
+		  </a>
+              </div>
+
+              <div class="accordion-body collapse fruit-group" id="fruit_group_2">
+                  <div class="accordion-inner">
+                          <div class="row-fluid fruit" id="fruit_2">
+                              <div class="span6">
+                                  <a>香蕉  每袋</a>
+                              </div>
+                              <div class="span2">
+                                <span class="label label-warning">￥<span class="price">4</span></span>
+                              </div>
+                              <div class="span4">
+
+                                  <a class="btn btn-mini buy-less"> <i class="icon-minus"> </i> </a>
+                                  <span class="count">0</span>
+                                  <a class="btn btn-mini btn-primary buy-more"> <i class="icon-plus icon-white"> </i>
+                                  </a>
+                              </div>
+                          </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+    </div>
+    
+    
+    
+    <div>
+        <div style="color:white;background:black;padding:8px" class="navbar-fixed-top">
+        健康生活 - 水果达人
+        </div>
+    </div>
+    <div>
+    <div style="color:white;background:black;" class="navbar-fixed-bottom">
+        <div class="row-fluid">
+            <div class="span4"></div>
+            <div style="text-align:right" class="span7">
+                <span ng-click="showShopCart()" class="label label-info ng-binding">
+                    <i class="icon-shopping-cart icon-white">
+                    </i>
+                    <span class="total-count">0</span>
+                    &nbsp;&nbsp;总价￥<span class="total-price">0</span>
+                </span>
+
+                    <a style="margin:7px" class="btn btn-info">结帐</a>
+            </div>
+            <div class="span1"></div>
+        </div>
+        </div>
+    </div>
+</div>
+<script>
+$(function(){
+  //遍历所有单类水果计算总数量与总价
+  function check_out() {
+    var total_count = 0;
+    var total_price = 0;
+    $(".fruit").each(function(e){
+       var id = $(this).attr("id");
+       var price = parseInt($("#"+id+" .price").text());
+       var count = parseInt($("#"+id+" .count").text());
+       var result = price * count;
+       total_count += count;
+       total_price += result;
+    });
+    //alert(total_count);
+    $(".total-count").text(total_count);
+    $(".total-price").text(total_price);
+  };
+
+  $(".fruit").each(function(e){
+      var id = $(this).attr("id");
+      //add 
+      $("#"+id+" .buy-more").click(function(){
+        var $buy_count = $("#"+id+" .count");
+        var already_budy = parseInt($buy_count.text());
+        already_budy += 1;
+        $buy_count.text(already_budy);
+        check_out();
+      });
+      //plus
+      $("#"+id+" .buy-less").click(function(){
+        var $buy_count = $("#"+id+" .count");
+        var already_budy = parseInt($buy_count.text());
+        if(already_budy>0) 
+          already_budy -= 1;
+        $buy_count.text(already_budy);
+        check_out();
+      });
+  });
+});
+</script>
+</body>
+</html>
+

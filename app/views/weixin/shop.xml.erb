@@ -1,0 +1,16 @@
+<xml>
+<ToUserName><![CDATA[<%= @weixin.from_user_name %>]]></ToUserName>
+<FromUserName><![CDATA[<%= @weixin.to_user_name %>]]></FromUserName>
+<CreateTime><%= Time.now.to_i %></CreateTime>
+<MsgType><![CDATA[news]]></MsgType>
+<Content><![CDATA[]]></Content>
+<ArticleCount>1</ArticleCount>
+<Articles>
+  <item>
+    <Title><![CDATA[欢迎参观水果店]]></Title>
+    <Description><![CDATA[欢迎参观水果店]]></Description>
+    <PicUrl><![CDATA[http://fruit.solife.us/assets/fruit.png]]></PicUrl>
+    <Url><![CDATA[http://fruit.solife.us]]></Url>
+  </item>
+<Articles>
+</xml>
