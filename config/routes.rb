@@ -1,8 +1,14 @@
 #encoding: utf-8
 FocusFruit::Application.routes.draw do
   root :to => "shop#index"
-  get "shop/index"
 
+  resources :fruit_zones do
+    collection do
+      post "upload"
+      get "admin"
+    end
+    resources :fruits
+  end
 
   #处理weixin消息
   scope :path => "/weixin", :via => :post, :defaults => {:format => "xml"} do

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%= javascript_include_tag "application" %>
+  <%= javascript_include_tag "jquery-latest" %> 
+  <%= javascript_include_tag "bootstrap.min" %>
+  <%= stylesheet_link_tag "bootstrap.min" %>
+
+  <% if mobile? %>
+    <%= stylesheet_link_tag "mobile" %>
+    <meta name="apple-mobile-web-app-capable" content="no">
+    <meta content='True' name='HandheldFriendly' />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <link rel="apple-touch-icon-precomposed" href="<%= asset_path("favicon.so.ico") %>" />
+  <% end %>
+
+<style>
+.accordion-group .accordion-heading {  background: #C4CBDF; }
+</style>
+</head>
+
+<body <% if mobile? %> style="max-width:1000px;min-width:100px;"<% end %>>
+<div class="container-fluid" style="margin:42px 2px 2px 2px;padding: 0px;">
+    <div class="row-fluid" style="margin-left:0px;">
+    <div class="span12">
+       <%= yield %> 
+      <div>
+	  <div style="color:white;background:black;padding:8px" class="navbar-fixed-top">
+	  健康生活 - 水果达人
+	  </div>
+      </div>
+    </div>
+</div>
+</body>
+</html>
+

@@ -11,7 +11,32 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131109155746) do
+ActiveRecord::Schema.define(:version => 20140109085401) do
+
+  create_table "fruit_with_zones", :force => true do |t|
+    t.integer  "fruit_id"
+    t.integer  "fruit_zone_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  create_table "fruit_zones", :force => true do |t|
+    t.string   "name"
+    t.text     "desc"
+    t.string   "state"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "fruits", :force => true do |t|
+    t.string   "name"
+    t.text     "desc"
+    t.integer  "inventory"
+    t.float    "price"
+    t.string   "state"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "weixin_recevers", :force => true do |t|
     t.string   "to_user_name"

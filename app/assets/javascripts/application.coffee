@@ -10,16 +10,9 @@
 # WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 # GO AFTER THE REQUIRES BELOW.
 #
-# require_tree .
-
 #= require jquery
 #= require jquery.iframe-transport
 #= require jquery_ujs
 #= require jquery.remotipart
-#= require bootstrap
-#= require bootstrap-datepicker
 #= require jquery.tips
-#= require paginate
-#= require segments
-#= require highcharts
 

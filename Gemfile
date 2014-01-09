@@ -18,8 +18,8 @@ gem "nokogiri"
 gem "ip_reverse"
 
 #markdown语法解析blog
-gem "kramdown"
-gem "coderay"
+#gem "kramdown"
+#gem "coderay"
 
 #blog标题翻译为拼音做链接
 #翻译为英语最佳
@@ -27,7 +27,7 @@ gem "ruby-pinyin"
 gem "uuidtools"
 
 #pdf excel zip
-gem "pdfkit"
+#gem "pdfkit"
 gem "spreadsheet"
 gem "rubyzip"
 
@@ -61,7 +61,7 @@ gem "coffee-rails", "~> 3.2.1"
 gem "jquery-rails"
 gem "sass-rails",   "~> 3.2.3"
 #gem "haml"
-gem "haml-rails"
+#gem "haml-rails"
 
 # Gems used only for assets and not required
 # in production environments by default.
