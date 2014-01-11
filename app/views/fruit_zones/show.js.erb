@@ -1,0 +1,3 @@
+$("#modal").modal("show");
+$("#modal .modal-header h3").html("订单明细");
+$("#modal .modal-body").html("<%= j render 'orders/order_items', formats: [:html], handler: [:erb] %>");

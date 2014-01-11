@@ -10,6 +10,8 @@ class CreateOrders < ActiveRecord::Migration
       t.string :date_at
       t.text :remark
       t.text :info
+      t.integer :count
+      t.float :checkout
 
       t.timestamps
     end

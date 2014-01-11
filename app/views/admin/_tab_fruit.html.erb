@@ -1,0 +1,48 @@
+<style>
+#fruit_zone .accordion-heading {
+  padding-right: 20px;
+}
+#fruit_zone .accordion-heading a {
+  display: inline;
+}
+</style>
+<div class="accordion" id="fruit_zone">
+
+    <% @fruit_zones.each_with_index do |fruit_zone, index| %> 
+      <div class="accordion-group">
+	  <div class="accordion-heading">
+	      <a class="accordion-toggle collapsed" data-parent="#fruit_zone" data-toggle="collapse" href="#<%= dom_id fruit_zone %>">
+		<%= fruit_zone.name %>|<span class="collapse-state">展开</span>
+	      </a>
+
+	      <span class="right">
+	      <%= link_to "编辑", [:edit, fruit_zone], remote: true %> | 
+	      <%= link_to "删除", fruit_zone, method: :delete, remote: true %>
+	      </span>
+	  </div>
+
+	  <div class="accordion-body collapse <%= index == 0 ? 'in' : '' %>" id="<%= dom_id fruit_zone %>">
+	      <div class="accordion-inner">
+		<% fruit_zone.fruits.each_with_index do |fruit, i| %>
+		      <div class="row-fluid fruit" id="<%= dom_id fruit %>">
+			  <div class="span6">
+			      <span class="name"><%= fruit.name %></span>
+			  </div>
+			  <div class="span2">
+			    <span class="label label-warning">￥<span class="price"><%= fruit.price %></span></span>
+			  </div>
+			  <div class="span4">
+			    <%= link_to "编辑", [:edit,fruit_zone, fruit], remote: true %> | 
+			    <%= link_to "删除", [fruit_zone, fruit], method: :delete, remote: true %>
+			  </div>
+		      </div>
+		<% end %>
+	      </div>
+	      <!-- accordion-inner-->
+	  </div>
+	  <!--accordion-body-->
+      </div>
+      <!--accordion-group-->
+    <% end %>
+
+</div>

@@ -1,14 +1,19 @@
 <div style="margin:20px 0px 80px 30px;width:300px;">
-  <%= simple_form_for(@fruit_zone, :remote => true) do |f| %>
+  <%= simple_form_for([@fruit_zone, @fruit], :remote => true) do |f| %>
 
     <%= f.input :name, wrapper: :prepend, label: false do %>
       <%= content_tag :span, content_tag(:span, "名称", class: ""), class: "add-on" %>
-      <%= f.input_field :name, placeholder: "水果专区", autofocus: true %>
+      <%= f.input_field :name, placeholder: "水果名称", autofocus: true %>
+    <% end %>
+
+    <%= f.input :price, wrapper: :prepend, label: false do %>
+      <%= content_tag :span, content_tag(:span, "价格", class: ""), class: "add-on" %>
+      <%= f.input_field :price, placeholder: "水果价格", autofocus: true %>
     <% end %>
 
     <%= f.input :desc,wrapper: :prepend, label: false do %>
       <%= content_tag :span, content_tag(:span, "描述", class: ""), :class => "add-on" %>
-      <%= f.input_field :desc,:as => :string, placeholder: "水果专区描述" %>
+      <%= f.input_field :desc,:as => :string, placeholder: "水果描述" %>
     <% end %>
 
     <div class="control-group">

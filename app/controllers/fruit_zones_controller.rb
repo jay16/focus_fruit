@@ -1,9 +1,11 @@
 #encoding: utf-8
 class FruitZonesController < ApplicationController
+  before_filter :find_fruit_zone, :only => [:show, :edit, :udpate, :destroy]
 
   def index
     @fruit_zones = FruitZone.all
     @order = Order.new
+    @order.weixin = (params[:weixin] || "false")
   end 
 
   def admin
@@ -63,5 +65,9 @@ class FruitZonesController < ApplicationController
 	:price => price
       }) unless fruit
     end if sheet1
+  end
+
+  def find_fruit_zone
+    @fruit_zone = FruitZone.find(params[:id])
   end
 end

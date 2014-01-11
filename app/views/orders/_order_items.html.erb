@@ -1,0 +1,27 @@
+<table class="table" style="width:500px">
+  <tr>
+    <th>水果</th>
+    <th>单价</th>
+    <th>数量</th>
+    <th>总价</th>
+  </tr>
+
+  <% total_count = 0 %>
+  <% total_price = 0 %>
+  <% @order.items.each_with_index do |item,index| %>
+    <tr>
+      <td><%= item.name %></td>
+      <td><%= item.price %></td>
+      <td><%= item.count %></td>
+      <td><%= (item.count*item.price).to_f.round(1) %></td>
+    </tr>
+    <% total_count += item.count %>
+    <% total_price += item.count*item.price %>
+  <% end if @order.items %>
+    <tr class="success">
+      <td> - </td>
+      <td> - </td>
+      <td><%= total_count %></td>
+      <td><%= total_price %></td>
+    </tr>
+</table>

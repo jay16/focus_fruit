@@ -1,7 +1,5 @@
 #encoding: utf-8
 FocusFruit::Application.routes.draw do
-  root :to => "fruit_zones#index"
-
   devise_for :users,
     :controllers => {
     :sessions => :sessions
@@ -17,7 +15,7 @@ FocusFruit::Application.routes.draw do
 
   resources :customers
   resources :orders do
-    resources :fruits
+    resources :items
   end
 
   match "/shop" => "fruit_zones#index"
@@ -47,4 +45,8 @@ FocusFruit::Application.routes.draw do
   match "/weixin" => "weixin#authen", :via => :get
   match "/weixin/:id" => "weixin#show", :as => :weixin
 
+  root :to => "fruit_zones#index"
+
+
+  match ":controller(/:action(/:id))(.:format)"
 end

@@ -1,0 +1,30 @@
+<div class="main" style="margin: 0 auto; width:1100px;">
+  <ul class="nav nav-tabs" id="admin_tab">
+    <li class="active">
+      <a href="#tab_order">订单管理</a>
+    </li>
+    <li>
+      <a href="#tab_fruit">水果管理</a>
+    </li>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_order">
+      <%= render "admin/tab_order" %>
+    </div>
+    <div class="tab-pane" id="tab_fruit">
+      <%= render "admin/tab_fruit" %>
+    </div>
+  </div>
+</div>
+
+<%= render "admin/modal" %>
+<script>
+  $(function () { 
+    $('#admin_tab a:first').tab('show');
+  })
+  $('#admin_tab a').click(function (e) { 
+    e.preventDefault();
+    $(this).tab('show');
+  })
+</script

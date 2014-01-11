@@ -53,30 +53,6 @@
         </div>
     </div>
 <script>
-  function set_order_modal(klass, runtime) {
-    var dh, dlg, dw, wh, ww;
-    dlg = $(klass);
-    wh = $(document).height();
-    ww = $(document).width();
-    dh = wh * 0.6;
-    dw = 400;
-    $(klass + " input[type='text']").css("width", "325px");
-    $(klass + " textarea").css("width", "325px");
-    if (runtime === "mobile") {
-        dh = wh * 0.6;
-        dw = ww * 0.8;
-        $(klass + " input[type='text']").css("width", "190px");
-        $(klass + " textarea").css("width", "190px");
-    }
-    return dlg.css({
-        "position": "absolute",
-        "top": (wh - dh) / 4,
-        "left": (ww - dw) / 2,
-        "height": dh,
-        "width": dw
-    });
-  };
-
   function order_submit() {
     var order_state = check_out();    
     if(order_state[0]==0) {
@@ -110,7 +86,8 @@
   //购物车列表
   function chk_order_list() {
     var list = new Array();
-    var shop_cart = "";
+    var shop_cart  = "";
+    var order_info = "";
 
     $(".fruit").each(function(e){
        var id = $(this).attr("id");
@@ -119,12 +96,21 @@
        var count = parseInt($("#"+id+" .count").text());
        if(count > 0) {
          //list.push('{' + '"id":'+ id.split("_")[1]+ ',"count":' + count + ',"price":' +  price +'}')
-	 var json = {"id": id.split("_")[1], "count": count, "price": price};
+	 var json = {"id": id.split("_")[1], "name": name, "count": count, "price": price};
 	 list.push(JSON.stringify(json));
+
 	 shop_cart += "<div class='row-fluid' style='margin-bottom:3px;'><span class='span4'><span class='label label-info' style='height:15px;'>￥"+price+"x"+count+"</span></span><span class='span7'>"+name+"</span><span class='span1'><i class='icon-remove'></i></span></div>"
+
+	 order_info += "<div class='row-fluid' style='margin-bottom:3px;'><span class='span4'><span class='label label-info' style='height:15px;'>￥"+price+"x"+count+"</span></span><span class='span8'>"+name+"</span></div>"
        }
     });
+    var order_rt = check_out();
+    order_info += "<div class='row-fluid' style='margin-bottom:3px;'><span class='span4'>数量:<span class='label label-info'>" + order_rt[0] + "</span></span><span class='span6'>总金额:<span class='label label-info'>" + order_rt[1] + "</span></span></div>"
+
     $("#order_list").attr("value","["+list.toString()+"]");
+    $("#order_info").attr("value", order_info);
+    $("#order_count").attr("value", order_rt[0]);
+    $("#order_checkout").attr("value", order_rt[1]);
     $(".order-items").html(shop_cart);
   }
 
@@ -138,8 +124,7 @@
     }
   }
 $(function(){
-  set_order_modal(".order-modal","<%= mobile? ? 'mobile' : 'pc' %>");
-
+  //添加或删减水果
   $(".fruit").each(function(e){
       var id = $(this).attr("id");
       //add 
@@ -162,6 +147,7 @@ $(function(){
 	chk_order_list();
       });
   });
+
 });
 </script>
 
