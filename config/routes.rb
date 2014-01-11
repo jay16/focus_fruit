@@ -1,11 +1,30 @@
 #encoding: utf-8
 FocusFruit::Application.routes.draw do
-  root :to => "shop#index"
+  root :to => "fruit_zones#index"
 
+  devise_for :users,
+    :controllers => {
+    :sessions => :sessions
+  }
+  devise_scope :user do
+    get "/users/ruler" => "users#ruler"
+    get "/users/sign_in",  :to => "sessions#new",     :as => :new_user_session
+    get "/users/switch",   :to => "sessions#new",     :as => :switch_user_session
+    get "/users/sign_out", :to => "sessions#destroy", :as => :destroy_user_session
+    get "/users/logout",   :to => "sessions#destroy"
+  end
+
+
+  resources :customers
+  resources :orders do
+    resources :fruits
+  end
+
+  match "/shop" => "fruit_zones#index"
   resources :fruit_zones do
     collection do
       post "upload"
-      get "admin"
+      get  "admin"
     end
     resources :fruits
   end

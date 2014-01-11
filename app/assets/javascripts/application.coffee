@@ -15,4 +15,5 @@
 #= require jquery_ujs
 #= require jquery.remotipart
 #= require jquery.tips
+#= require solife-base
 

@@ -1,9 +1,9 @@
-    <div class="accordion" id="fruite_people">
+    <div class="accordion" id="fruit_zone">
 
         <% @fruit_zones.each_with_index do |fruit_zone, index| %> 
           <div class="accordion-group">
               <div class="accordion-heading">
-                  <a class="accordion-toggle collapsed" data-parent="#fruite_people" data-toggle="collapse" href="#<%= dom_id fruit_zone %>">
+                  <a class="accordion-toggle collapsed" data-parent="#fruit_zone" data-toggle="collapse" href="#<%= dom_id fruit_zone %>">
                     <%= fruit_zone.name %>|<span class="collapse-state">展开</span>
 		  </a>
               </div>
@@ -13,7 +13,7 @@
 		    <% fruit_zone.fruits.each_with_index do |fruit, i| %>
                           <div class="row-fluid fruit" id="<%= dom_id fruit %>">
                               <div class="span6">
-                                  <a><%= fruit.name %></a>
+                                  <a><span class="name"><%= fruit.name %></span></a>
                               </div>
                               <div class="span2">
                                 <span class="label label-warning">￥<span class="price"><%= fruit.price %></span></span>
@@ -47,19 +47,52 @@
                     &nbsp;&nbsp;总价￥<span class="total-price">0</span>
                 </span>
 
-                    <a style="margin:7px" class="btn btn-info">结帐</a>
+                    <a onclick="order_submit();" style="margin:7px" class="btn btn-info">结帐</a>
             </div>
             <div class="span1"></div>
         </div>
     </div>
 <script>
-$(function(){
+  function set_order_modal(klass, runtime) {
+    var dh, dlg, dw, wh, ww;
+    dlg = $(klass);
+    wh = $(document).height();
+    ww = $(document).width();
+    dh = wh * 0.6;
+    dw = 400;
+    $(klass + " input[type='text']").css("width", "325px");
+    $(klass + " textarea").css("width", "325px");
+    if (runtime === "mobile") {
+        dh = wh * 0.6;
+        dw = ww * 0.8;
+        $(klass + " input[type='text']").css("width", "190px");
+        $(klass + " textarea").css("width", "190px");
+    }
+    return dlg.css({
+        "position": "absolute",
+        "top": (wh - dh) / 4,
+        "left": (ww - dw) / 2,
+        "height": dh,
+        "width": dw
+    });
+  };
+
+  function order_submit() {
+    var order_state = check_out();    
+    if(order_state[0]==0) {
+      alert("请选择水果");
+    } else {
+      $(".order-modal").modal("show");
+    }
+  }
+
   //遍历所有单类水果计算总数量与总价
   function check_out() {
     var total_count = 0;
     var total_price = 0;
     $(".fruit").each(function(e){
        var id = $(this).attr("id");
+       var name  = parseInt($("#"+id+" .name").text());
        var price = parseInt($("#"+id+" .price").text());
        var count = parseInt($("#"+id+" .count").text());
        var result = price * count;
@@ -69,7 +102,42 @@ $(function(){
     //alert(total_count);
     $(".total-count").text(total_count);
     $(".total-price").text(total_price);
+    return [total_count, total_price];
   };
+
+
+  //购物车信息=> json
+  //购物车列表
+  function chk_order_list() {
+    var list = new Array();
+    var shop_cart;
+
+    $(".fruit").each(function(e){
+       var id = $(this).attr("id");
+       var price = parseInt($("#"+id+" .price").text());
+       var count = parseInt($("#"+id+" .count").text());
+       if(count > 0) {
+         //list.push('{' + '"id":'+ id.split("_")[1]+ ',"count":' + count + ',"price":' +  price +'}')
+	 var json = {"id": id.split("_")[1], "count": count, "price": price};
+	 list.push(JSON.stringify(json));
+	 shop_cart += "<div><span class='label label-info'>￥"+price+"x"+count+"</span><span>"+name+"</span></div>"
+       }
+    });
+    $("#order_list").attr("value","["+list.toString()+"]");
+    $(".order-items").html(shop_cart);
+  }
+
+  function toggle_show_order_list(what) {
+    if(what==true) {
+      $(".order-form").css("display","none");
+      $(".order-list").css("display","block");
+    } else {
+      $(".order-form").css("display","block");
+      $(".order-list").css("display","none");
+    }
+  }
+$(function(){
+  set_order_modal(".order-modal","<%= mobile? ? 'mobile' : 'pc' %>");
 
   $(".fruit").each(function(e){
       var id = $(this).attr("id");
@@ -80,6 +148,7 @@ $(function(){
         already_budy += 1;
         $buy_count.text(already_budy);
         check_out();
+        chk_order_list();
       });
       //plus
       $("#"+id+" .buy-less").click(function(){
@@ -89,7 +158,10 @@ $(function(){
           already_budy -= 1;
         $buy_count.text(already_budy);
         check_out();
+	chk_order_list();
       });
   });
 });
 </script>
+
+<%= render "modal" %>

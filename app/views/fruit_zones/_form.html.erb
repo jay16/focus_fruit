@@ -1,0 +1,14 @@
+<%= simple_form_for(@order, :remote => true) do |f| %>
+
+    <%= f.input :name, wrapper: :prepend, label: false do %>
+      <%= content_tag :span, content_tag(:span, "", class: "solife-login login-user"), class: "add-on" %>
+      <%= f.input_field :name, placeholder: "称呼", autofocus: true %>
+    <% end %>
+
+    <%= f.input :phone,wrapper: :prepend, label: false do %>
+      <%= content_tag :span, content_tag(:span, "", class: "solife-login login-pwd"), :class => "add-on" %>
+      <%= f.input_field :phone, placeholder: "联系方式" %>
+    <% end %>
+
+    <%= f.button :submit, "登陆", class: "btn-primary btn-info right" %>
+<% end %>

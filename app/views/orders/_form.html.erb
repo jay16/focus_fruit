@@ -1,0 +1,32 @@
+<%= simple_form_for(@order, :remote => true) do |f| %>
+
+  <input name="order_list" type="hidden" value="" id="order_list">
+
+  <%= f.input :name, wrapper: :prepend, label: false do %>
+    <%= content_tag :span, content_tag(:span, "姓名", class: ""), class: "add-on" %>
+    <%= f.input_field :name, placeholder: "如何称呼", autofocus: true %>
+  <% end %>
+
+  <%= f.input :phone,wrapper: :prepend, label: false do %>
+    <%= content_tag :span, content_tag(:span, "电话", class: ""), :class => "add-on" %>
+    <%= f.input_field :phone, placeholder: "联系方式" %>
+  <% end %>
+
+  <%= f.input :address, wrapper: :prepend, label: false do %>
+    <%= content_tag :span, content_tag(:span, "地址", class: ""), :class => "add-on" %>
+    <%= f.input_field :address, placeholder: "配送地址" %>
+  <% end %>
+
+  <%= f.input :date_at, wrapper: :prepend, label: false do %>
+    <%= content_tag :span, content_tag(:span, "时间", class: ""), :class => "add-on" %>
+    <%= f.input_field :date_at, placeholder: "配送时间" %>
+  <% end %>
+
+  <%= f.input :remark, wrapper: :prepend, label: false do %>
+    <%= content_tag :span, content_tag(:span, "留言", class: ""), :class => "add-on" %>
+    <%= f.input_field :remark, :as => :string, placeholder: "意见建议" %>
+  <% end %>
+
+  <%= link_to "查看购物车", "javascript:void(0);", onclick: "toggle_show_order_list(true);", class: "btn-primary btn-info right" %>
+  <%= f.button :submit, "确认下单", class: "btn-primary btn-info right" %>
+<% end %>

@@ -1,0 +1,25 @@
+<div class="modal hide fade order-modal" style="position:absolute;margin:0px;">
+
+  <div class="modal-body" style="text-align:center;">
+
+    <div class="order-form">
+      <div style="background:black;color:white">
+	确认下单
+	<button type="button" class="close right" data-dismiss="modal" aria-hidden="true">关闭</button>
+      </div>
+
+      <%= render "orders/form" %>
+    </div>
+
+    <div class="order-list" style="display:none;">
+      <div style="background:black;color:white">
+	查看购物车
+	<%= link_to "返回", "javascript:void(0);", onclick: "toggle_show_order_list(false);", class: "right" %>
+      </div>
+
+      <div class="order-items">
+      </div>
+    </div>
+
+  </div>
+</div>

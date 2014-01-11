@@ -3,6 +3,7 @@ class FruitZonesController < ApplicationController
 
   def index
     @fruit_zones = FruitZone.all
+    @order = Order.new
   end 
 
   def admin
