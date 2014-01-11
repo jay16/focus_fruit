@@ -110,17 +110,18 @@
   //购物车列表
   function chk_order_list() {
     var list = new Array();
-    var shop_cart;
+    var shop_cart = "";
 
     $(".fruit").each(function(e){
        var id = $(this).attr("id");
+       var name = $("#"+id+" .name").text();
        var price = parseInt($("#"+id+" .price").text());
        var count = parseInt($("#"+id+" .count").text());
        if(count > 0) {
          //list.push('{' + '"id":'+ id.split("_")[1]+ ',"count":' + count + ',"price":' +  price +'}')
 	 var json = {"id": id.split("_")[1], "count": count, "price": price};
 	 list.push(JSON.stringify(json));
-	 shop_cart += "<div><span class='label label-info'>￥"+price+"x"+count+"</span><span>"+name+"</span></div>"
+	 shop_cart += "<div class='row-fluid' style='margin-bottom:3px;'><span class='span4'><span class='label label-info' style='height:15px;'>￥"+price+"x"+count+"</span></span><span class='span7'>"+name+"</span><span class='span1'><i class='icon-remove'></i></span></div>"
        }
     });
     $("#order_list").attr("value","["+list.toString()+"]");

@@ -27,6 +27,12 @@
     <%= f.input_field :remark, :as => :string, placeholder: "意见建议" %>
   <% end %>
 
-  <%= link_to "查看购物车", "javascript:void(0);", onclick: "toggle_show_order_list(true);", class: "btn-primary btn-info right" %>
-  <%= f.button :submit, "确认下单", class: "btn-primary btn-info right" %>
+  <div class="control-group">
+    <div class="controls">
+      <div class="center">
+	<input type="button" value="查看购物车" class="btn btn-primary btn" onclick="toggle_show_order_list(true);">
+	<%= f.button :submit, "确认下单", class: "btn" %>
+      </div>
+    </div>
+  </div>
 <% end %>
