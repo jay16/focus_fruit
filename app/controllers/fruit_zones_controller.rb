@@ -27,6 +27,32 @@ class FruitZonesController < ApplicationController
   end
 
   def destroy
+    @fruits = @fruit_zone.fruits
+    @fruit_zone.destroy unless @fruits
+  end
+
+  #模板zip上传范例下载
+  def download
+   file_path = Rails.root.join("public","水果达人上传模板.xls")
+   io = File.open(file_path)
+   io.binmode
+   data = io.read
+   io.close
+
+    respond_to do |format|
+      format.xls {
+        send_data(data,
+                  :type => "text/excel;charset=utf-8; header=present",
+		  :disposition => 'attachment',
+                  :filename => "果达人上传模板.xls")
+      }
+      format.csv {
+        send_data(data,
+                  :type => "text/csv;charset=utf-8; header=present",
+		  :disposition => 'attachment',
+                  :filename => "Report_Members_#{Time.now.strftime("%Y%m%d%H%M")}.csv")
+      }
+    end
   end
 
   def upload
@@ -48,7 +74,9 @@ class FruitZonesController < ApplicationController
     book = Spreadsheet.open(file_path)
     sheet1 = book.worksheet 0
 
-    sheet1.each do |row|
+    #不处理标题
+    #跳过第一行
+    sheet1.each 1 do |row|
       name  = row[0].to_s.chomp
       unit  = row[1].to_s.chomp
       desc1 = row[2].to_s.chomp

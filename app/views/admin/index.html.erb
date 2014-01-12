@@ -13,6 +13,20 @@
       <%= render "admin/tab_order" %>
     </div>
     <div class="tab-pane" id="tab_fruit">
+      <div style="margin-bottom:20px;">
+        <%= form_tag("fruit_zones/upload", remote: true, 
+	  :class => 'form-horizontal', :multipart => true, :style => "display:inline;") do %>
+	  <%= file_field_tag :file_url, :class => 'text_field' %>
+	  <%= submit_tag "上传水果信息", class: "btn" %>
+	<% end %> 
+
+	<%= form_tag("fruit_zones/download.xls", 
+	   :class => 'form-horizontal', :style => "display:inline;") do %>
+	  <%= submit_tag "下载模板",  class: "btn" %>
+	<% end %>
+      </div>
+
+
       <%= render "admin/tab_fruit" %>
     </div>
   </div>

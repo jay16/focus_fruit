@@ -20,6 +20,7 @@ class FruitsController < ApplicationController
   end
 
   def destroy
+    @fruit.destroy
   end
 
   private

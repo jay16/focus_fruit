@@ -22,6 +22,7 @@ FocusFruit::Application.routes.draw do
   resources :fruit_zones do
     collection do
       post "upload"
+      get  "download"
       get  "admin"
     end
     resources :fruits

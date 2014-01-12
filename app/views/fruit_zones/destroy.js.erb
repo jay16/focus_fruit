@@ -1,1 +1,6 @@
-$("#<%= dom_id @order %>").remove();
+<% if @fruits %>
+  alert("删除失败！\n水果专区还有所属水果.\n请先清空所属水果...");
+<% else %>
+  $("#<%= dom_id @fruit_zone %>").remove();
+<% end %>
+
