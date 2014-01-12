@@ -1,3 +1,9 @@
 $("#modal").modal("show");
 $("#modal .modal-header h3").html("订单明细");
-$("#modal .modal-body").html("<%= j render 'orders/order_items', formats: [:html], handler: [:erb] %>");
+<% if params[:type] == "order" %>
+  $("#modal .modal-body").html("<%= j render 'orders/order_items', formats: [:html], handler: [:erb] %>");
+<% elsif params[:type] == "customer" %>
+  $("#modal .modal-body").html("<%= j render 'orders/order_customer', formats: [:html], handler: [:erb] %>");
+<% else %>
+  $("#modal .modal-body").html("<%= j render 'orders/order_items', formats: [:html], handler: [:erb] %>");
+<% end %>

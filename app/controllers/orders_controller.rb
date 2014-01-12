@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
-
   before_filter :find_order, :only => [:show, :edit, :update, :destroy]
+
   def index
     @orders = Order.all
   end
@@ -14,10 +14,10 @@ class OrdersController < ApplicationController
       :browser => request.user_agent
     }))
     @order.build_order_with_fruits(JSON.parse(params[:order_list]))
-
   end
 
   def show; end
+
   def edit; end
 
   def update

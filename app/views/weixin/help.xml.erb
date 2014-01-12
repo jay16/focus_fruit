@@ -3,5 +3,5 @@
  <FromUserName><![CDATA[<%= @weixin.to_user_name %>]]></FromUserName>
  <CreateTime><%= Time.now.to_i %></CreateTime>
  <MsgType><![CDATA[text]]></MsgType>
- <Content><![CDATA[1: 查看水果店\r\n2:查看特卖水果\r\n3:查看订单]]></Content>
+ <Content><![CDATA[<%= @help %>]]></Content>
 </xml>

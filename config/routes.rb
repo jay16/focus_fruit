@@ -33,8 +33,8 @@ FocusFruit::Application.routes.draw do
     #接收事件推送
     root :to => "weixin#event", :constraints => Weixin::Router.new(:type => "event")
     #接收普通消息
-    root :to => "weixin#shop", :constraints => Weixin::Router.new(:type => "text", :content=>/^1/)
-    root :to => "weixin#help", :constraints => Weixin::Router.new(:type => "text")
+    #root :to => "weixin#shop", :constraints => Weixin::Router.new(:type => "text", :content=>/^1.1/)
+    root :to => "weixin#menu", :constraints => Weixin::Router.new(:type => "text")
 
     root :to => "weixin#receive", :constraints => Weixin::Router.new(:type => "image")
     root :to => "weixin#receive", :constraints => Weixin::Router.new(:type => "voice")
