@@ -13,15 +13,30 @@ class WeixinController < ApplicationController
 
   def menu
     content = params[:xml][:Content]
-    if content == "1.1"
+    if content.start_with? "1.1"
       @info = menu_shop(@weixin)
+    elsif content.start_with? "3.1"
+      order = Order.find_by_weixin(@weixin.from_user_name)
+      @info = menu_query(order) 
     else
       @info = menu_help
     end
   end
 
+  def menu_query(order)
+    info = "水果达人为您服务,"
+    if order
+      info << "您订单信息:\n"
+      info << "水果数量:[#{order.count}],消费金额:[￥#{order.checkout}]."
+      info << "订单状态:"
+      info << "[待发送]"
+    else
+      info << "未查询到您的订单"
+    end
+  end
+
   def menu_shop(weixin)
-    info = "健康生活-水果达人为您服务,请"
+    info = "水果达人为您服务,请"
     url = "http://fruit.solife.us?weixin=#{weixin.from_user_name}"
     info << "<a href='#{url}'>点击此处开始选购水果</a>"
   end
