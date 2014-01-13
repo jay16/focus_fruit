@@ -6,12 +6,16 @@
     <li>
       <a href="#tab_fruit">水果管理</a>
     </li>
+    <li>
+      <a href="#tab_blog">博文管理</a>
+    </li>
   </ul>
 
   <div class="tab-content">
     <div class="tab-pane active" id="tab_order">
       <%= render "admin/tab_order" %>
     </div>
+
     <div class="tab-pane" id="tab_fruit">
       <div style="margin-bottom:20px;">
         <%= form_tag("fruit_zones/upload", remote: true, 
@@ -28,6 +32,10 @@
 
 
       <%= render "admin/tab_fruit" %>
+    </div>
+
+    <div class="tab-pane" id="tab_blog">
+      <%= render "admin/tab_blog" %>
     </div>
   </div>
 </div>

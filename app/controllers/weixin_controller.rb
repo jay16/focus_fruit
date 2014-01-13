@@ -13,14 +13,67 @@ class WeixinController < ApplicationController
 
   def menu
     content = params[:xml][:Content]
-    if content.start_with? "1.1"
-      @info = menu_shop(@weixin)
-    elsif content.start_with? "3.1"
-      order = Order.find_by_weixin(@weixin.from_user_name)
-      @info = menu_query(order) 
+    match = menu_match(content)
+
+    case match[0].to_i
+    #水果专区
+    when 1
+      @info = "1"
+    #达人服务
+    when 2
+      case match[1].to_i
+      when 1
+        @info = menu_service(@weixin,"shop")
+      when 2
+        @info = menu_service(@weixin,"distribution")
+      when 3
+        @info = menu_service(@weixin,"payment")
+      when 4
+        @info = menu_service(@weixin,"call-center")
+      else
+        @info = menu_help
+      end
+    #我的生活
+    when 3
+      case match[1].to_i
+      when 1
+        order = Order.find_by_weixin(@weixin.from_user_name)
+	@info = menu_query(order)
+      when 2
+        @blogs = Blog.where("klass='blog'")
+      else
+        @info = menu_help
+      end
     else
       @info = menu_help
     end
+
+    if @blogs
+      render template: "weixin/list"
+    else
+      render template: "weixin/menu"
+    end
+  end
+
+  def menu_service(weixin,type)
+    info = "水果达人为您服务,请点击此处"
+    url = "http://fruit.solife.us"
+    case type
+    when "distribution"
+      url = "#{url}/#{type}"
+      klass = "查看配送服务" 
+    when "payment"
+      url = "#{url}/#{type}"
+      klass = "查看支付方式" 
+    when "call-center"
+      url = "#{url}/#{type}"
+      klass = "查看电话客服" 
+    else
+      url = "#{url}?weixin=#{weixin.from_user_name}"
+      klass = "开始选购水果" 
+    end
+
+    info << "<a href='#{url}'>#{klass}</a>"
   end
 
   def menu_query(order)
@@ -49,7 +102,7 @@ class WeixinController < ApplicationController
     help << " 1.3 水果便当\n"
     help << " 1.4 鲜果礼盒\n"
     help << "达人服务\n" 
-    help << " 2.2.在线订购\n"
+    help << " 2.1 在线订购\n"
     help << " 2.2 配送服务\n"
     help << " 2.3 支付方式\n"
     help << " 2.4 电话客服\n"
@@ -114,5 +167,14 @@ class WeixinController < ApplicationController
       :longitude      => xml[:Longitude],
       :precision      => xml[:Precision]
     })
+  end
+
+  def menu_match(str)
+    ret = [-1,-1]
+    if str =~ /^\d*\.\d*/ 
+      #"#{$`}<<#{$&}>>#{$'}"
+      ret = $&.split(".")
+    end
+    return ret
   end
 end

@@ -6,8 +6,9 @@ class Blog < ActiveRecord::Base
     [
       [["达人说","blog"],1],
       [["配送服务","distribution"],2],
-      [["支付方式","payment"],3],
-      [["使用教程","course"],4]
+      [["电话客服","call-center"],3],
+      [["支付方式","payment"],4],
+      [["使用教程","course"],5]
     ]
   end
 

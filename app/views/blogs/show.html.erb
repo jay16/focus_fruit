@@ -1,4 +1,8 @@
-<div class="span6 offset3">
+<% if mobile? %>
+  <div class="span10 offset1">
+<% else %>
+  <div class="span6 offset3">
+<% end %>
 
   <p id="notice"><%= notice %></p>
 
@@ -7,16 +11,19 @@
   </h3>
 
 
-  <p>
-    <%= @blog.author %>
-  </p>
+  <div style="height:40px;">
+    <%= @blog.created_at.strftime("%Y-%m-%d") %>
+    <a class="nolink"><%= @blog.author %></a>
+    <label class="label label-success right"><%= @blog.type %></label>
+  </div>
 
 
-  <p>
+  <div>
     <%= @blog.markdown.html_safe %>
-  </p>
+  </dvi>
 
-
-  <%= link_to '编辑', edit_blog_path(@blog) %> |
-  <%= link_to '返回', blogs_path %>
+  <% if user_signed_in? %>
+    <%= link_to '编辑', edit_blog_path(@blog) %> |
+    <%= link_to '返回', blogs_path %>
+  <% end %>
 </div>

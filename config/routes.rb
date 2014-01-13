@@ -21,7 +21,11 @@ FocusFruit::Application.routes.draw do
     resources :items
   end
 
-  match "/shop" => "fruit_zones#index"
+  match "/shop"         => "fruit_zones#index"
+  match "/distribution" => "blogs#distribution"
+  match "/payment"     => "blogs#payment"
+  match "/call-center" => "blogs#callcenter"
+
   resources :fruit_zones do
     collection do
       post "upload"

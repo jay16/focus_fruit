@@ -22,6 +22,22 @@ class BlogsController < ApplicationController
     end
   end
 
+  def distribution
+    @blog = Blog.find_by_klass("distribution")
+    render "show"
+  end
+
+  def payment
+    @blog = Blog.find_by_klass("payment")
+    render "show"
+  end
+
+  def callcenter
+    @blog = Blog.find_by_klass("call-center")
+    render "show"
+  end
+
+
   # GET /blogs/new
   # GET /blogs/new.json
   def new
