@@ -26,7 +26,9 @@ form {
 <div class="span6">
 
   <%= form_for(@blog, class: "span8") do |f| %>
-     <%= f.text_field :title, class: "span8", :placeholder => "文章标题", style: "margin-bottom:2px;" %>
+     <%= f.text_field :title, class: "span4", :placeholder => "文章标题", style: "margin-bottom:2px;" %>
+     <%= f.text_field :author, class: "span2", :placeholder => "作者名称", style: "margin-bottom:2px;" %>
+     <%= f.select :klass, @blog.type_map, class: "chosen-select" %>
      <%= f.text_area :content, class: "span12", style: "display:none;" %>
      <%= f.text_field :markdown, class: "span12", style: "display:none;" %>
      <%= f.submit t("btn.submit"), class: "btn btn-primary", style: "display:inline;"  %>
@@ -37,6 +39,14 @@ form {
 
 <script>
 $(function(){
+  $("#blog_klass").chosen({
+      allow_single_deselect: true,
+      no_results_text: 'No results matched',
+      width: '120px'
+   });
+
+  /////////////////////////////
+
   var editor = ace.edit("markdown"),
       t = $("#preview"),
       converter = new Showdown.converter();

@@ -1,3 +1,30 @@
+#encoding: utf-8
 class Blog < ActiveRecord::Base
-  attr_accessible :author, :content, :markdown, :link, :title, :type
+  attr_accessible :author, :content, :markdown, :link, :title, :klass
+
+  def mappings
+    [
+      [["达人说","blog"],1],
+      [["配送服务","distribution"],2],
+      [["支付方式","payment"],3],
+      [["使用教程","course"],4]
+    ]
+  end
+
+  #映射为二维数组，
+  #在创建taggroup的_form中选择使用
+  def type_map
+    mappings.map { |d| [d[0][0],d[0][1]] }
+  end
+
+  def type
+    klass =  mappings.select { |m| m[0][1] == self.klass }
+    .first
+    if klass 
+      klass[0][0]
+    else
+      "未设置分类"
+    end
+  end
+
 end

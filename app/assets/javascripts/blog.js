@@ -1,5 +1,6 @@
 #= require showdown
 #= require ace
+#= require chosen-jquery
 #= require_self
 
 

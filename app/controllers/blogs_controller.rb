@@ -1,3 +1,4 @@
+#encoding: utf-8
 class BlogsController < ApplicationController
   # GET /blogs
   # GET /blogs.json
@@ -25,7 +26,8 @@ class BlogsController < ApplicationController
   # GET /blogs/new.json
   def new
     @blog = Blog.new
-
+    @blog.author = "水果达人"
+  
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @blog }
@@ -87,6 +89,6 @@ class BlogsController < ApplicationController
     # params.require(:person).permit(:name, :age)
     # Also, you can specialize this method with per-user checking of permissible attributes.
     def blog_params
-      params.require(:blog).permit(:author, :content, :markdown, :link, :title, :type)
+      params.require(:blog).permit(:author, :content, :markdown, :link, :title, :klass)
     end
 end
