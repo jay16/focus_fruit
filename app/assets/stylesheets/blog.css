@@ -1,0 +1,34 @@
+#preview h1 {
+  font-size: 24px;
+}
+#preview h2 {
+  font-size: 20px;
+}
+#preview h3 {
+  font-size: 16px;
+}
+.row-fluid .span6 {
+  width:50%;
+  margin:0px;
+  padding:0;
+}
+#markdown {
+  height: 450px;
+  width: 95%;
+  border-radius:4px;
+  box-shadow: 1px 1px 20px;
+}
+#preview {
+  height: 450px;
+  width: 95%;
+  border-radius:4px;
+  overflow:auto;
+  font-size:12px;
+  background:white;
+  color:black;
+  box-shadow: 1px 1px 20px;
+}
+#preview pre {
+  font-size: 12px;
+  line-height: 12px;
+}

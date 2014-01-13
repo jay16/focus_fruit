@@ -1,0 +1,59 @@
+<%= javascript_include_tag "blog" %>
+<%= stylesheet_link_tag "blog" %>
+
+<style>
+form {
+  margin-bottom: 10px;
+  padding-top:5px;
+}
+</style>
+<div class="span6">
+  <h2 style="margin: 5px;">
+    <% if params[:action] == "edit" %>
+       编辑博文
+       <small><%= link_to "显示", @blog %> |</small>
+    <% else %>
+       新建博文
+    <% end %>
+
+    <small><%= link_to '返回', blogs_path %></small>
+  </h2>
+
+  <div id="preview">
+  </div>
+</div>
+
+<div class="span6">
+
+  <%= form_for(@blog, class: "span8") do |f| %>
+     <%= f.text_field :title, class: "span8", :placeholder => "文章标题", style: "margin-bottom:2px;" %>
+     <%= f.text_area :content, class: "span12", style: "display:none;" %>
+     <%= f.text_field :markdown, class: "span12", style: "display:none;" %>
+     <%= f.submit t("btn.submit"), class: "btn btn-primary", style: "display:inline;"  %>
+   <% end %> 
+  <div id="markdown"></div>
+</div>
+
+
+<script>
+$(function(){
+  var editor = ace.edit("markdown"),
+      t = $("#preview"),
+      converter = new Showdown.converter();
+
+  var blog = $("#blog_content").val();
+  if(blog.length >0 ) {
+    editor.setValue(blog);
+  }
+  var content  = editor.getValue();
+  var markdown = converter.makeHtml(content);
+
+  t.html(markdown);
+  $("#blog_content").attr("value",content);
+  $("#blog_markdown").attr("value",markdown);
+
+  editor.getSession().setUseWrapMode(true);
+  editor.session.on("changeScrollTop", syncPreview);
+  editor.session.selection.on("changeCursor", syncPreview);
+});
+</script>

@@ -1,5 +1,8 @@
 #encoding: utf-8
 FocusFruit::Application.routes.draw do
+
+  resources :blogs
+
   devise_for :users,
     :controllers => {
     :sessions => :sessions
