@@ -1,6 +1,10 @@
 # solife.com网站全局功能代码
 $(document).ready ->
 
+  $("body").css({
+    "height": $(document).height()-50
+  })
+
   # 电脑浏览与手机浏览设置显示
   set_order_modal = () ->
     klass = ".order-modal"

@@ -4,6 +4,7 @@ class CreateFruitZones < ActiveRecord::Migration
       t.string :name
       t.text :desc
       t.string :state
+      t.string :list
 
       t.timestamps
     end

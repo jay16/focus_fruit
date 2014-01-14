@@ -19,9 +19,25 @@
     <td><%= link_to "顾客", {controller: :orders, action:  order.id, type: "customer"}, remote: true, class: "btn btn-mini btn-info" %></td>
     <td><%= link_to "订单", {controller: :orders, action:  order.id, type: "order"}, remote: true, class: "btn btn-mini btn-info" %></td>
     <td><%= link_to t("btn.edit"), edit_order_path(order), remote: true,class: "btn btn-mini btn-success" %></td>
-    <td><%= link_to t("btn.del"), order, method: :delete, remote: true, data: { confirm: "Are you sure?" },class: "btn btn-mini btn-danger" %></td>
+    <td>
+      <% link_to t("btn.del"), order, method: :delete, remote: true, data: { confirm: "Are you sure?" },class: "btn btn-mini btn-danger" %>
+
+        <%= form_tag([:state, order], :remote => true, style: "margin:0px;") do %>
+          <%= select_tag("state",options_for_select(order.state_map, order.status),
+            { class: "chosen-select", onchange: "$('#order_state_#{order.id}').trigger('click');" }) %>
+          <%= submit_tag "", id: "order_state_#{order.id}", style: "display:none;" %>
+        <% end %>
+    </td>
   </tr>
 <% end if @orders %>
 </table>
  
-
+<script>
+$(function(){
+  $(".chosen-select").chosen({
+      allow_single_deselect: true,
+      no_results_text: 'No results matched',
+      width: '120px'
+   });
+});
+</script>

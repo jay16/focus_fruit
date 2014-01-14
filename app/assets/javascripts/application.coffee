@@ -15,5 +15,7 @@
 #= require jquery_ujs
 #= require jquery.remotipart
 #= require jquery.tips
+#= require bootstrap.min
+#= require chosen-jquery
 #= require solife-base
 

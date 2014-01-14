@@ -19,6 +19,8 @@ class OrdersController < ApplicationController
   def show; end
 
   def edit; end
+  def order
+  end
 
   def update
     @order.update_attributes(params[:order])

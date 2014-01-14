@@ -10,6 +10,7 @@
  *
  *
  *= require scaffolds
+ *= require chosen
  *= require bootstrap.min
  *= require solife-base
  *= require_self

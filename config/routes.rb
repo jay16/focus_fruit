@@ -18,6 +18,9 @@ FocusFruit::Application.routes.draw do
 
   resources :customers
   resources :orders do
+    member do 
+      post "state"
+    end
     resources :items
   end
 
