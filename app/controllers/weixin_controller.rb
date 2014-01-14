@@ -80,7 +80,7 @@ class WeixinController < ApplicationController
       info << "您订单信息:\n"
       info << "水果数量:[#{order.count}],消费金额:[￥#{order.checkout}]."
       info << "订单状态:"
-      info << "[待发送]"
+      info << "[#{order.status}]"
     else
       info << "未查询到您的订单"
     end
