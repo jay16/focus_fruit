@@ -1,5 +1,6 @@
 <% if @fruit_zone and @fruit_zone.save %>
   $("#<%= dom_id @fruit_zone %>").replaceWith("<%= j render partial: 'fruit_zones/table', locals: { fruit_zone: @fruit_zone } %>");
+  $("#modal").modal("hide");
 <% else %>
   alert("更新失败");
   window.location.reload();

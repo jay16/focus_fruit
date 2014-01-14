@@ -34,8 +34,9 @@
 	line-height: 20px;
         margin-left: 5px;
 }
-.nolink { text-decoration: none; }
-.nolink:hover {
+.nolink,a { text-decoration: none; }
+.nolink:hover,
+a:hover {
   text-decoration: none;
   background: transparent;
 }

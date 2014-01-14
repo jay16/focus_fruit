@@ -1,7 +1,7 @@
 <div class="span6 offset3">
 
   <h3>博文列表
-    <small><%= link_to '新建', new_blog_path %></small>
+    <small><%= link_to '新建', new_blog_path, class: "nolink" %></small>
   </h3>
 
   <table class="table table-hover">
@@ -26,11 +26,11 @@
           <label class="center label label-success"> 
 	    <%= blog.author %>
       </td>
-      <td><%= link_to '阅读', blog %></td>
-      <td><%= link_to '编辑', edit_blog_path(blog) %></td>
+      <td><%= link_to '阅读', blog, class: "nolink" %></td>
+      <td><%= link_to '编辑', edit_blog_path(blog), class: "nolink" %></td>
       <td>
         <% if blog.klass == "blog" %>
-	  <%= link_to '删除', blog, confirm: '此动作不可撤消，肯定删除?', method: :delete %>
+	  <%= link_to '删除', blog, confirm: '此动作不可撤消，肯定删除?', method: :delete, class: "nolink"%>
 	<% else %>
 	  <strike>删除</strike>
 	<% end %>

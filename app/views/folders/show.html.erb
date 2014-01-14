@@ -1,0 +1,17 @@
+<div class="span6 offset3">
+  <p id="notice"><%= notice %></p>
+
+  <p>
+    <b>Name:</b>
+    <%= @folder.name %>
+  </p>
+
+  <p>
+    <b>Desc:</b>
+    <%= @folder.desc %>
+  </p>
+
+
+  <%= link_to 'Edit', edit_folder_path(@folder) %> |
+  <%= link_to 'Back', folders_path %>
+</div>

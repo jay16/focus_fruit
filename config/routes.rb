@@ -1,6 +1,17 @@
 #encoding: utf-8
 FocusFruit::Application.routes.draw do
 
+
+  resources :folders do
+    resources :pictures do
+      collection do
+        post "upload"
+      end
+    end
+
+  end
+
+
   resources :blogs
 
   devise_for :users,

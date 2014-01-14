@@ -14,8 +14,6 @@ class WeixinController < ApplicationController
   def menu
     content = params[:xml][:Content]
     match = menu_match(content)
-    @fruit_zones = FruitZone.where("state='onsale'").order("list asc")
-    @info = menu_help( @fruit_zones)
 
     case match[0].to_i
     when 1 #水果专区
@@ -48,6 +46,10 @@ class WeixinController < ApplicationController
     elsif @blogs
       render template: "weixin/blog"
     else
+      unless @info
+	@fruit_zones = FruitZone.where("state='onsale'").order("list asc")
+	@info = menu_help( @fruit_zones)
+      end
       render template: "weixin/menu"
     end
   end

@@ -1,0 +1,26 @@
+<div class="span6 offset3">
+  <h3>图片文件夹列表
+    <small><%= link_to '创建', new_folder_path %></small>
+  </h3>
+
+  <table class="table table-hover">
+    <tr>
+      <th>文件夹</th>
+      <th>描述</th>
+      <th>图片数量</th>
+      <th>编辑</th>
+      <th>删除</th>
+    </tr>
+
+  <% @folders.each do |folder| %>
+    <tr>
+      <td><%= folder.name %></td>
+      <td><%= folder.desc %></td>
+      <td><%= folder.pictures.size %></td>
+      <td><%= link_to '编辑', edit_folder_path(folder) %></td>
+      <td><%= link_to '删除', folder, confirm: 'Are you sure?', method: :delete %></td>
+    </tr>
+  <% end %>
+  </table>
+
+</div>
