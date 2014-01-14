@@ -1,1 +1,6 @@
-alert("hh");
+<% if @order and @order.save %>
+  $("#<%= dom_id @order %>").replaceWith("<%= j render partial: 'orders/order', locals: { order: @order } if @order  %>");
+<% else %>
+  alert("订单状态更新失败");
+  window.location.reload();
+<% end %>

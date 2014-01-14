@@ -1,2 +1,32 @@
-<h1>Fruits#show</h1>
-<p>Find me in app/views/fruits/show.html.erb</p>
+<% if mobile? %>
+  <div class="span10 offset1">
+<% else %>
+  <div class="span6 offset3">
+<% end %>
+
+  <p id="notice"><%= notice %></p>
+
+  <h3>
+    <%= @fruit.name %>
+  </h3>
+
+
+  <div style="height:30px;">
+    <label class="label label-info" style="display:inline;">￥<%= @fruit.price %></label>
+    <%= link_to "链接", @fruit.link, class: "nolink" if @fruit.link and !mobile? %>
+
+    <label class="label label-success right" style="display:inline;"><%= @fruit.fruit_zones.first.name %></label>
+  </div>
+
+
+  <div>
+    <%= content_tag(:div, image_tag(@fruit.pic, class: "img-rounded"), style: "margin-bottom: 15px;") if @fruit.pic %>
+
+    <%= @fruit.markdown.html_safe if @fruit.markdown %>
+  </dvi>
+
+  <% if !mobile? %>
+    <%= link_to '编辑', edit_fruit_path(@fruit) %> |
+    <%= link_to '返回', fruits_path %>
+  <% end %>
+</div>

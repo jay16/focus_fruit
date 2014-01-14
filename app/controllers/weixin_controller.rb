@@ -14,13 +14,15 @@ class WeixinController < ApplicationController
   def menu
     content = params[:xml][:Content]
     match = menu_match(content)
+    @fruit_zones = FruitZone.where("state='onsale'").order("list asc")
+    @info = menu_help( @fruit_zones)
 
     case match[0].to_i
-    #水果专区
-    when 1
-      @info = "1"
-    #达人服务
-    when 2
+    when 1 #水果专区
+      if zones = @fruit_zones.select { |zone| zone.list == match[1].to_i }
+        @fruit_zone = zones.first
+      end
+    when 2 #达人服务
       case match[1].to_i
       when 1
         @info = menu_service(@weixin,"shop")
@@ -30,30 +32,26 @@ class WeixinController < ApplicationController
         @info = menu_service(@weixin,"payment")
       when 4
         @info = menu_service(@weixin,"call-center")
-      else
-        @info = menu_help
       end
-    #我的生活
-    when 3
+    when 3 #我的生活
       case match[1].to_i
       when 1
         order = Order.find_by_weixin(@weixin.from_user_name)
 	@info = menu_query(order)
       when 2
         @blogs = Blog.where("klass='blog'")
-      else
-        @info = menu_help
       end
-    else
-      @info = menu_help
     end
 
-    if @blogs
-      render template: "weixin/list"
+    if @fruit_zone
+      render template: "weixin/fruit_zone"
+    elsif @blogs
+      render template: "weixin/blog"
     else
       render template: "weixin/menu"
     end
   end
+
 
   def menu_service(weixin,type)
     info = "水果达人为您服务,请点击此处"
@@ -88,19 +86,12 @@ class WeixinController < ApplicationController
     end
   end
 
-  def menu_shop(weixin)
-    info = "水果达人为您服务,请"
-    url = "http://fruit.solife.us?weixin=#{weixin.from_user_name}"
-    info << "<a href='#{url}'>点击此处开始选购水果</a>"
-  end
-
-  def menu_help
+  def menu_help(fruit_zones)
     help = "您好，欢迎光临[水果达人]，请回复数字选择服务:\n\n"
     help << "水果信息\n" 
-    help << " 1.1 达人专属\n"
-    help << " 1.2 优惠专区\n"
-    help << " 1.3 水果便当\n"
-    help << " 1.4 鲜果礼盒\n"
+    fruit_zones.each_with_index do |fruit_zone,index| 
+      help << "1.#{fruit_zone.list} #{fruit_zone.name}\n"
+    end
     help << "达人服务\n" 
     help << " 2.1 在线订购\n"
     help << " 2.2 配送服务\n"

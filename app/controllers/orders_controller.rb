@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_filter :find_order, :only => [:show, :edit, :update, :destroy]
+  before_filter :find_order, :only => [:show, :edit, :state, :update, :destroy]
 
   def index
     @orders = Order.all
@@ -19,7 +19,10 @@ class OrdersController < ApplicationController
   def show; end
 
   def edit; end
-  def order
+  
+  #调整订单状态
+  def state
+    @order.update_attributes(params[:order]) 
   end
 
   def update

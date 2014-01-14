@@ -22,8 +22,8 @@
     <%= @blog.markdown.html_safe %>
   </dvi>
 
-  <% if user_signed_in? %>
-    <%= link_to '编辑', edit_blog_path(@blog) %> |
-    <%= link_to '返回', blogs_path %>
+  <% if !mobile? %>
+    <%= link_to '编辑', edit_blog_path(@blog), class: "nolink" %> |
+    <%= link_to '返回', blogs_path, class: "nolink" %>
   <% end %>
 </div>

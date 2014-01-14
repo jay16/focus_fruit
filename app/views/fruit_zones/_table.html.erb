@@ -1,0 +1,44 @@
+    <tr id="<%= dom_id fruit_zone %>">
+      <td><%= fruit_zone.name %></td>
+      <td>
+        <% if 1==2 %>
+          <%= form_tag(fruit_zone, method: "put", :remote => true, style: "margin:0px;") do %>
+            <%= select_tag("#{dom_id fruit_zone}_list",options_for_select(fruit_zone.list_map, fruit_zone.list), { name: "fruit_zone[list]",
+               class: "chosen-select fruit-zone-list", onchange: "$('#fruit_zone_list_#{fruit_zone.id}').trigger('click');" }) %>
+            <%= submit_tag "submit", id: "fruit_zone_list_#{fruit_zone.id}", style: "display:none;" %>
+          <% end %>
+	<% else %>
+	  <%= fruit_zone.list %>
+	<% end %>
+      </td>
+      <td>
+        <%= fruit_zone.state %>
+          <%= form_tag(fruit_zone, method: "put", :remote => true, style: "margin:0px;") do %>
+            <%= select_tag("#{dom_id fruit_zone}_state",options_for_select(fruit_zone.state_map, fruit_zone.state), { name: "fruit_zone[state]",
+               class: "chosen-select fruit-zone-state", onchange: "$('#fruit_zone_state_#{fruit_zone.id}').trigger('click');" }) %>
+            <%= submit_tag "submit", id: "fruit_zone_state_#{fruit_zone.id}", style: "display:none;" %>
+          <% end %>
+      </td>
+      <td>
+          <%= link_to "编辑", [:edit, fruit_zone], remote: true %>
+          <% link_to "删除", fruit_zone, method: :delete, remote: true %>
+      </td>
+    </tr>
+
+<script>
+$(function(){
+  <% if 1==2 %>
+  $("#<%= dom_id fruit_zone %>_list").chosen({
+      allow_single_deselect: true,
+      no_results_text: 'No results matched',
+      width: '100px'
+   });
+
+  $("#<%= dom_id fruit_zone %>_state").chosen({
+      allow_single_deselect: true,
+      no_results_text: 'No results matched',
+      width: '100px'
+   });
+   <% end %>
+});
+</script>

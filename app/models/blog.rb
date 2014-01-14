@@ -28,4 +28,7 @@ class Blog < ActiveRecord::Base
     end
   end
 
+  def link
+    "http://fruit.solife.us/blogs/"+self.id.to_s
+  end
 end

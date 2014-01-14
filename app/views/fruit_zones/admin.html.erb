@@ -1,4 +1,15 @@
-<%= form_tag("upload", remote: true, :html => { :class => 'form-horizontal', :multipart => true }) do %>
-  <%= file_field_tag :file_url, :class => 'text_field' %>
-  <%= submit_tag "submit" %>
-<% end %>
+<style>
+#fruit_zone .accordion-heading {
+  padding-right: 20px;
+}
+#fruit_zone .accordion-heading a {
+  display: inline;
+}
+</style>
+<div class="accordion" id="fruit_zone_accordion_group">
+
+    <% @fruit_zones.each_with_index do |fruit_zone, index| %> 
+       <%= render partial: "fruit_zones/admin", locals: { fruit_zone: fruit_zone, index: index } if fruit_zone %>
+    <% end %>
+
+</div>

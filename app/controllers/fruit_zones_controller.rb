@@ -3,7 +3,7 @@ class FruitZonesController < ApplicationController
   before_filter :find_fruit_zone, :only => [:show, :edit, :udpate, :destroy]
 
   def index
-    @fruit_zones = FruitZone.all
+    @fruit_zones = FruitZone.where("state='onsale'")
     @order = Order.new
     @order.weixin = (params[:weixin] || "false")
   end 
@@ -24,20 +24,22 @@ class FruitZonesController < ApplicationController
   end
 
   def update
+    @fruit_zone = FruitZone.find(params[:id])
+    @fruit_zone.update_attributes(params[:fruit_zone]) if @fruit_zone
   end
 
   def destroy
     @fruits = @fruit_zone.fruits
-    @fruit_zone.destroy unless @fruits
+    @fruit_zone.destroy if @fruits.size == 0
   end
 
   #模板zip上传范例下载
   def download
-   file_path = Rails.root.join("public","水果达人上传模板.xls")
-   io = File.open(file_path)
-   io.binmode
-   data = io.read
-   io.close
+    file_path = Rails.root.join("public","水果达人上传模板.xls")
+    io = File.open(file_path)
+    io.binmode
+    data = io.read
+    io.close
 
     respond_to do |format|
       format.xls {
@@ -69,7 +71,12 @@ class FruitZonesController < ApplicationController
     end
   end
 
+  def find_fruit_zone
+    @fruit_zone = FruitZone.find(params[:id])
+  end
+
   private
+
   def parse_xls(file_path)
     book = Spreadsheet.open(file_path)
     sheet1 = book.worksheet 0
@@ -95,7 +102,4 @@ class FruitZonesController < ApplicationController
     end if sheet1
   end
 
-  def find_fruit_zone
-    @fruit_zone = FruitZone.find(params[:id])
-  end
 end

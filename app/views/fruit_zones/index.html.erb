@@ -3,7 +3,7 @@
         <% @fruit_zones.each_with_index do |fruit_zone, index| %> 
           <div class="accordion-group">
               <div class="accordion-heading">
-                  <a class="accordion-toggle collapsed" data-parent="#fruit_zone" data-toggle="collapse" href="#<%= dom_id fruit_zone %>">
+                  <a class="accordion-toggle collapsed nolink" data-parent="#fruit_zone" data-toggle="collapse" href="#<%= dom_id fruit_zone %>">
                     <%= fruit_zone.name %>|<span class="collapse-state">展开</span>
 		  </a>
               </div>
@@ -13,7 +13,7 @@
 		    <% fruit_zone.fruits.each_with_index do |fruit, i| %>
                           <div class="row-fluid fruit" id="<%= dom_id fruit %>">
                               <div class="span6">
-                                  <a><span class="name"><%= fruit.name %></span></a>
+                                  <a class="nolink"><span class="name"><%= fruit.name %></span></a>
                               </div>
                               <div class="span2">
                                 <span class="label label-warning">￥<span class="price"><%= fruit.price %></span></span>
@@ -152,3 +152,4 @@ $(function(){
 </script>
 
 <%= render "modal" %>
+<%= render "orders/modal_success" %>

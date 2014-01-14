@@ -29,11 +29,16 @@ FocusFruit::Application.routes.draw do
   match "/payment"     => "blogs#payment"
   match "/call-center" => "blogs#callcenter"
 
+  resources :fruits
   resources :fruit_zones do
     collection do
       post "upload"
       get  "download"
       get  "admin"
+    end
+    member do
+      post "list"
+      post "state"
     end
     resources :fruits
   end

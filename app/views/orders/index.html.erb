@@ -1,29 +1,16 @@
-<h3>
-  订单列表
-</h3>
- 
-<table class="table">
+<table class="table table-hover">
   <tr>
     <th>日期</th>
     <th>顾客</th>
     <th>水果数量</th>
     <th>金额</th>
+    <th>顾客</th>
     <th>明细</th>
     <th>编辑</th>
-    <th>删除</th>
+    <th>状态</th>
   </tr>
  
-<% @orders.each do |order| %>
-  <tr id="<%= dom_id order %>">
-    <td><%= order.created_at.strftime("%Y/%m/%d %H:%M") %></td>
-    <td><%= order.name %></td>
-    <td><%= order.count %></td>
-    <td><%= order.checkout %></td>
-    <td><%= link_to t("btn.show"), order, remote: true, class: "btn btn-mini btn-info" %></td>
-    <td><%= link_to t("btn.edit"), edit_order_path(order), remote: true,class: "btn btn-mini btn-success" %></td>
-    <td><%= link_to t("btn.del"), order, method: :delete, remote: true, data: { confirm: "Are you sure?" },class: "btn btn-mini btn-danger" %></td>
-  </tr>
-<% end if @orders %>
+  <% @orders.each do |order| %>
+    <%= render partial: "orders/order", locals: { order: order } if order  %>
+  <% end if @orders %>
 </table>
- 
-
