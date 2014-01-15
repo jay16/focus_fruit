@@ -1,14 +1,18 @@
 <%= simple_form_for(@picture) do |f| %>
-  <%= f.error_notification %>
 
-  <div class="form-inputs">
-    <%= f.input :name %>
-    <%= f.input :desc %>
-    <%= f.input :store %>
-    <%= f.input :folder_id %>
-  </div>
+  <%= f.input :name, wrapper: :prepend, label: false do %>
+    <%= content_tag :span, content_tag(:span, "名称", class: ""), class: "add-on" %>
+    <%= f.input_field :name, placeholder: "图片文件夹名称", autofocus: true, class: "span10" %>
+  <% end %>
 
-  <div class="form-actions">
-    <%= f.button :submit %>
+  <%= f.input :desc,wrapper: :prepend, label: false, class: "span6" do %>
+    <%= content_tag :span, content_tag(:span, "描述", class: ""), :class => "add-on" %>
+    <%= f.input_field :desc, as: :text, placeholder: "文件夹描述", class: "span10", style: "height:200px;"%>
+  <% end %>
+
+  <div class="control-group">
+    <div class="controls">
+	<%= f.button :submit, "提交", class: "btn right", style: "margin-bottom: 20px;" %>
+    </div>
   </div>
 <% end %>

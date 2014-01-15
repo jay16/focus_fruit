@@ -36,6 +36,11 @@
        图片上传
       </a>
     </li>
+    <li>
+      <a class="nolink">
+	<input type="text" size="50" placeholder="搜索图片" maxlength="255" id="search_picture" class="string span10">
+      </a>
+    </li>
   </ul>
 
   <div class="tab-content">
@@ -47,15 +52,46 @@
 	<%= render partial: "folders/picture_upload" %>
     </div>
   </div>
+   
+  <%= render "folders/modal" %>
 
 <script>
+  //tab toggle show
   $(function () {
     $('#folder_pictures a:first').tab('show');
-  })
+  });
   $('#folder_pictures a').click(function (e) {
     e.preventDefault();
     $(this).tab('show');
-  })
-</script
+  });
 
+  //search picture
+  $("#search_picture").keyup(function(){
+     var id = $(this).attr("id");
+     var input = document.getElementById("search_picture");
+     var text = input.value;
+
+     if(text.length > 0) {
+        search(text)
+     } else {
+       $("#picture_list table tbody tr").removeAttr("style");
+     }
+  });
+
+  function search(text) {
+     $("#picture_list table tbody tr").each(function(e){
+       var id = $(this).attr("id")
+       var span = $("#"+id+" .name");
+       var name = span.text();
+
+       //alert(name.indexOf(text));
+       if(name.indexOf(text) >= 0 ||
+          text.indexOf(name) >= 0) {
+	  $(this).removeAttr("style");
+       } else {
+	  $(this).css("display","none");
+       }
+     });
+  }
+</script>
 </div>

@@ -44,7 +44,7 @@ $(document).ready ->
     address = get_by_id("order_address").value.length > 0 ? true : false
     date_at = get_by_id("order_date_at").value.length > 0 ? true : false
     remark = get_by_id("order_remark").value.length > 0 ? true : false
-    if name and phone and address and date_at and remark
+    if name and phone and address and date_at
       $("input[type='submit']").removeAttr("disabled")
     else
       $("input[type='submit']").attr("disabled","disabled")

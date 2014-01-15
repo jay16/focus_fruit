@@ -2,6 +2,7 @@
 FocusFruit::Application.routes.draw do
 
 
+  resources :pictures
   resources :folders do
     member do
       post "upload"
@@ -10,7 +11,6 @@ FocusFruit::Application.routes.draw do
   end
 
 
-  resources :blogs
 
   devise_for :users,
     :controllers => {
@@ -25,7 +25,6 @@ FocusFruit::Application.routes.draw do
   end
 
 
-  resources :customers
   resources :orders do
     member do 
       post "state"
@@ -33,10 +32,13 @@ FocusFruit::Application.routes.draw do
     resources :items
   end
 
+  # 水果达人相关服务界面
   match "/shop"         => "fruit_zones#index"
   match "/distribution" => "blogs#distribution"
   match "/payment"     => "blogs#payment"
   match "/call-center" => "blogs#callcenter"
+
+  resources :blogs
 
   resources :fruits
   resources :fruit_zones do

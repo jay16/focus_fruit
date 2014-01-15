@@ -1,0 +1,27 @@
+<tr id="<%= dom_id picture %>">
+  <td>
+    <%= image_tag(File.join("/pictures",@folder.id.to_s,picture.store),class: "img-rounded span1") %></td>
+  <td>
+    <span class="name"><%= picture.name %></span>
+  </td>
+  <td>
+    <span class="size">
+      计算中...
+    </span>
+  <td><%= link_to "编辑", [:edit, picture], remote: true %></td>
+</tr>
+
+<script type="text/javascript">
+$(function() {
+    var picture = "#<%= dom_id picture %>";
+    var tmp_img = new Image();
+
+    $img = $(picture+" img");
+    tmp_img.src = $img.attr("src");
+    var width = tmp_img.width;
+    var height = tmp_img.height;
+
+    $size = $(picture+" .size");
+    $size.html(width+"x"+height); 
+});
+</script>
