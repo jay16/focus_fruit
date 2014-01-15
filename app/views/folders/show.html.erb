@@ -55,6 +55,10 @@
    
   <%= render "folders/modal" %>
 
+  <div id="picture_show" style="position: absolute; display: none;  background: none repeat scroll 0% 0% rgb(211, 211, 211); border-radius: 5px;z-index: 10000; ">
+    <img>
+  </div>
+
 <script>
   //tab toggle show
   $(function () {
@@ -63,6 +67,59 @@
   $('#folder_pictures a').click(function (e) {
     e.preventDefault();
     $(this).tab('show');
+  });
+
+  //picture show orginal size
+  $("#picture_list img").each(function(){
+    $img = $(this);  
+     $tooltip = $("#picture_show");
+
+     $img.hover(
+       function(e){
+          //计算图片相对位置
+	  var left = this.offsetLeft;
+	  var top  = this.offsetTop;
+	  var parent = this.offsetParent;
+	  while(parent!=null) {
+	    left += parent.offsetLeft;
+	    top  += parent.offsetTop;
+	    parent = parent.offsetParent;
+	  }
+	  left += 50;
+
+
+	  var tmp_img = new Image();
+	  tmp_img.src = $(this).attr("src");
+	  var width = tmp_img.width;
+	  var height = tmp_img.height;
+          if( width >= height) {
+	    if(width > 400) {
+	      height = 400/width*height;
+	      width = 400
+	    }
+          } else {
+	    if(height > 400) {
+	      width = 400/height*width;
+	      height = 400
+	    }
+	  }
+	  top -= height;
+
+	  $("#picture_show img").attr("src",$(this).attr("src"));
+	  $tooltip.css({
+	    "display":"block",
+	    "left":left+"px",
+	    "top":top+"px",
+	    "width":width+"px",
+	    "height":height+"px"
+	  }); 
+	  //alert("hoverin");
+       },
+       function(e){
+	  $tooltip.css({"display":"none"}); 
+	  //alert("hoverout");
+       }
+     );
   });
 
   //search picture
