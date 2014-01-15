@@ -8,7 +8,6 @@ class CreateFruits < ActiveRecord::Migration
       t.text :desc
       t.text :markdown
       t.string :pic
-      t.string :link
 
       t.timestamps
     end

@@ -2,6 +2,14 @@
 FocusFruit::Application.routes.draw do
 
 
+  resources :site_configs
+
+  get "config/index"
+
+  get "config/edit"
+
+  get "config/update"
+
   resources :pictures
   resources :folders do
     member do

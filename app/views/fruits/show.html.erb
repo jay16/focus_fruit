@@ -20,7 +20,7 @@
 
 
   <div>
-    <%= content_tag(:div, image_tag(@fruit.pic, class: "img-rounded"), style: "margin-bottom: 15px;") if @fruit.pic %>
+    <%= content_tag(:div, image_tag(@fruit.image, class: "img-rounded"), style: "margin-bottom: 15px;") if @fruit.image %>
 
     <%= @fruit.markdown.html_safe if @fruit.markdown %>
   </dvi>

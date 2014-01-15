@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Domain:</b>
+  <%= @site_config.domain %>
+</p>
+
+<p>
+  <b>Title:</b>
+  <%= @site_config.title %>
+</p>
+
+<p>
+  <b>Author:</b>
+  <%= @site_config.author %>
+</p>
+
+<p>
+  <b>Desc:</b>
+  <%= @site_config.desc %>
+</p>
+
+<p>
+  <b>Weixin token:</b>
+  <%= @site_config.weixin_token %>
+</p>
+
+<p>
+  <b>Email:</b>
+  <%= @site_config.email %>
+</p>
+
+
+<%= link_to 'Edit', edit_site_config_path(@site_config) %> |
+<%= link_to 'Back', site_configs_path %>

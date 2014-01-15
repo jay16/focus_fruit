@@ -10,10 +10,10 @@ form {
 <div class="span6">
   <h2 style="margin: 5px;">
     <% if params[:action] == "edit" %>
-       编辑博文
+       编辑水果
        <small><%= link_to "显示", @fruit %> |</small>
     <% else %>
-       新建博文
+       新建水果
     <% end %>
 
     <small><%= link_to '返回', fruits_path %></small>
@@ -28,8 +28,7 @@ form {
   <%= form_for(@fruit, class: "span8") do |f| %>
      <%= f.text_field :name, class: "span4", :placeholder => "水果名称", style: "margin-bottom:2px;" %>
      <%= f.text_field :price, class: "span2", :placeholder => "水果价格", style: "margin-bottom:2px;" %>
-     <%= f.text_field :pic, class: "span2", :placeholder => "图片", style: "margin-bottom:2px;" %>
-     <%= f.text_field :link, class: "span2", :placeholder => "链接", style: "margin-bottom:2px;" %>
+     <%= f.select :pic, @folder.pictures.map { |p| [p.name, p.id.to_s]},{ include_blank: true }, class: "chosen-select" %>
      <%= f.text_area :desc, class: "span12", style: "display:none;" %>
      <%= f.text_field :markdown, class: "span12", style: "display:none;" %>
      <%= f.submit t("btn.submit"), class: "btn btn-primary", style: "display:inline;"  %>
@@ -40,6 +39,11 @@ form {
 
 <script>
 $(function(){
+  $("#fruit_pic").chosen({
+      allow_single_deselect: true,
+      no_results_text: 'No results matched',
+      width: '120px'
+   });
   /////////////////////////////
 
   var editor = ace.edit("markdown"),

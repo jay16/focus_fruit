@@ -1,0 +1,33 @@
+<h1>Listing site_configs</h1>
+
+<table>
+  <tr>
+    <th>Domain</th>
+    <th>Title</th>
+    <th>Author</th>
+    <th>Desc</th>
+    <th>Weixin token</th>
+    <th>Email</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @site_configs.each do |site_config| %>
+  <tr>
+    <td><%= site_config.domain %></td>
+    <td><%= site_config.title %></td>
+    <td><%= site_config.author %></td>
+    <td><%= site_config.desc %></td>
+    <td><%= site_config.weixin_token %></td>
+    <td><%= site_config.email %></td>
+    <td><%= link_to 'Show', site_config %></td>
+    <td><%= link_to 'Edit', edit_site_config_path(site_config) %></td>
+    <td><%= link_to 'Destroy', site_config, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Site config', new_site_config_path %>

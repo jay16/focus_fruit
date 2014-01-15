@@ -1,3 +1,4 @@
+#encoding: utf-8
 class FruitsController < ApplicationController
   before_filter :find_fruit, :only => [:show, :edit, :update, :destroy]
 
@@ -12,9 +13,11 @@ class FruitsController < ApplicationController
   end
 
   def create
+    @folder = Folder.find_by_name("水果图片")
   end
 
   def edit
+    @folder = Folder.find_by_name("水果图片")
   end
 
   def update

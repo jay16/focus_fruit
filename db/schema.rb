@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140114150919) do
+ActiveRecord::Schema.define(:version => 20140115150649) do
 
   create_table "blogs", :force => true do |t|
     t.string   "title"
@@ -111,6 +111,17 @@ ActiveRecord::Schema.define(:version => 20140114150919) do
     t.integer  "folder_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "site_configs", :force => true do |t|
+    t.string   "domain"
+    t.string   "title"
+    t.string   "author"
+    t.text     "desc"
+    t.string   "weixin_token"
+    t.string   "email"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   create_table "users", :force => true do |t|
