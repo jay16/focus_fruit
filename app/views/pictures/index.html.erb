@@ -1,29 +1,19 @@
-<h1>Listing pictures</h1>
+<div class="span6 offset3">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+	<th width="10%">图片</th>
+	<th width="60%">名称</th>
+	<th width="10%">大小</th>
+	<th width="10%">编辑</th>
+       </tr>
+     </thead>
+     <tbody>
+      <% @pictures.each do |picture| %>
+	<%= render partial: "pictures/picture", locals: { picture: picture } %>
+      <% end if @pictures %>
+    </tbody>
+  </table>
+</div>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Desc</th>
-    <th>Store</th>
-    <th>Folder</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @pictures.each do |picture| %>
-  <tr>
-    <td><%= picture.name %></td>
-    <td><%= picture.desc %></td>
-    <td><%= picture.store %></td>
-    <td><%= picture.folder_id %></td>
-    <td><%= link_to 'Show', picture %></td>
-    <td><%= link_to 'Edit', edit_picture_path(picture) %></td>
-    <td><%= link_to 'Destroy', picture, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Picture', new_picture_path %>
+<%= render "modal" %>

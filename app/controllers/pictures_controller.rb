@@ -1,3 +1,5 @@
+#encoding: utf-8
+require 'fileutils'
 class PicturesController < ApplicationController
   # GET /pictures
   # GET /pictures.json
@@ -73,11 +75,16 @@ class PicturesController < ApplicationController
   # DELETE /pictures/1.json
   def destroy
     @picture = Picture.find(params[:id])
+
+    image_path = Rails.root.join("public","pictures",@picture.folder.id.to_s,@picture.store)
+    FileUtils.rm_f(image_path) if File.exists?(image_path)
+
     @picture.destroy
 
     respond_to do |format|
       format.html { redirect_to pictures_url }
       format.json { head :no_content }
+      format.js
     end
   end
 

@@ -19,3 +19,4 @@
 #= require chosen-jquery
 #= require solife-base
 
+$(".alert").alert()

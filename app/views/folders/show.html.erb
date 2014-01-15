@@ -11,6 +11,9 @@
   <p>
     <b>名称:</b>
     <%= @folder.name %>
+
+    <b>图片数量:</b>
+    <span id="folder_pictures_size"><%= @folder.pictures.size %></span>
   </p>
 
   <p>
@@ -18,21 +21,19 @@
     <%= @folder.desc %>
   </p>
 
-
-  <p>
-    <b>图片数量:</b>
-    <span id="folder_pictures_size"><%= @folder.pictures.size %></span>
-  </p>
-
+  <div class="alert alert-info">
+    <a class="close" data-dismiss="alert" href="#">&times;</a>
+   ps: 鼠标悬浮图片之上可查看大图.
+  </div>
 
   <ul class="nav nav-tabs" id="folder_pictures">
     <li class="active">
-      <a href="#picture_list">
+      <a href="#picture_list" style="font-size:14px;">
         图片列表
       </a>
     </li>
     <li>
-      <a href="#picture_upload">
+      <a href="#picture_upload" style="font-size:14px;">
        图片上传
       </a>
     </li>
