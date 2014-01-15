@@ -1,17 +1,61 @@
 <div class="span6 offset3">
   <p id="notice"><%= notice %></p>
 
+  <h3>图片文件夹
+    <small>
+      <%= link_to '编辑', edit_folder_path(@folder) %> |
+      <%= link_to '返回', folders_path %>
+    </small>
+  </h3>
+
   <p>
-    <b>Name:</b>
+    <b>名称:</b>
     <%= @folder.name %>
   </p>
 
   <p>
-    <b>Desc:</b>
+    <b>描述:</b>
     <%= @folder.desc %>
   </p>
 
 
-  <%= link_to 'Edit', edit_folder_path(@folder) %> |
-  <%= link_to 'Back', folders_path %>
+  <p>
+    <b>图片数量:</b>
+    <span id="folder_pictures_size"><%= @folder.pictures.size %></span>
+  </p>
+
+
+  <ul class="nav nav-tabs" id="folder_pictures">
+    <li class="active">
+      <a href="#picture_list">
+        图片列表
+      </a>
+    </li>
+    <li>
+      <a href="#picture_upload">
+       图片上传
+      </a>
+    </li>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="picture_list">
+	<%= render partial: "folders/picture_list" %>
+    </div>
+
+    <div class="tab-pane" id="picture_upload">
+	<%= render partial: "folders/picture_upload" %>
+    </div>
+  </div>
+
+<script>
+  $(function () {
+    $('#folder_pictures a:first').tab('show');
+  })
+  $('#folder_pictures a').click(function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+  })
+</script
+
 </div>

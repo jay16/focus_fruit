@@ -37,6 +37,13 @@ class FoldersController < ApplicationController
     @folder = Folder.find(params[:id])
   end
 
+  # POST /folders/1/upload
+  # 上传图片
+  def upload
+    @folder = Folder.find(params[:id])
+    deal_with_local(@folder)
+  end
+
   # POST /folders
   # POST /folders.json
   def create
@@ -89,4 +96,36 @@ class FoldersController < ApplicationController
     def folder_params
       params.require(:folder).permit(:desc, :name)
     end
+
+  def chk_image_name(str)
+    types = %w(.jpg .jpeg .png .bmp .gif .ico).select { |d| str.downcase.include?(d) }
+    type = (types.empty? ? ".jpg" : types[0])
+
+    name = UUIDTools::UUID.md5_create(UUIDTools::UUID_DNS_NAMESPACE, str+Time.now.to_s).to_s
+    return (name+type)
+  end
+
+  def deal_with_local(folder)
+    (0..50).each_with_index do |i,index|
+      key = "file_#{i}"
+      next if params[key].nil?
+
+      image = params[key]
+
+      original_name = image.original_filename.to_s
+      image_name   = chk_image_name(original_name)
+      image_path = Rails.root.join("public","pictures",folder.id.to_s)
+
+      FileUtils.mkdir_p(image_path) unless File.exist?(image_path)
+
+      image_path = File.join(image_path, image_name)
+      File.open(image_path, "wb") { |f| f.write(image.read) }
+
+      picture = folder.pictures.create({
+       :name => original_name,
+       :desc => original_name,
+       :store => image_name
+       })
+    end
+  end
 end

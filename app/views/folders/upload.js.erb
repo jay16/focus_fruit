@@ -1,0 +1,5 @@
+$("#folder_pictures_size").html("<%= @folder.pictures.size %>");
+$("#picture_list").html("<%= j render partial: 'folders/picture_list' %>");
+$("#picture_upload").html("<%= j render partial: 'folders/picture_upload' %>");
+$('#folder_pictures a:first').tab('show');
+

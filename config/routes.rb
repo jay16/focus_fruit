@@ -3,12 +3,10 @@ FocusFruit::Application.routes.draw do
 
 
   resources :folders do
-    resources :pictures do
-      collection do
-        post "upload"
-      end
+    member do
+      post "upload"
     end
-
+    resources :pictures
   end
 
 

@@ -1,0 +1,14 @@
+<table class="table table-hover">
+  <tr>
+    <th>图片</th>
+    <th>名称</th>
+    <th>日期</th>
+  </tr>
+  <% @folder.pictures.order("created_at desc").each do |picture| %>
+    <tr>
+      <td><%= image_tag(File.join("/pictures",@folder.id.to_s,picture.store),class: "img-rounded span1") %></td>
+      <td><%= picture.name %></td>
+      <td><%= picture.created_at.strftime("%Y/%m/%d %H:%M") %></td>
+    </tr>
+  <% end if @folder.pictures %>
+</table>

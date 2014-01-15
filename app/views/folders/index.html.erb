@@ -8,6 +8,7 @@
       <th>文件夹</th>
       <th>描述</th>
       <th>图片数量</th>
+      <th>明细</th>
       <th>编辑</th>
       <th>删除</th>
     </tr>
@@ -17,6 +18,7 @@
       <td><%= folder.name %></td>
       <td><%= folder.desc %></td>
       <td><%= folder.pictures.size %></td>
+      <td><%= link_to '明细', folder %></td>
       <td><%= link_to '编辑', edit_folder_path(folder) %></td>
       <td><%= link_to '删除', folder, confirm: 'Are you sure?', method: :delete %></td>
     </tr>
