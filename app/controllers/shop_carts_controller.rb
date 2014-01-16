@@ -9,8 +9,18 @@ class ShopCartsController < ApplicationController
       format.json { render json: @shop_carts }
     end
   end
+  
+  def list
+    idstr = find_idstr(params)
+    list = []
+    if (shop_cart = ShopCart.find_by_idstr(idstr))
+      list = shop_cart.cart_items
+    end
 
+    render :json => list.to_json
+  end
 
+  #向购物车添加商品
   def add
     shop_cart = find_shop_cart(params)
     shop_cart.add_item(params)
@@ -18,6 +28,7 @@ class ShopCartsController < ApplicationController
     render :json => params.to_json
   end
 
+  #向购物车移除商品
   def rm
     shop_cart = find_shop_cart(params)
     shop_cart.rm_item(params)
@@ -25,15 +36,28 @@ class ShopCartsController < ApplicationController
     render :json => params.to_json
   end
 
+  def clear
+    idstr = find_idstr(params)
+     if (shop_cart = ShopCart.find_by_idstr(idstr))
+       shop_cart.clear
+     end
+
+     render :json => params.to_json
+  end
+
   #给该用户分配购物车
   def find_shop_cart(params)
+    idstr = find_idstr(params)
+
+    ShopCart.find_or_create_by_idstr(idstr)
+  end
+
+  def find_idstr(params)
     if (params[:weixin] || "no") == "no"
       idstr = generate_idstr
     else
       idstr = params[:weixin]
     end
-
-    ShopCart.find_or_create_by_idstr(idstr)
   end
 
   #为该用户分配标识idstr
@@ -54,11 +78,12 @@ class ShopCartsController < ApplicationController
   # GET /shop_carts/1
   # GET /shop_carts/1.json
   def show
-    @shop_cart = ShopCart.find(params[:id])
+    @shop_cart = ShopCart.find_by_idstr(params[:idstr])
 
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @shop_cart }
+      format.js
     end
   end
 

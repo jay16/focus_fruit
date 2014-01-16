@@ -5,8 +5,10 @@ FocusFruit::Application.routes.draw do
   #购物车
   resources :shop_carts do
     collection do
+      get "list"
       post "add"
       post "rm"
+      get "clear"
     end
   end
 

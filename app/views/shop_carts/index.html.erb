@@ -18,7 +18,7 @@
       <td><%= shop_cart.idstr %></td>
       <td><%= shop_cart.cart_items_size %></td>
       <td><%= shop_cart.cart_items_price %></td>
-      <td><%= link_to 'Show', shop_cart %></td>
+      <td><%= link_to 'Show', {controller: :shop_carts, action: :show, idstr: shop_cart.idstr}, remote: true %></td>
       <td><% link_to 'Edit', edit_shop_cart_path(shop_cart) %></td>
       <td><% link_to 'Destroy', shop_cart, confirm: 'Are you sure?', method: :delete %></td>
     </tr>
@@ -26,37 +26,30 @@
   </table>
 
   <br />
+  <%= render "modal" %>
 
+  <a onclick="shop_cart_list();" class="btn">list</a>
   <% link_to 'New Shop cart', new_shop_cart_path %>
-  <a class="btn" onclick="add();">add</a>
-  <a class="btn" onclick="rm();">rm</a>
 
-  <script>
+<script>
+function shop_cart_list() {
+  var weixin  = $("#hidden_weixin").attr("value");
 
-  function add() {
-     operate_item("add");
-  }
-  function rm() {
-     operate_item("rm");
-  }
-  function operate_item(operation) {
-    var weixin  = $("#hidden_weixin").attr("value"); 
-    if(operation == "add") {
-      url = "/shop_carts/add.json";
-    } else {
-      url = "/shop_carts/rm.json";
-    }
-    $.post(url,
+  $.get("/shop_carts/list.json",
     {
-      weixin: weixin,
-      item: {
-	id: 11,
-	price: 12.4
-      }
+      weixin: weixin
     },
-    function(data,status){
-      alert("数据：" + data + "\n状态：" + status);
-    });
-  }
-  </script>
-</div>
+    function(result){
+      //alert(typeof(result));
+      alert(result.length);
+
+      if(result.length>0) {
+        for(var i=0;i<result.length;i++) {
+	  alert(result[i].id);
+	}
+      }
+
+    }
+  );
+}
+</script>

@@ -1,27 +1,46 @@
+<div
 <% if mobile? %>
-  <div class="span10 offset1">
+  class="span10 offset1 fruit"
 <% else %>
-  <div class="span6 offset3">
+  class="span6 offset3 fruit"
 <% end %>
+  id="<%= dom_id @fruit %>">
 
   <p id="notice"><%= notice %></p>
 
   <h3>
-    <%= @fruit.name %>
+    <span class="name"><%= @fruit.name %></span> | 
+   ￥<span class="price"><%= @fruit.price %></span>
   </h3>
 
+  <div>
+    <%= content_tag(:div, image_tag(@fruit.image, class: "img-rounded"), style: "margin-bottom: 1px;") if @fruit.image %>
+  </div>
 
-  <div style="height:30px;">
-    <label class="label label-info" style="display:inline;">￥<%= @fruit.price %></label>
+
+  <div style="height:30px; margin-bottom:20px;">
     <%= link_to "链接", @fruit.link, class: "nolink" if @fruit.link and !mobile? %>
+    <label class="label label-success" style="display:inline;"><%= @fruit.fruit_zones.first.name %></label>
 
-    <label class="label label-success right" style="display:inline;"><%= @fruit.fruit_zones.first.name %></label>
+    <span style="text-align:right" class="right">
+	<span class="label label-info">
+	    <i class="icon-shopping-cart icon-white">
+	    </i>
+            <span class="count" style="display:none;">0</span>
+	    <a class="add-to-cart" style="color:white;">加入购物车</a>
+	</span>
+	<span class="label label-success">
+	    <a href="/" style="color:white;">
+	      <i class="icon-circle-arrow-up icon-white">
+	      </i>
+	      结帐
+	    </a>
+	</span>
+    </span>
   </div>
 
 
   <div>
-    <%= content_tag(:div, image_tag(@fruit.image, class: "img-rounded"), style: "margin-bottom: 15px;") if @fruit.image %>
-
     <%= @fruit.markdown.html_safe if @fruit.markdown %>
   </dvi>
 
@@ -30,3 +49,79 @@
     <%= link_to '返回', fruits_path %>
   <% end %>
 </div>
+<script>
+function shop_cart_list() {
+  var weixin  = $("#hidden_weixin").attr("value");
+
+  $.get("/shop_carts/list.json",
+    {
+      weixin: weixin
+    },
+    function(result){
+      //alert(result.length);
+
+      if(result.length>0) {
+        $(".fruit").each(function(e){
+          var id = $(this).attr("id");
+          var count = 0;
+          for(var i=0;i<result.length;i++) {
+            var item = result[i];
+            if(item.id == id)  {
+	      count = item.count;
+            }
+          }
+	  if(count > 0 )
+	    $("#"+id+" .count").html(count);
+	    $("#"+id+" .add-to-cart").html("已加入购物车");
+        });
+      }
+    }
+  );
+}
+function add_to_cart(item) {
+   operate_item("add",item);
+}
+function rm_from_cart(item) {
+   operate_item("rm",item);
+}
+function operate_item(operation, item) {
+  var weixin  = $("#hidden_weixin").attr("value");
+  if(operation == "add") {
+    url = "/shop_carts/add.json";
+  } else {
+    url = "/shop_carts/rm.json";
+  }
+  $.post(url,
+  {
+    weixin: weixin,
+    item: item
+  },
+  function(data,status){
+    //if(status=="success")
+    console.log(status);
+  });
+}
+$(function(){
+  shop_cart_list() ;
+
+  $(".fruit").each(function(){
+      var id = $(this).attr("id");
+
+      var name = $("#"+id+" .name").text();
+      var price = parseInt($("#"+id+" .price").text());
+      var count = parseInt($("#"+id+" .count").text());
+      var item = { "id": id, "name": name, "price": price };
+
+      $("#"+id+" .add-to-cart").click(function(){
+	var count = parseInt($("#"+id+" .count").text());
+	if(count==0){
+	  add_to_cart(item);
+	  $("#"+id+" .add-to-cart").html("已加入购物车");
+	} else {
+	  alert("已加入购物车");
+	}
+      });
+  });
+  
+});
+</script>

@@ -17,6 +17,7 @@ class WeixinController < ApplicationController
 
     case match[0].to_i
     when 1 #水果专区
+      @fruit_zones = FruitZone.where("state='onsale'")
       if zones = @fruit_zones.select { |zone| zone.list == match[1].to_i }
         @fruit_zone = zones.first
       end

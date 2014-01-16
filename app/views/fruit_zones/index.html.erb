@@ -40,7 +40,7 @@
         <div class="row-fluid">
             <div class="span4"></div>
             <div style="text-align:right" class="span7">
-                <span ng-click="showShopCart()" class="label label-info ng-binding">
+                <span class="label label-info">
                     <i class="icon-shopping-cart icon-white">
                     </i>
                     <span class="total-count">0</span>
@@ -99,9 +99,17 @@
 	 var json = {"id": id.split("_")[1], "name": name, "count": count, "price": price};
 	 list.push(JSON.stringify(json));
 
-	 shop_cart += "<div class='row-fluid' style='margin-bottom:3px;'><span class='span4'><span class='label label-info' style='height:15px;'>￥"+price+"x"+count+"</span></span><span class='span7'>"+name+"</span><span class='span1'><i class='icon-remove'></i></span></div>"
+	 shop_cart += "<div class='row-fluid' style='margin-bottom:3px;'>"
+         shop_cart += "<span class='span4'>"
+         shop_cart += "<span class='label label-info' style='height:15px;'>￥"+price+"</span>x<span>"+count+"</span>"
+         shop_cart += "</span>"
+         shop_cart += "<span class='span7'>"+name+"</span>"
+         shop_cart += "<span class='span1'><i class='icon-remove'></i></span></div>"
 
-	 order_info += "<div class='row-fluid' style='margin-bottom:3px;'><span class='span4'><span class='label label-info' style='height:15px;'>￥"+price+"x"+count+"</span></span><span class='span8'>"+name+"</span></div>"
+	 order_info += "<div class='row-fluid' style='margin-bottom:3px;'>"
+         order_info += "<span class='span4'><span class='label label-info' style='height:15px;'>￥"+price+"</span>x<span>"+count+"</span>"
+	 order_info += "</span>"
+	 order_info += "<span class='span8'>"+name+"</span></div>"
        }
     });
     var order_rt = check_out();
@@ -123,16 +131,86 @@
       $(".order-list").css("display","none");
     }
   }
+function add_to_cart(item) {
+   operate_item("add",item);
+}
+function rm_from_cart(item) {
+   operate_item("rm",item);
+}
+function operate_item(operation, item) {
+  var weixin  = $("#hidden_weixin").attr("value");
+  if(operation == "add") {
+    url = "/shop_carts/add.json";
+  } else {
+    url = "/shop_carts/rm.json";
+  }
+  $.post(url,
+  {
+    weixin: weixin,
+    item: item
+  },
+  function(data,status){
+    //if(status=="success")
+    console.log(status);
+  });
+}
+
+function shop_cart_list() {
+  var weixin  = $("#hidden_weixin").attr("value");
+  var res = [];
+
+  $.get("/shop_carts/list.json",
+    {
+      weixin: weixin
+    },
+    function(result){
+      //alert(result.length);
+
+      if(result.length>0) {
+        $(".fruit").each(function(e){
+	  var id = $(this).attr("id");
+
+	  for(var i=0;i<result.length;i++) {
+	    var item = result[i];
+	    //alert(item.id+'-'+id);
+	    if(item.id == id) 
+	      $("#"+id+" .count").html(item.count);
+	  }
+	  check_out();
+	  chk_order_list();
+	});
+      }
+    }
+  );
+  return res;
+}
+function clear_shop_cart() {
+  var weixin  = $("#hidden_weixin").attr("value");
+  $.get("/shop_carts/clear.json",
+    { weixin: weixin },
+    function(result){}
+  );
+};
 $(function(){
+  $("#new_order").submit(function(event) {
+    clear_shop_cart();
+  });
   //添加或删减水果
   $(".fruit").each(function(e){
       var id = $(this).attr("id");
+
+      var name = $("#"+id+" .name").text();
+      var price = parseInt($("#"+id+" .price").text());
+      var count = parseInt($("#"+id+" .count").text());
+      var item = { "id": id, "name": name, "price": price };
+
       //add 
       $("#"+id+" .buy-more").click(function(){
         var $buy_count = $("#"+id+" .count");
         var already_budy = parseInt($buy_count.text());
         already_budy += 1;
         $buy_count.text(already_budy);
+	add_to_cart(item);
         check_out();
         chk_order_list();
       });
@@ -143,13 +221,19 @@ $(function(){
         if(already_budy>0) 
           already_budy -= 1;
         $buy_count.text(already_budy);
+	rm_from_cart(item);
         check_out();
 	chk_order_list();
       });
+
   });
+   shop_cart_list();
 
 });
 </script>
 
 <%= render "modal" %>
 <%= render "orders/modal_success" %>
+
+<script>
+</script>

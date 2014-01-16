@@ -1,20 +1,19 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <b>Weixin:</b>
-  <%= @shop_cart.weixin %>
-</p>
-
-<p>
-  <b>Idstr:</b>
-  <%= @shop_cart.idstr %>
-</p>
-
-<p>
-  <b>Session:</b>
-  <%= @shop_cart.session %>
-</p>
-
-
-<%= link_to 'Edit', edit_shop_cart_path(@shop_cart) %> |
-<%= link_to 'Back', shop_carts_path %>
+<table class="table table-hover">
+  <tbody>
+    <tr>
+      <td colspan="2">
+        用户标识:<%= @shop_cart.idstr %>
+      </td>
+    </tr>
+    <% @shop_cart.cart_items.each do |item| %>
+      <tr>
+        <td>
+	  <%= item["name"] %>
+	</td>
+        <td>
+	  <label class="label label-info" style="display:inline;">￥<%= item["price"] %></label>x<%= item["count"] %>
+	</td>
+      </tr>
+    <% end if @shop_cart.cart_items %>
+  </tbody>
+</table>

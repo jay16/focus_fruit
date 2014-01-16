@@ -114,7 +114,6 @@ ActiveRecord::Schema.define(:version => 20140116065218) do
   end
 
   create_table "shop_carts", :force => true do |t|
-    t.string   "weixin"
     t.string   "idstr"
     t.text     "session"
     t.datetime "created_at", :null => false

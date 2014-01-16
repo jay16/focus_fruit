@@ -10,22 +10,22 @@ class ShopCart < ActiveRecord::Base
 
   def cart_items_size
     size = 0
-    if not cart_items.empty?
-      cart_items.each do |f|
-        size += f["count"].to_i
-      end
-    end
+    #unless cart_items.empty?
+      #cart_items.each do |f|
+      #  size += f["count"].to_i
+      #end
+    #end
     return size
   end
 
   def cart_items_price
-    size = 0
-    if not cart_items.empty?
-      cart_items.each do |f|
-        size += f["count"].to_i * f["price"].to_f
-      end
-    end
-    return size
+    price = 0
+    #if not cart_items.empty?
+    #  cart_items.each do |f|
+    #    price += f["count"].to_i * f["price"].to_f
+    #  end
+    #end
+    return price
   end
 
   #清空购物车
