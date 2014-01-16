@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Weixin:</b>
+  <%= @shop_cart.weixin %>
+</p>
+
+<p>
+  <b>Idstr:</b>
+  <%= @shop_cart.idstr %>
+</p>
+
+<p>
+  <b>Session:</b>
+  <%= @shop_cart.session %>
+</p>
+
+
+<%= link_to 'Edit', edit_shop_cart_path(@shop_cart) %> |
+<%= link_to 'Back', shop_carts_path %>

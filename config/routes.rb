@@ -2,14 +2,19 @@
 FocusFruit::Application.routes.draw do
 
 
+  #购物车
+  resources :shop_carts do
+    collection do
+      post "add"
+      post "rm"
+    end
+  end
+
+  #全局配置
   resources :site_configs
 
-  get "config/index"
 
-  get "config/edit"
-
-  get "config/update"
-
+  #图片管理
   resources :pictures
   resources :folders do
     member do
@@ -18,8 +23,7 @@ FocusFruit::Application.routes.draw do
     resources :pictures
   end
 
-
-
+  #权限管理
   devise_for :users,
     :controllers => {
     :sessions => :sessions
@@ -33,6 +37,8 @@ FocusFruit::Application.routes.draw do
   end
 
 
+
+  #订单
   resources :orders do
     member do 
       post "state"
@@ -46,8 +52,10 @@ FocusFruit::Application.routes.draw do
   match "/payment"     => "blogs#payment"
   match "/call-center" => "blogs#callcenter"
 
+  #博文
   resources :blogs
 
+  #水果
   resources :fruits
   resources :fruit_zones do
     collection do

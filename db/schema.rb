@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140115150649) do
+ActiveRecord::Schema.define(:version => 20140116065218) do
 
   create_table "blogs", :force => true do |t|
     t.string   "title"
@@ -109,6 +109,14 @@ ActiveRecord::Schema.define(:version => 20140115150649) do
     t.text     "desc"
     t.string   "store"
     t.integer  "folder_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "shop_carts", :force => true do |t|
+    t.string   "weixin"
+    t.string   "idstr"
+    t.text     "session"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
