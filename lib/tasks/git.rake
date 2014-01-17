@@ -9,7 +9,7 @@ namespace :git do
 
     shell_content =<<SHELL
       git_path=$(which git)
-      cd /home/work/solife
+      cd /home/work/focus_fruit
       ${git_path} init
       ${git_path} add -A .
       ${git_path} commit -a -m "#{commit}"

@@ -4,28 +4,23 @@ class ShopCart < ActiveRecord::Base
   #购物车内容
   #为顾客使用
   def cart_items
-    JSON.parse((self.session || "[]").gsub("=>",":"))
+    my_session = (self.session.nil? or self.session.empty?) ? "[]" : self.session
+    JSON.parse(my_session.gsub("=>",":"))
   end
  
 
+  #计算购物车商品数量
   def cart_items_size
-    size = 0
-    #unless cart_items.empty?
-      #cart_items.each do |f|
-      #  size += f["count"].to_i
-      #end
-    #end
-    return size
+    cart_items.inject(0) do |sum, item| 
+      sum + item["count"].to_i
+    end
   end
 
+  #计算购物车商品金额
   def cart_items_price
-    price = 0
-    #if not cart_items.empty?
-    #  cart_items.each do |f|
-    #    price += f["count"].to_i * f["price"].to_f
-    #  end
-    #end
-    return price
+    cart_items.inject(0) do |sum, item| 
+      sum + item["count"].to_i * item["price"].to_f
+    end
   end
 
   #清空购物车

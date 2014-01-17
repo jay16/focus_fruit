@@ -46,6 +46,9 @@ gem "bootstrap-will_paginate"
 gem "remotipart"
 gem "jquery-atwho-rails"
 
+gem 'font-awesome-less'
+
+
 
 #crontab定时任务
 gem "whenever", :require => false

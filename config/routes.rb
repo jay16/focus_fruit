@@ -1,7 +1,6 @@
 #encoding: utf-8
 FocusFruit::Application.routes.draw do
 
-
   #购物车
   resources :shop_carts do
     collection do
@@ -14,7 +13,6 @@ FocusFruit::Application.routes.draw do
 
   #全局配置
   resources :site_configs
-
 
   #图片管理
   resources :pictures
@@ -37,8 +35,6 @@ FocusFruit::Application.routes.draw do
     get "/users/sign_out", :to => "sessions#destroy", :as => :destroy_user_session
     get "/users/logout",   :to => "sessions#destroy"
   end
-
-
 
   #订单
   resources :orders do

@@ -1,7 +1,4 @@
-<div class="span6 offset3">
-  <h3>图片文件夹列表
-    <small><%= link_to '创建', new_folder_path %></small>
-  </h3>
+  <%= link_to '创建文件夹', new_folder_path, class: "btn btn-primary", target: "blank" %>
 
   <table class="table table-hover">
     <tr>
@@ -18,11 +15,10 @@
       <td><%= folder.name %></td>
       <td><%= folder.desc %></td>
       <td><%= folder.pictures.size %></td>
-      <td><%= link_to '明细', folder %></td>
-      <td><%= link_to '编辑', edit_folder_path(folder) %></td>
-      <td><%= link_to '删除', folder, confirm: 'Are you sure?', method: :delete %></td>
+      <td><%= link_to '明细', folder, class: "btn btn-mini btn-info", target: "blank" %></td>
+      <td><%= link_to '编辑', edit_folder_path(folder), class: "btn btn-mini btn-success", target: "blank" %></td>
+      <td><%= link_to '删除', folder, confirm: 'Are you sure?', method: :delete, remote: true,  class: "btn btn-mini btn-danger" %></td>
     </tr>
   <% end %>
   </table>
 
-</div>

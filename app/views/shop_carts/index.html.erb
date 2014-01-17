@@ -1,14 +1,10 @@
-<div class="span6 offset3">
-
-  <h3>购物车列表</h3>
-
 
   <table class="table table-hover">
     <tr>
       <th>顾客标识</th>
       <th>商品数量</th>
       <th>商品总值</th>
-      <th></th>
+      <th>查看</th>
       <th></th>
       <th></th>
     </tr>
@@ -18,38 +14,10 @@
       <td><%= shop_cart.idstr %></td>
       <td><%= shop_cart.cart_items_size %></td>
       <td><%= shop_cart.cart_items_price %></td>
-      <td><%= link_to 'Show', {controller: :shop_carts, action: :show, idstr: shop_cart.idstr}, remote: true %></td>
+      <td><%= link_to '明细', {controller: :shop_carts, action: :show, idstr: shop_cart.idstr}, remote: true, class: "btn btn-mini btn-info" %></td>
       <td><% link_to 'Edit', edit_shop_cart_path(shop_cart) %></td>
       <td><% link_to 'Destroy', shop_cart, confirm: 'Are you sure?', method: :delete %></td>
     </tr>
   <% end %>
   </table>
 
-  <br />
-  <%= render "modal" %>
-
-  <a onclick="shop_cart_list();" class="btn">list</a>
-  <% link_to 'New Shop cart', new_shop_cart_path %>
-
-<script>
-function shop_cart_list() {
-  var weixin  = $("#hidden_weixin").attr("value");
-
-  $.get("/shop_carts/list.json",
-    {
-      weixin: weixin
-    },
-    function(result){
-      //alert(typeof(result));
-      alert(result.length);
-
-      if(result.length>0) {
-        for(var i=0;i<result.length;i++) {
-	  alert(result[i].id);
-	}
-      }
-
-    }
-  );
-}
-</script>

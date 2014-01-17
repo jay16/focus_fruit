@@ -3,6 +3,35 @@
   overflow: auto;
   padding-bottom: 100px;
 }
+.btn:active,
+.btn:hover,
+.btn:link,
+.btn:visited,
+.btn {
+  color: black;
+}
+.btn-info,
+.btn-success,
+.btn-danger,
+.btn-primary,
+.btn-info:active,
+.btn-info:hover,
+.btn-info:link,
+.btn-info:visited,
+.btn-success:active,
+.btn-success:hover,
+.btn-success:link,
+.btn-success:visited,
+.btn-danger:active,
+.btn-danger:hover,
+.btn-danger:link,
+.btn-danger:visited,
+.btn-primary:active,
+.btn-primary:hover,
+.btn-primary:link,
+.btn-primary:visited {
+  color: white;
+}
 </style>
 <div class="main" style="margin: 0 auto; width:1100px;">
   <ul class="nav nav-tabs" id="admin_tab">
@@ -24,6 +53,16 @@
     <li>
       <a href="#tab_blog">
         博文管理
+      </a>
+    </li>
+    <li>
+      <a href="#tab_picture">
+        图片管理
+      </a>
+    </li>
+    <li>
+      <a href="#tab_shop_cart">
+        购物车管理
       </a>
     </li>
   </ul>
@@ -55,8 +94,17 @@
     </div>
 
     <div class="tab-pane" id="tab_blog">
-      <%= render "admin/tab_blog" %>
+      <%= render template: "blogs/index" %>
     </div>
+
+    <div class="tab-pane" id="tab_picture">
+      <%= render template: "folders/index" %>
+    </div>
+
+    <div class="tab-pane" id="tab_shop_cart">
+      <%= render template: "shop_carts/index" %>
+    </div>
+     
   </div>
 </div>
 

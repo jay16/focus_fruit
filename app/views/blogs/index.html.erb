@@ -1,13 +1,10 @@
-<div class="span6 offset3">
 
-  <h3>博文列表
-    <small><%= link_to '新建', new_blog_path, class: "nolink" %></small>
-  </h3>
+  <%= link_to '新建博文', new_blog_path, class: "btn", target: "blank" %>
 
   <table class="table table-hover">
     <tr>
-      <th>类型</th>
       <th>标题</th>
+      <th>类型</th>
       <th>作者</th>
       <th>阅读</th>
       <th>编辑</th>
@@ -18,19 +15,20 @@
     <tr>
       <td><%= blog.title %></td>
       <td>
-          <label class="center label label-info"> 
+          <span class="label label-info"> 
 	    <%= blog.type %>
-	  </label>
+	  </span>
       </td>
       <td>
-          <label class="center label label-success"> 
+          <span class="label label-success"> 
 	    <%= blog.author %>
+	  </span>
       </td>
-      <td><%= link_to '阅读', blog, class: "nolink" %></td>
-      <td><%= link_to '编辑', edit_blog_path(blog), class: "nolink" %></td>
+      <td><%= link_to '阅读', blog, class: "btn btn-mini btn-info", target: "blank" %></td>
+      <td><%= link_to '编辑', edit_blog_path(blog), class: "btn btn-mini btn-success", target: "blank" %></td>
       <td>
         <% if blog.klass == "blog" %>
-	  <%= link_to '删除', blog, confirm: '此动作不可撤消，肯定删除?', method: :delete, class: "nolink"%>
+	  <%= link_to '删除', blog, confirm: '此动作不可撤消，肯定删除?', method: :delete, class: "btn btn-mini btn-danger"%>
 	<% else %>
 	  <strike>删除</strike>
 	<% end %>
@@ -39,6 +37,3 @@
   <% end %>
   </table>
 
-  <br />
-
-</div>
