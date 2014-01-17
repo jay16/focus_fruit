@@ -22,7 +22,7 @@
                               </div>
                               <div class="span4">
                                   <a class="btn btn-mini buy-less"> <i class="icon-minus"> </i> </a>
-                                  <span class="count">0</span>
+                                  <span class="count"><%= shop_cart_count(@shop_cart[:items],fruit) %></span>
                                   <a class="btn btn-mini btn-primary buy-more"> <i class="icon-plus icon-white"> </i>
                                   </a>
                               </div>
@@ -45,8 +45,8 @@
                 <span class="label label-info">
                     <i class="icon-shopping-cart icon-white">
                     </i>
-                    <span class="total-count">0</span>
-                    &nbsp;&nbsp;总价￥<span class="total-price">0</span>
+                    <span class="total-count"><%= @shop_cart[:count] %></span>
+                    &nbsp;&nbsp;总价￥<span class="total-price"><%= @shop_cart[:price] %></span>
                 </span>
 
                     <a onclick="order_submit();" style="margin:7px" class="btn btn-info">结帐</a>
@@ -55,6 +55,7 @@
         </div>
     </div>
 <script>
+  //提交
   function order_submit() {
     var order_state = check_out();    
     if(order_state[0]==0) {
@@ -220,21 +221,21 @@ $(function(){
       $("#"+id+" .buy-less").click(function(){
         var $buy_count = $("#"+id+" .count");
         var already_budy = parseInt($buy_count.text());
-        if(already_budy>0) 
+        if(already_budy>0) {
           already_budy -= 1;
+	  rm_from_cart(item);
+	}
         $buy_count.text(already_budy);
-	rm_from_cart(item);
         check_out();
 	chk_order_list();
       });
 
   });
-   shop_cart_list();
 
 });
 </script>
 
-<%= render "modal" %>
+<%= render "fruit_zones/modal_order" %>
 <%= render "orders/modal_success" %>
 
 <script>

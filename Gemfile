@@ -4,7 +4,9 @@ source "http://ruby.taobao.org"
 
 gem "rails", "3.2.3"
 gem "mysql2"
-gem 'grape'
+#gem "grape"
+
+gem "angular-rails"
 
 #微博
 gem "weibo_2"
@@ -46,7 +48,7 @@ gem "bootstrap-will_paginate"
 gem "remotipart"
 gem "jquery-atwho-rails"
 
-gem 'font-awesome-less'
+gem "font-awesome-less"
 
 
 

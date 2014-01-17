@@ -12,7 +12,7 @@
   <% @shop_carts.each do |shop_cart| %>
     <tr>
       <td><%= shop_cart.idstr %></td>
-      <td><%= shop_cart.cart_items_size %></td>
+      <td><%= shop_cart.cart_items_count %></td>
       <td><%= shop_cart.cart_items_price %></td>
       <td><%= link_to '明细', {controller: :shop_carts, action: :show, idstr: shop_cart.idstr}, remote: true, class: "btn btn-mini btn-info" %></td>
       <td><% link_to 'Edit', edit_shop_cart_path(shop_cart) %></td>

@@ -3,9 +3,27 @@ class FruitZonesController < ApplicationController
   before_filter :find_fruit_zone, :only => [:show, :edit, :udpate, :destroy]
 
   def index
+    #在售水果
     @fruit_zones = FruitZone.where("state='onsale'")
+
+    #顾客购物车
+    #已经选购商品/商品数量/商品总值
+    @shop_cart = {
+      :items => [],
+      :count => 0,
+      :price => 0
+    }
+    idstr = find_idstr(params)
+    if (shop_cart = ShopCart.find_by_idstr(idstr))
+	@shop_cart[:items] = shop_cart.cart_items
+	@shop_cart[:count] = shop_cart.cart_items_count
+	@shop_cart[:price] = shop_cart.cart_items_price
+    end
+
+    #为用户创建的订单
     @order = Order.new
-    @order.weixin = (params[:weixin] || "false")
+    @order.weixin = (params[:weixin] || "no")
+
   end 
 
   def admin

@@ -14,7 +14,16 @@ class OrdersController < ApplicationController
       :browser => request.user_agent
     }))
     @order.build_order_with_fruits(JSON.parse(params[:order_list]))
+
+    #提交订单后清空购物车
+    if @order.save
+      idstr = find_idstr(params)
+      if (shop_cart = ShopCart.find_by_idstr(idstr))
+	shop_cart.clear
+      end
+    end
   end
+
 
   def show; end
 

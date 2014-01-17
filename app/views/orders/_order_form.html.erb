@@ -1,6 +1,6 @@
 <%= simple_form_for(@order, :remote => true) do |f| %>
 
-  <input name="order_list" type="hidden" value="" id="order_list">
+  <input name="order_list" type="hidden" value="<%= @shop_cart[:items].to_s %>" id="order_list">
 
   <%= f.input_field :weixin, :as => :hidden %>
   <%= f.input_field :info, :as => :hidden %>

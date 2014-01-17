@@ -10,7 +10,7 @@ class ShopCart < ActiveRecord::Base
  
 
   #计算购物车商品数量
-  def cart_items_size
+  def cart_items_count
     cart_items.inject(0) do |sum, item| 
       sum + item["count"].to_i
     end
@@ -44,7 +44,7 @@ class ShopCart < ActiveRecord::Base
     item = params[:item]
 
     #查看购物车中是已有
-    items = JSON.parse((self.session || "[]").gsub("=>",":"))
+    items = cart_items
     rts = items.select { |i| i["id"] == item["id"] }
 
     #存在则取值, 不存在则赋值

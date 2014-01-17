@@ -18,6 +18,16 @@
       </div>
 
       <div class="order-items">
+	 <% @shop_cart[:items].each do |item| %> 
+	  <div class="row-fluid" style="margin-bottom:3px;">
+	    <span class="span4">
+	      <span class="label label-info" style="height:15px;">￥<%= item["price"] %></span>x<span><%= item["count"] %></span>
+	    </span>
+	    <span class="span7">
+	      <%= item["name"] %></span><span class="span1"><i class="icon-remove"></i>
+	    </span>
+	   </div>
+	 <% end unless @shop_cart[:items].empty? %>
       </div>
 
       <div class="center">
