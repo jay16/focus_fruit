@@ -11,7 +11,7 @@
     <Title><![CDATA[<%= fruit.name %>]]></Title>
     <Description><![CDATA[<%= fruit.desc %>]]></Description>
     <PicUrl><![CDATA[<%= fruit.pic %>]]></PicUrl>
-    <Url><![CDATA[<%= fruit.link %>]]></Url>
+    <Url><![CDATA[<%= fruit.link %>?weixin=<%= @weixin.from_user_name %>]]></Url>
   </item>
   <% end %>
 <Articles>

@@ -1,0 +1,13 @@
+<div id="already_in_cart_modal" class="modal hide fade" style="position:absolute;margin:0px;min-height:100px;">
+  <div class="modal-header" style="height:22px;">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>已加入购物车</h3>
+  </div>
+  <div class="modal-body" style="padding: 15px;">
+    <p>loading...</p>
+  </div>
+  <div class="modal-footer" style="height:25px;">
+    <button type="button" class="btn" data-dismiss="modal" aria-hidden="true">继续阅读</button>
+    <a class="btn btn-primary" href="/?weixin=<%= params[:weixin] || 'no' %>">结账</a>
+  </div>
+</div>

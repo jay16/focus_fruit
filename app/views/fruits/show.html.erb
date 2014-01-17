@@ -1,3 +1,5 @@
+<%= javascript_include_tag "fruits" %>
+
 <div
 <% if mobile? %>
   class="span10 offset1 fruit"
@@ -30,7 +32,7 @@
 	    <a class="add-to-cart" style="color:white;">加入购物车</a>
 	</span>
 	<span class="label label-success">
-	    <a href="/" style="color:white;">
+	    <a href="/?weixin=<%= params[:weixin] || 'no' %>" style="color:white;">
 	      <i class="icon-circle-arrow-up icon-white">
 	      </i>
 	      结帐
@@ -43,6 +45,8 @@
   <div>
     <%= @fruit.markdown.html_safe if @fruit.markdown %>
   </dvi>
+
+  <%= render "fruits/already_in_cart_modal" %>
 
   <% if !mobile? %>
     <%= link_to '编辑', edit_fruit_path(@fruit) %> |
@@ -64,15 +68,17 @@ function shop_cart_list() {
         $(".fruit").each(function(e){
           var id = $(this).attr("id");
           var count = 0;
+
           for(var i=0;i<result.length;i++) {
             var item = result[i];
             if(item.id == id)  {
-	      count = item.count;
+	      count = parseInt(item.count);
             }
           }
-	  if(count > 0 )
+	  if(count > 0 ) {
 	    $("#"+id+" .count").html(count);
 	    $("#"+id+" .add-to-cart").html("已加入购物车");
+	  }
         });
       }
     }
@@ -114,11 +120,22 @@ $(function(){
 
       $("#"+id+" .add-to-cart").click(function(){
 	var count = parseInt($("#"+id+" .count").text());
+
 	if(count==0){
 	  add_to_cart(item);
+	  $("#"+id+" .count").html(count+1);
 	  $("#"+id+" .add-to-cart").html("已加入购物车");
 	} else {
-	  alert("已加入购物车");
+	   var shop_cart = "";
+	   shop_cart += "<div class='row-fluid' style='margin-bottom:3px;'>"
+	   shop_cart += "<span class='span4'>"
+	   shop_cart += "<span class='label label-info' style='height:15px;'>￥"+price+"</span>x<span>"+count+"</span>"
+	   shop_cart += "</span>"
+	   shop_cart += "<span class='span7'>"+name+"</span>"
+	   shop_cart += "<span class='span1'><i class='icon-remove'></i></span></div>"
+
+	  $("#already_in_cart_modal .modal-body").html(shop_cart);
+	  $("#already_in_cart_modal").modal("show");
 	}
       });
   });
