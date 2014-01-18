@@ -5,7 +5,11 @@ class Order < ActiveRecord::Base
 
   has_many :items, :dependent => :destroy
 
+  after_create :force_order_state_present
+
   def build_order_with_fruits(jsons)
+    jsons.delete_if { |json| json["count"].to_i <=0 }
+
     jsons.each do |json|
       self.items.create({
         :order_id => self.id,
@@ -19,8 +23,8 @@ class Order < ActiveRecord::Base
 
   def mappings
     [
-      [["待发送","wait-send"],1],
-      [["已发送","on-send"],2],
+      [["待发货","wait-send"],1],
+      [["已发货","on-send"],2],
       [["已接收","over-send"],3]
     ]
   end
@@ -38,6 +42,13 @@ class Order < ActiveRecord::Base
       klass[0][0]
     else
       "未设置"
+    end
+  end
+
+  #订单必须设置状态，默认: 待发货
+  def force_order_state_present
+    if self.state.nil? or self.state.empty?
+      self.update_attribute(:state, "wait-send")
     end
   end
 end

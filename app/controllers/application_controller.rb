@@ -1,6 +1,10 @@
+#encoding: utf-8
 class ApplicationController < ActionController::Base
   protect_from_forgery
+  before_filter :find_site_config
 
+  #购物车相关
+  ##########################################
   #顾客购物车标识
   def find_idstr(params)
     if (params[:weixin] || "no") == "no"
@@ -24,4 +28,12 @@ class ApplicationController < ActionController::Base
 
     "#{request.remote_ip}-#{browser}"
   end
+  ##########################################
+
+  #网站配置
+  #########################################
+  def find_site_config
+    @global_config = SiteConfig.find_or_create_by_name("网站配置")
+  end
+  #########################################
 end

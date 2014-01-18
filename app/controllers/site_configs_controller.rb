@@ -87,6 +87,6 @@ class SiteConfigsController < ApplicationController
     # params.require(:person).permit(:name, :age)
     # Also, you can specialize this method with per-user checking of permissible attributes.
     def site_config_params
-      params.require(:site_config).permit(:author, :desc, :domain, :email, :title, :weixin_token)
+      params.require(:site_config).permit(:name, :text1, :text2, :text3, :text4, :text5, :text6, :text7, :text8, :text9)
     end
 end

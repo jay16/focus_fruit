@@ -1,6 +1,6 @@
 <%= simple_form_for(@order, :remote => true) do |f| %>
 
-  <input name="order_list" type="hidden" value="<%= @shop_cart[:items].to_s %>" id="order_list">
+  <input name="order_list" type="hidden" value="<%= @shop_cart[:items].to_s.gsub('=>',':') %>" id="order_list">
 
   <%= f.input_field :weixin, :as => :hidden %>
   <%= f.input_field :info, :as => :hidden %>
@@ -35,7 +35,7 @@
   <div class="control-group">
     <div class="controls">
       <div class="center">
-	<input type="button" value="查看购物车" class="btn btn-primary btn" onclick="toggle_show_order_list(true);">
+	<input type="button" value="查看购物车" class="btn" onclick="toggle_show_order_list(true);">
 	<%= f.button :submit, "确认下单", disabled: true, class: "btn" %>
       </div>
     </div>

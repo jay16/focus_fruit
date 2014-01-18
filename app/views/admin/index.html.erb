@@ -34,38 +34,7 @@
 }
 </style>
 <div class="main" style="margin: 0 auto; width:1100px;">
-  <ul class="nav nav-tabs" id="admin_tab">
-    <li class="active">
-      <a href="#tab_order">
-        订单管理
-      </a>
-    </li>
-    <li>
-      <a href="#tab_fruit_zone">
-        专区管理
-      </a>
-    </li>
-    <li>
-      <a href="#tab_fruit">
-        水果管理
-      </a>
-    </li>
-    <li>
-      <a href="#tab_blog">
-        博文管理
-      </a>
-    </li>
-    <li>
-      <a href="#tab_picture">
-        图片管理
-      </a>
-    </li>
-    <li>
-      <a href="#tab_shop_cart">
-        购物车管理
-      </a>
-    </li>
-  </ul>
+  <%= render partial: "admin/nav_tab" %>
 
   <div class="tab-content">
     <div class="tab-pane active" id="tab_order">

@@ -4,7 +4,7 @@
   <%= javascript_include_tag "application" %>
   <%= stylesheet_link_tag "application" %>
 
-  <title>水果达人</title>
+  <title><%= @global_config.text2 || "水果达人" %></title>
 
 
   <% if mobile? %>
@@ -38,7 +38,7 @@
        <%= yield %> 
       <div>
 	  <div style="color:white;background:black;padding:8px" class="navbar-fixed-top">
-	  健康生活 - 水果达人
+	   <%= @global_config.text2 || "水果达人" %>
 	  </div>
       </div>
     </div>
