@@ -1,13 +1,19 @@
 #encoding: utf-8
 class Order < ActiveRecord::Base
   attr_accessible :name, :phone, :address, :date_at, :remark, :count, :checkout, :state
-  attr_accessible :weixin, :order_list, :info, :ip, :browser
+  attr_accessible :weixin, :item_list, :info, :ip, :browser
 
   has_many :items, :dependent => :destroy
+  has_many :order_with_customers
+  has_many :customers, :through => :order_with_customers
 
   after_create :force_order_state_present
+  after_create :build_order_with_customer
+  after_create :build_order_with_fruits
 
-  def build_order_with_fruits(jsons)
+  #创建订单&商品关联
+  def build_order_with_fruits
+    jsons = JSON.parse(self.item_list)
     jsons.delete_if { |json| json["count"].to_i <=0 }
 
     jsons.each do |json|
@@ -19,6 +25,24 @@ class Order < ActiveRecord::Base
 	:price    => json["price"],
       })
     end if jsons
+  end
+
+  #创建订单&顾客关联
+  def build_order_with_customer
+    if (customers = Customer.where("idstr='#{self.weixin}' and phone='#{self.phone}' and address='#{self.address}'")).length > 0
+       customer = customers.order("created_at desc").first
+       OrderWithCustomer.create({
+	 :order_id    => self.id,
+	 :customer_id => customer.id
+       })
+    else
+      self.customers.create({
+	:idstr => self.weixin,
+	:name  => self.name,
+	:phone => self.phone,
+	:address => self.address
+      })
+    end
   end
 
   def mappings

@@ -35,31 +35,37 @@ $(document).ready ->
   #调用函数执行样式
   set_order_modal(".order-modal")
 
-  get_by_id = (id) ->
+  find_element_by_id = (id) ->
     document.getElementById(id)
 
+  #检测订单必填项是否填写
   chk_submit_enable = () ->
-    name  = get_by_id("order_name").value.length > 0 ? true : false
-    phone = get_by_id("order_phone").value.length > 0 ? true : false
-    address = get_by_id("order_address").value.length > 0 ? true : false
-    date_at = get_by_id("order_date_at").value.length > 0 ? true : false
-    remark = get_by_id("order_remark").value.length > 0 ? true : false
-    if name and phone and address and date_at
+    #name  = find_element_by_id("order_name").value.length > 0 ? true : false
+    #phone = find_element_by_id("order_phone").value.length > 0 ? true : false
+    address = find_element_by_id("order_address").value.length > 0 ? true : false
+    #date_at = find_element_by_id("order_date_at").value.length > 0 ? true : false
+    #remark = find_element_by_id("order_remark").value.length > 0 ? true : false
+    phone = true
+    #手机号为数字且11位
+    if $("#order_phone").val().toString().match(/^[-]?[0-9]+[\.]?[0-9]*$/) == null or $("#order_phone").val().toString().length != 11
+      $("#order_phone").css("color","red")
+      phone = false
+    else
+      $("#order_phone").css("color","black")
+      phone = true
+
+    if phone and address
       $("input[type='submit']").removeAttr("disabled")
     else
       $("input[type='submit']").attr("disabled","disabled")
 
   $("#order_name").keyup () ->
     chk_submit_enable()
-
   $("#order_phone").keyup () ->
     chk_submit_enable()
-
   $("#order_address").keyup () ->
     chk_submit_enable()
-
   $("#order_date_at").keyup () ->
     chk_submit_enable()
-
   $("#order_remark").keyup () ->
     chk_submit_enable()

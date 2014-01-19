@@ -1,7 +1,6 @@
 <%= simple_form_for(@order, :remote => true) do |f| %>
 
-  <input name="order_list" type="hidden" value="<%= @shop_cart[:items].to_s.gsub('=>',':') %>" id="order_list">
-
+  <%= f.input_field :item_list, :as => :hidden %>
   <%= f.input_field :weixin, :as => :hidden %>
   <%= f.input_field :info, :as => :hidden %>
   <%= f.input_field :count, :as => :hidden %>
@@ -14,12 +13,12 @@
 
   <%= f.input :phone,wrapper: :prepend, label: false do %>
     <%= content_tag :span, content_tag(:span, "电话", class: ""), :class => "add-on" %>
-    <%= f.input_field :phone, placeholder: "联系方式" %>
+    <%= f.input_field :phone, :as => :integer, :require => true, placeholder: "* 联系方式" %>
   <% end %>
 
   <%= f.input :address, wrapper: :prepend, label: false do %>
     <%= content_tag :span, content_tag(:span, "地址", class: ""), :class => "add-on" %>
-    <%= f.input_field :address, placeholder: "配送地址" %>
+    <%= f.input_field :address, :require => true, placeholder: "* 配送地址" %>
   <% end %>
 
   <%= f.input :date_at, wrapper: :prepend, label: false do %>

@@ -37,7 +37,7 @@ class ShopCartsController < ApplicationController
   end
 
   def clear
-    idstr = find_idstr(params)
+    idstr = @global_customer_idstr
      if (shop_cart = ShopCart.find_by_idstr(idstr))
        shop_cart.clear
      end
@@ -47,7 +47,7 @@ class ShopCartsController < ApplicationController
 
   #给该用户分配购物车
   def find_shop_cart(params)
-    idstr = find_idstr(params)
+    idstr = @global_customer_idstr
 
     ShopCart.find_or_create_by_idstr(idstr)
   end

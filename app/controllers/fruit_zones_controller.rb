@@ -13,16 +13,20 @@ class FruitZonesController < ApplicationController
       :count => 0,
       :price => 0
     }
-    idstr = find_idstr(params)
-    if (shop_cart = ShopCart.find_by_idstr(idstr))
+    if (shop_cart = ShopCart.find_by_idstr(@global_customer_idstr))
 	@shop_cart[:items] = shop_cart.cart_items
 	@shop_cart[:count] = shop_cart.cart_items_count
 	@shop_cart[:price] = shop_cart.cart_items_price
     end
+    
+    #若有购买记录
+    #再填写订单内容时可免填写
+    @customer = Customer.find_by_idstr(@global_customer_idstr)
 
     #为用户创建的订单
     @order = Order.new
-    @order.weixin = (params[:weixin] || "no")
+    @order.weixin = (params[:weixin] || @global_customer_idstr)
+    @order.item_list = @shop_cart[:items].to_s.gsub('=>',':')
 
   end 
 

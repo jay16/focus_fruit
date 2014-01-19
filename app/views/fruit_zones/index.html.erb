@@ -118,7 +118,7 @@
     var order_rt = check_out();
     order_info += "<div class='row-fluid' style='margin-bottom:3px;'><span class='span4'>数量:<span class='label label-info'>" + order_rt[0] + "</span></span><span class='span6'>总金额:<span class='label label-info'>" + order_rt[1] + "</span></span></div>"
 
-    $("#order_list").attr("value","["+list.toString()+"]");
+    $("#order_item_list").attr("value","["+list.toString()+"]");
     $("#order_info").attr("value", order_info);
     $("#order_count").attr("value", order_rt[0]);
     $("#order_checkout").attr("value", order_rt[1]);

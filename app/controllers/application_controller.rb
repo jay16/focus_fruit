@@ -2,16 +2,18 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   before_filter :find_site_config
+  before_filter :find_idstr
 
   #购物车相关
   ##########################################
   #顾客购物车标识
-  def find_idstr(params)
+  def find_idstr
     if (params[:weixin] || "no") == "no"
       idstr = generate_idstr
     else
       idstr = params[:weixin]
     end
+    @global_customer_idstr = idstr
   end
 
   #为该用户分配标识idstr

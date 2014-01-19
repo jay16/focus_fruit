@@ -13,11 +13,10 @@ class OrdersController < ApplicationController
       :ip      => request.remote_ip,
       :browser => request.user_agent
     }))
-    @order.build_order_with_fruits(JSON.parse(params[:order_list]))
 
     #提交订单后清空购物车
     if @order.save
-      idstr = find_idstr(params)
+      idstr = @global_customer_idstr
       if (shop_cart = ShopCart.find_by_idstr(idstr))
 	shop_cart.clear
       end

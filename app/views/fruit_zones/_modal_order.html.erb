@@ -8,6 +8,10 @@
 	<%= link_to "关闭", "javascript:void(0);", class: "right", onclick: "$('.order-modal').modal('hide');" %>
       </div>
 
+      <div style="text-align:left;"> 
+	<%= link_to "填写上次订单信息", "javascript:void(0);", :onclick => "kk();" if @customer %>
+      </div>
+
       <%= render "orders/order_form" %>
     </div>
 
@@ -38,3 +42,13 @@
 
   </div>
 </div>
+
+<script>
+function kk() {
+  <% if @customer %>
+    document.getElementById("order_name").value ="<%= @customer.name %>";
+    document.getElementById("order_phone").value ="<%= @customer.phone %>";
+    document.getElementById("order_address").value ="<%= @customer.address %>";
+  <% end %>
+}
+</script>

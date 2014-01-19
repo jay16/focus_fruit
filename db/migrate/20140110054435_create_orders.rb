@@ -4,6 +4,7 @@ class CreateOrders < ActiveRecord::Migration
       t.string :weixin
       t.string :ip
       t.text :browser
+      t.text :item_list
       t.string :name
       t.string :phone
       t.string :address
