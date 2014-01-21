@@ -1,0 +1,23 @@
+<div class="carousel slide" id="myCarousel">
+  <div class="carousel-inner">
+  
+  <% fruit.pictures.each_with_index do |picture, index| %>
+    <div class="item <%= index == 0 ? 'active' : '' %>">
+      <%= image_tag(picture.fruit_path) %>
+
+      <div class="carousel-caption">
+	<h4><%= picture.name %></h4>
+	<p><%= picture.desc %></p>
+      </div>
+    </div>
+  <% end %>
+
+  </div>
+  <a data-slide="prev" href="#myCarousel" class="left carousel-control">‹</a>
+  <a data-slide="next" href="#myCarousel" class="right carousel-control">›</a>
+</div>
+<script>
+$(function(){
+  $("#myCarousel").carousel("pause");
+});
+</script>

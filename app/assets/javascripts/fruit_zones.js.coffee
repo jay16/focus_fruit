@@ -6,7 +6,7 @@ $(document).ready ->
   })
 
   # 电脑浏览与手机浏览设置显示
-  set_order_modal = (klass) ->
+  set_order_modal = (klass, position) ->
     #klass = ".order-modal"
     runtime = $("#hidden_runtime").attr("value");
     dlg = $(klass)
@@ -26,14 +26,15 @@ $(document).ready ->
       $(klass+" textarea").css("width","190px")
 
     dlg.css({
-      "position": "absolute",
+      "position": position,
       "top":  (wh-dh)/4,
       "left": (ww-dw)/2,
       "height": dh,
       "width":  dw
     })
   #调用函数执行样式
-  set_order_modal(".order-modal")
+  set_order_modal(".order-modal", "absolute")
+  set_order_modal(".fruit-modal", "relative")
 
   find_element_by_id = (id) ->
     document.getElementById(id)

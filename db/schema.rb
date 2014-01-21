@@ -11,7 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140119132813) do
+ActiveRecord::Schema.define(:version => 20140121024333) do
+
+  create_table "blog_with_pictures", :force => true do |t|
+    t.integer  "blog_id"
+    t.integer  "picture_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "blogs", :force => true do |t|
     t.string   "title"
@@ -41,6 +48,13 @@ ActiveRecord::Schema.define(:version => 20140119132813) do
   create_table "folders", :force => true do |t|
     t.string   "name"
     t.text     "desc"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "fruit_with_pictures", :force => true do |t|
+    t.integer  "fruit_id"
+    t.integer  "picture_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -113,6 +127,7 @@ ActiveRecord::Schema.define(:version => 20140119132813) do
     t.integer  "count"
     t.float    "checkout"
     t.string   "state"
+    t.text     "item_list"
   end
 
   create_table "pictures", :force => true do |t|

@@ -37,6 +37,7 @@
 .nolink,a { text-decoration: none; }
 .nolink:hover,
 a:hover {
+  cursor: pointer;
   text-decoration: none;
   background: transparent;
 }

@@ -15,7 +15,7 @@
 		    <% fruit_zone.fruits.each_with_index do |fruit, i| %>
                           <div class="row-fluid fruit" id="<%= dom_id fruit %>">
                               <div class="span6">
-                                  <a class="nolink"><span class="name"><%= fruit.name %></span></a>
+                                  <a onclick="$('#<%= dom_id fruit %>_modal').modal('show');"><span class="name"><%= fruit.name %></span></a>
                               </div>
                               <div class="span2">
                                 <span class="label label-warning">￥<span class="price"><%= fruit.price %></span></span>
@@ -26,6 +26,8 @@
                                   <a class="btn btn-mini btn-primary buy-more"> <i class="icon-plus icon-white"> </i>
                                   </a>
                               </div>
+
+			      <%= render partial: "fruit_zones/modal_fruit", locals: { fruit: fruit } %>
                           </div>
 		    <% end %>
                   </div>
@@ -34,6 +36,7 @@
 	      <!--accordion-body-->
           </div>
 	  <!--accordion-group-->
+
 	<% end %>
 
     </div>

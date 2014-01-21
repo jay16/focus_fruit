@@ -11,7 +11,7 @@ class ShopCartsController < ApplicationController
   end
   
   def list
-    idstr = find_idstr(params)
+    idstr = @global_customer_idstr
     list = []
     if (shop_cart = ShopCart.find_by_idstr(idstr))
       list = shop_cart.cart_items
@@ -22,7 +22,7 @@ class ShopCartsController < ApplicationController
 
   #向购物车添加商品
   def add
-    shop_cart = find_shop_cart(params)
+    shop_cart = @global_customer_idstr
     shop_cart.add_item(params)
 
     render :json => params.to_json

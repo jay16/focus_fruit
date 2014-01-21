@@ -2,6 +2,9 @@
 class Blog < ActiveRecord::Base
   attr_accessible :author, :content, :markdown, :link, :title, :klass
 
+  has_many :blog_with_pictures, :dependent => :destroy
+  has_many :pictures, :through => :blog_with_pictures
+
   def mappings
     [
       [["达人说","blog"],1],

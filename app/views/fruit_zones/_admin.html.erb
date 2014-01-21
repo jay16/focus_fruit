@@ -15,13 +15,14 @@
 	  <% fruit_zone.fruits.each_with_index do |fruit, i| %>
 		<div class="row-fluid fruit" id="<%= dom_id fruit %>">
 		    <div class="span6">
-			<span class="name"><%= fruit.name %></span>
+			<a onclick="$('#<%= dom_id fruit %>_modal').modal('show');"><span class="name"><%= fruit.name %></span></a>
 		    </div>
 		    <div class="span2">
 		      <span class="label label-warning">￥<span class="price"><%= fruit.price %></span></span>
 		    </div>
 		    <div class="span4">
-		      <%= link_to "编辑", [:edit,fruit_zone, fruit], remote: true %> |
+		      <%= link_to "编辑博文", [:edit, fruit], target: "blank" %> |
+		      <%= link_to "编辑图片", [:images, fruit], target: "blank" %> |
 		      <%= link_to "删除", [fruit_zone, fruit], method: :delete, remote: true %>
 		    </div>
 		</div>

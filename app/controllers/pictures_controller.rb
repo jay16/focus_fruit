@@ -64,9 +64,11 @@ class PicturesController < ApplicationController
       if @picture.update_attributes(picture_params)
         format.html { redirect_to @picture, notice: 'Picture was successfully updated.' }
         format.json { head :no_content }
+	format.js
       else
         format.html { render action: "edit" }
         format.json { render json: @picture.errors, status: :unprocessable_entity }
+	format.js
       end
     end
   end
@@ -76,7 +78,14 @@ class PicturesController < ApplicationController
   def destroy
     @picture = Picture.find(params[:id])
 
-    image_path = Rails.root.join("public","pictures",@picture.folder.id.to_s,@picture.store)
+    if @picture.folder
+      image_path = Rails.root.join("public","pictures",@picture.folder.id.to_s,@picture.store)
+    elsif @picture.fruits.size >0
+      image_path = Rails.root.join("public","pictures","fruit",@picture.store)
+    elsif @picture.blogs.size > 0
+      image_path = Rails.root.join("public","pictures","blog",@picture.store)
+    end
+
     FileUtils.rm_f(image_path) if File.exists?(image_path)
 
     @picture.destroy
@@ -96,4 +105,5 @@ class PicturesController < ApplicationController
     def picture_params
       params.require(:picture).permit(:desc, :folder_id, :name, :store)
     end
+
 end

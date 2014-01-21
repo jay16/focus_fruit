@@ -3,8 +3,11 @@ class Fruit < ActiveRecord::Base
   attr_accessible :pic
   attr_accessible :desc, :markdown
 
-  has_many :fruit_with_zones, :dependent => :destroy
+  has_many :fruit_with_zones
   has_many :fruit_zones, :through => :fruit_with_zones
+
+  has_many :fruit_with_pictures, :dependent => :destroy
+  has_many :pictures, :through => :fruit_with_pictures
 
   def image
     picture = Picture.find(self.pic.to_i)

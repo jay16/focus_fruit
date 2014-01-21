@@ -54,7 +54,14 @@ FocusFruit::Application.routes.draw do
   resources :blogs
 
   #水果
-  resources :fruits
+  resources :fruits do
+    member do
+      get "images"
+      post "upload"
+      delete "remove"
+    end
+    resources :picutres
+  end
   resources :fruit_zones do
     collection do
       post "upload"

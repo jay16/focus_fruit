@@ -26,9 +26,8 @@ form {
 <div class="span6">
 
   <%= form_for(@fruit, class: "span8") do |f| %>
-     <%= f.text_field :name, class: "span4", :placeholder => "水果名称", style: "margin-bottom:2px;" %>
+     <%= f.text_field :name, class: "span8", :placeholder => "水果名称", style: "margin-bottom:2px;" %>
      <%= f.text_field :price, class: "span2", :placeholder => "水果价格", style: "margin-bottom:2px;" %>
-     <%= f.select :pic, @folder.pictures.map { |p| [p.name, p.id.to_s]},{ include_blank: true }, class: "chosen-select" %>
      <%= f.text_area :desc, class: "span12", style: "display:none;" %>
      <%= f.text_field :markdown, class: "span12", style: "display:none;" %>
      <%= f.submit t("btn.submit"), class: "btn btn-primary", style: "display:inline;"  %>

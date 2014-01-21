@@ -1,4 +1,4 @@
-<%= simple_form_for(@picture) do |f| %>
+<%= simple_form_for(@picture, remote: true) do |f| %>
 
   <%= f.input :name, wrapper: :prepend, label: false do %>
     <%= content_tag :span, content_tag(:span, "名称", class: ""), class: "add-on" %>
@@ -12,9 +12,6 @@
 
   <div class="control-group">
     <div class="controls">
-	<%= f.button :submit, "提交", class: "btn", style: "margin-bottom: 20px;" %>
-	<%= link_to '删除', @picture, method: :delete, remote: true, class: "right",
-	  confirm: '此动作不可撤消，肯定删除?' %>
-    </div>
+	<%= f.button :submit, "提交", class: "btn right", style: "margin-bottom: 20px;" %>
   </div>
 <% end %>

@@ -16,7 +16,7 @@
   </h3>
 
   <div>
-    <%= content_tag(:div, image_tag(@fruit.image, class: "img-rounded"), style: "margin-bottom: 1px;") if @fruit.image %>
+    <%= render partial: "fruits/carousel", locals: { fruit: @fruit } if @fruit.pictures.size > 0 %>
   </div>
 
 
@@ -28,8 +28,9 @@
 	<span class="label label-info">
 	    <i class="icon-shopping-cart icon-white">
 	    </i>
-            <span class="count" style="display:none;">0</span>
-	    <a class="add-to-cart" style="color:white;">加入购物车</a>
+	    <% count = shop_cart_count(@shop_cart[:items],@fruit) %>
+            <span class="count" style="display:none;"><%= count %></span>
+	    <a class="add-to-cart" style="color:white;"><%= count > 0 ? "已" : "" %>加入购物车</a>
 	</span>
 	<span class="label label-success">
 	    <a href="/?weixin=<%= params[:weixin] || 'no' %>" style="color:white;">
@@ -108,8 +109,6 @@ function operate_item(operation, item) {
   });
 }
 $(function(){
-  shop_cart_list() ;
-
   $(".fruit").each(function(){
       var id = $(this).attr("id");
 

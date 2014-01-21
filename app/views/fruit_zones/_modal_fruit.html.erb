@@ -1,0 +1,24 @@
+<div class="modal hide fade fruit-modal" style="margin:0px;" id="<%= dom_id fruit %>_modal">
+  <div class="modal-header" style="padding:0px; border: 0;">
+    <div style="background:black;color:white;font-size:12px;padding:5px;margin:0px;height:15px;margin-bottom:5px;">
+      <%= fruit.name %>
+      <%= link_to "关闭", "javascript:void(0);", class: "right", onclick: "$('##{dom_id fruit}_modal').modal('hide');" %>
+    </div>
+  </div>
+
+  <div class="modal-body" style="padding: 5px 5px 10px 5px;max-height: 300px;">
+
+    <div class="fruit-desc">
+
+      <div class="row-fluid">
+        <div>
+	  <%= render partial: "fruits/carousel", locals: { fruit: fruit } if fruit.pictures.size > 0 %>
+	</div>
+
+	<%= fruit.markdown.html_safe if fruit.markdown %>
+      </div>
+
+    </div>
+
+  </div>
+</div>
