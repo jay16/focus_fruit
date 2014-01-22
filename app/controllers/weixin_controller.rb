@@ -15,13 +15,19 @@ class WeixinController < ApplicationController
     content = params[:xml][:Content]
     match = menu_match(content)
 
-    case match[0].to_i
-    when 1 #水果专区
+    case match[0]
+    when "b"
+      @fruit_zones = FruitZone.where("state='onsale'")
+      @info = "今日特惠： \n"
+      @fruit_zones.each_with_index do |fruit_zone,index|
+	@info << "1.#{fruit_zone.list} #{fruit_zone.name}\n"
+      end
+    when "1" #水果专区
       @fruit_zones = FruitZone.where("state='onsale'")
       if zones = @fruit_zones.select { |zone| zone.list == match[1].to_i }
         @fruit_zone = zones.first
       end
-    when 2 #达人服务
+    when "2" #达人服务
       case match[1].to_i
       when 1
         @info = menu_service(@weixin,"shop")
@@ -32,7 +38,7 @@ class WeixinController < ApplicationController
       when 4
         @info = menu_service(@weixin,"call-center")
       end
-    when 3 #我的生活
+    when "3" #我的生活
       case match[1].to_i
       when 1
         order = Order.find_by_weixin(@weixin.from_user_name)
@@ -90,21 +96,30 @@ class WeixinController < ApplicationController
   end
 
   def menu_help(fruit_zones)
-    help = "您好，欢迎光临[水果达人]，请回复数字选择服务:\n\n"
-    help << "水果信息\n" 
-    fruit_zones.each_with_index do |fruit_zone,index| 
-      help << "1.#{fruit_zone.list} #{fruit_zone.name}\n"
-    end
-    help << "达人服务\n" 
-    help << " 2.1 在线订购\n"
-    help << " 2.2 配送服务\n"
-    help << " 2.3 支付方式\n"
-    help << " 2.4 电话客服\n"
-    help << "我的生活\n" 
-    help << " 3.1 订单查询\n"
-    help << " 3.2 达人心情\n"
+    url = "http://fruit.solife.us"
+    help = "您好，越先越鲜，点击<a href='#{url}'>此处</a>开始选购吧。或回复字母[爱果]一下吧！\n"
+    help << "A.会员尊享\n"
+    help << "B.今日特惠\n"
+    help << "C.在线订购\n"
+    help << "D.预约新品\n"
+    help << "E.配送新品\n"
+    help << "F.果仁新作\n"
+    help << "G.了解更多\n"
 
-    help << "\n回复[?]显示此帮助菜单\n"
+    #help << "水果信息\n" 
+    #fruit_zones.each_with_index do |fruit_zone,index| 
+    #  help << "1.#{fruit_zone.list} #{fruit_zone.name}\n"
+    #end
+    #help << "达人服务\n" 
+    #help << " 2.1 在线订购\n"
+    #help << " 2.2 配送服务\n"
+    #help << " 2.3 支付方式\n"
+    #help << " 2.4 电话客服\n"
+    #help << "我的生活\n" 
+    #help << " 3.1 订单查询\n"
+    #help << " 3.2 达人心情\n"
+
+    #help << "\n回复[?]显示此帮助菜单\n"
   end
  
   #个人查看weixin消息记录 
@@ -165,10 +180,16 @@ class WeixinController < ApplicationController
 
   def menu_match(str)
     ret = [-1,-1]
+
+    if str =~ /^\p{Alnum}*/
+      ret[0] = $&.downcase
+    end
+
     if str =~ /^\d*\.\d*/ 
       #"#{$`}<<#{$&}>>#{$'}"
       ret = $&.split(".")
     end
+
     return ret
   end
 end

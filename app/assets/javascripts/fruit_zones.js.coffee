@@ -34,7 +34,7 @@ $(document).ready ->
     })
   #调用函数执行样式
   set_order_modal(".order-modal", "absolute")
-  set_order_modal(".fruit-modal", "relative")
+  set_order_modal(".fruit-modal", "absolute")
 
   find_element_by_id = (id) ->
     document.getElementById(id)

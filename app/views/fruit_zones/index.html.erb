@@ -27,7 +27,6 @@
                                   </a>
                               </div>
 
-			      <%= render partial: "fruit_zones/modal_fruit", locals: { fruit: fruit } %>
                           </div>
 		    <% end %>
                   </div>
@@ -57,6 +56,16 @@
             <div class="span1"></div>
         </div>
     </div>
+
+  <!--
+    该模式框必须放在最外层
+    css定位模式是absolute,在其他div中会受限制
+  -->
+  <% @fruit_zones.each do |fruit_zone| %>
+    <% fruit_zone.fruits.each do |fruit| %>
+      <%= render partial: "fruit_zones/modal_fruit", locals: { fruit: fruit } %>
+    <% end if fruit_zone.fruits.size > 0 %>
+  <% end if @fruit_zones %>
 <script>
   //提交
   function order_submit() {

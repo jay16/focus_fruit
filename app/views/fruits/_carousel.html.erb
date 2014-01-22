@@ -1,4 +1,4 @@
-<div class="carousel slide" id="myCarousel">
+<div class="carousel slide" id="<%= dom_id fruit %>_carousel">
   <div class="carousel-inner">
   
   <% fruit.pictures.each_with_index do |picture, index| %>
@@ -13,11 +13,11 @@
   <% end %>
 
   </div>
-  <a data-slide="prev" href="#myCarousel" class="left carousel-control">‹</a>
-  <a data-slide="next" href="#myCarousel" class="right carousel-control">›</a>
+  <a data-slide="prev" href="#<%= dom_id fruit %>_carousel" class="left carousel-control">‹</a>
+  <a data-slide="next" href="#<%= dom_id fruit %>_carousel" class="right carousel-control">›</a>
 </div>
 <script>
 $(function(){
-  $("#myCarousel").carousel("pause");
+  $("#<%= dom_id fruit %>_carousel").carousel("pause");
 });
 </script>
