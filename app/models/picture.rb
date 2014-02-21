@@ -1,5 +1,7 @@
 class Picture < ActiveRecord::Base
   attr_accessible :desc, :folder_id, :name, :store
+  #name  图片显示名称
+  #store 图片存储名称
 
   belongs_to :folder
 

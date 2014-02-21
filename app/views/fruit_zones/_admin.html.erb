@@ -15,7 +15,7 @@
 	  <% fruit_zone.fruits.each_with_index do |fruit, i| %>
 		<div class="row-fluid fruit" id="<%= dom_id fruit %>">
 		    <div class="span6">
-			<a onclick="$('#<%= dom_id fruit %>_modal').modal('show');"><span class="name"><%= fruit.name %></span></a>
+			<%= link_to fruit.name, fruit, target: "_blank" %>
 		    </div>
 		    <div class="span2">
 		      <span class="label label-warning">￥<span class="price"><%= fruit.price %></span></span>

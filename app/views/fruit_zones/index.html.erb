@@ -5,8 +5,8 @@
         <% @fruit_zones.each_with_index do |fruit_zone, index| %> 
           <div class="accordion-group">
               <div class="accordion-heading">
-                  <a class="accordion-toggle collapsed nolink" data-parent="#fruit_zone" data-toggle="collapse" href="#<%= dom_id fruit_zone %>">
-                    <%= fruit_zone.name %>|<span class="collapse-state">展开</span>
+                  <a class="accordion-toggle collapsed nolink" data-parent="#fruit_zone" data-toggle="collapse" href="#<%= dom_id fruit_zone %>" onclick="chk_collapse_state(this);">
+                    <%= fruit_zone.name %>|<span class="collapse-state"><%=  index == 0 ? '收起' : '展开' %></span>
 		  </a>
               </div>
 
@@ -67,6 +67,17 @@
     <% end if fruit_zone.fruits.size > 0 %>
   <% end if @fruit_zones %>
 <script>
+  function chk_collapse_state(e) {
+    $(".accordion-toggle").each(function() { 
+	$(this).children(".collapse-state").html("展开");
+     }); 
+
+    if($(e).children(".collapse-state").html()=="展开") {
+      $(e).children(".collapse-state").html("收起");
+    } else {
+      $(e).children(".collapse-state").html("展开");
+    }
+  }
   //提交
   function order_submit() {
     var order_state = check_out();    

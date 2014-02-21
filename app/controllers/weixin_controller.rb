@@ -15,55 +15,101 @@ class WeixinController < ApplicationController
     content = params[:xml][:Content]
     match = menu_match(content)
 
-    case match[0]
+    case content.to_s.downcase[0]
     when "b"
-      @fruit_zones = FruitZone.where("state='onsale'")
-      @info = "今日特惠： \n"
-      @fruit_zones.each_with_index do |fruit_zone,index|
-	@info << "1.#{fruit_zone.list} #{fruit_zone.name}\n"
-      end
-    when "1" #水果专区
-      @fruit_zones = FruitZone.where("state='onsale'")
-      if zones = @fruit_zones.select { |zone| zone.list == match[1].to_i }
-        @fruit_zone = zones.first
-      end
-    when "2" #达人服务
-      case match[1].to_i
-      when 1
-        @info = menu_service(@weixin,"shop")
-      when 2
-        @info = menu_service(@weixin,"distribution")
-      when 3
-        @info = menu_service(@weixin,"payment")
-      when 4
-        @info = menu_service(@weixin,"call-center")
-      end
-    when "3" #我的生活
-      case match[1].to_i
-      when 1
-        order = Order.find_by_weixin(@weixin.from_user_name)
-	@info = menu_query(order)
-      when 2
-        @blogs = Blog.where("klass='blog'")
-      end
-    end
+      @fruit_zones = FruitZone.find(1)#where("state='onsale'")
+      @fruits = @fruit_zones.fruits
+      render template: "weixin/menu_news"
 
-    if @fruit_zone
-      render template: "weixin/fruit_zone"
-    elsif @blogs
-      render template: "weixin/blog"
-    else
-      unless @info
-	@fruit_zones = FruitZone.where("state='onsale'").order("list asc")
-	@info = menu_help( @fruit_zones)
+      #@info = "今日特惠： \n"
+      #@fruit_zones.each_with_index do |fruit_zone,index|
+      #	@info << "1.#{fruit_zone.list} #{fruit_zone.name}\n"
+      #end
+    when "c" #在线订购
+      @info = menu_service(@weixin,"shop")
+      render template: "weixin/menu"
+    when "d" #预约新品
+      @fruit_zones = FruitZone.find(2)#where("state='onsale'")
+      @fruits = @fruit_zones.fruits
+      render template: "weixin/menu_news"
+    when "e" #配送范围
+      @info = menu_service(@weixin,"distribution")
+      render template: "weixin/menu"
+    when "f" #了解更多
+      @info = menu_service(@weixin,"call-center")
+      render template: "weixin/menu"
+    when "g" #评论
+      #评论为空
+      if content.length > 1
+	orders = Order.where("weixin='#{@weixin.from_user_name}'")
+	           .order("created_at desc")
+	#当前用户没有下过单
+	if orders.size > 0
+	  comment = content[1,content.length-1]
+	  @info = "评论成功!\n"
+	  @info << "评论内容:[#{comment}]"
+	  items = orders.first.items 
+	  items.each do |item|
+	    fruit = Fruit.find(item.fruit_id)
+	    fruit.replies.create({
+	      :name => @weixin.from_user_name,
+	      :content => comment
+	    }) if fruit
+	  end
+
+	else
+	  @info = "错误提示:没有您的成交记录\n"  
+	  @info << "温馨提示:G开头的任意文字，都自动作为评论"
+	end
+      else
+        @info = "错误提示:评论不可为空\n"
+	@info << "温馨提示:G开头的任意文字，都自动作为评论"
       end
+      render template: "weixin/menu"   
+      #@info = menu_service(@weixin,"shop")
+      #@info = menu_service(@weixin,"distribution")
+      #@info = menu_service(@weixin,"payment")
+      #@info = menu_service(@weixin,"call-center")
+    else
+      @info = menu_help(@weixin.from_user_name)
       render template: "weixin/menu"
     end
+
+    #if @fruit_zone
+    #  render template: "weixin/fruit_zone"
+    #elsif @blogs
+    #  render template: "weixin/blog"
+    #else
+    #  unless @info
+    #	@fruit_zones = FruitZone.where("state='onsale'").order("list asc")
+    #	@info = menu_help(@weixin.from_user_name)
+    #  end
+    #  render template: "weixin/menu"
+   # end
   end
 
 
+  #主菜单
+  def menu_help(weixin)
+    url_base = "http://fruit.solife.us"
+    url_shop = "#{url_base}?weixin=#{weixin}"
+    url_rmd  = "#{url_base}/recommends?weixin=#{weixin}"
+    url_news = "#{url_base}/news?weixin=#{weixin}"
+    url_send = "#{url_base}/distribution?weixin=#{weixin}"
+    url_list = "#{url_base}/more?weixin=#{weixin}"
+    help = "您好，越先越鲜，点击<a href='#{url_shop}'>此处</a>开始选购吧。或回复字母[爱果]一下吧！\n"
+    help << "A.会员尊享\n"
+    help << "B.<a href='#{url_rmd}'>今日特惠</a>\n"
+    help << "C.<a href='#{url_shop}'>在线订购</a>\n"
+    help << "D.<a href='#{url_news}'>预约新品</a>\n"
+    help << "E.<a href='#{url_send}'>配送范围</a>\n"
+    help << "F.果仁新作\n"
+    help << "G.<a href='#{url_list}'>了解更多</a>\n"
+  end
+
+  #菜单服务
   def menu_service(weixin,type)
-    info = "水果达人为您服务,请点击此处"
+    info = "[爱果]为您服务,请点击此处"
     url = "http://fruit.solife.us"
     case type
     when "distribution"
@@ -95,33 +141,6 @@ class WeixinController < ApplicationController
     end
   end
 
-  def menu_help(fruit_zones)
-    url = "http://fruit.solife.us"
-    help = "您好，越先越鲜，点击<a href='#{url}'>此处</a>开始选购吧。或回复字母[爱果]一下吧！\n"
-    help << "A.会员尊享\n"
-    help << "B.今日特惠\n"
-    help << "C.在线订购\n"
-    help << "D.预约新品\n"
-    help << "E.配送新品\n"
-    help << "F.果仁新作\n"
-    help << "G.了解更多\n"
-
-    #help << "水果信息\n" 
-    #fruit_zones.each_with_index do |fruit_zone,index| 
-    #  help << "1.#{fruit_zone.list} #{fruit_zone.name}\n"
-    #end
-    #help << "达人服务\n" 
-    #help << " 2.1 在线订购\n"
-    #help << " 2.2 配送服务\n"
-    #help << " 2.3 支付方式\n"
-    #help << " 2.4 电话客服\n"
-    #help << "我的生活\n" 
-    #help << " 3.1 订单查询\n"
-    #help << " 3.2 达人心情\n"
-
-    #help << "\n回复[?]显示此帮助菜单\n"
-  end
- 
   #个人查看weixin消息记录 
   def show
     @record = WeixinRecever.find(params[:id]) 

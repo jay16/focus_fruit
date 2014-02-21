@@ -43,16 +43,24 @@
   </div>
 
 
-  <div>
+  <div class="content">
     <%= @fruit.markdown.html_safe if @fruit.markdown %>
   </dvi>
+ 
+  <% if @fruit.replies.size > 0 %>
+    <h4>评论</h4>
+    <div class="comments">
+      <% @fruit.replies.each do |reply| %>
+        <div class="comment">
+	  <span><%= reply.name %>:</span>
+	  <span><%= reply.content.html_safe %></span>
+	</div>
+      <% end %>
+    </div>
+  <% end %>
 
   <%= render "fruits/already_in_cart_modal" %>
 
-  <% if !mobile? %>
-    <%= link_to '编辑', edit_fruit_path(@fruit) %> |
-    <%= link_to '返回', fruits_path %>
-  <% end %>
 </div>
 <script>
 function shop_cart_list() {

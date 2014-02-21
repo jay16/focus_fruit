@@ -1,0 +1,18 @@
+<xml>
+<ToUserName><![CDATA[<%= @weixin.from_user_name %>]]></ToUserName>
+<FromUserName><![CDATA[<%= @weixin.to_user_name %>]]></FromUserName>
+<CreateTime><%= Time.now.to_i %></CreateTime>
+<MsgType><![CDATA[news]]></MsgType>
+<Content><![CDATA[]]></Content>
+<ArticleCount><%= @fruits.size %></ArticleCount>
+<Articles>
+  <% @fruits.each do |fruit| %>
+  <item>
+    <Title><![CDATA[<%= fruit.name %>]]></Title>
+    <Description><![CDATA[<%= fruit.desc %>]]></Description>
+    <PicUrl><![CDATA[<%= fruit.weixin_image %>]]></PicUrl>
+    <Url><![CDATA[<%= fruit.link %>?weixin=<%= @weixin.from_user_name %>]]></Url>
+  </item>
+  <% end %>
+<Articles>
+</xml>
