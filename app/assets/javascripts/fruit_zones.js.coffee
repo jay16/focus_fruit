@@ -16,6 +16,7 @@ $(document).ready ->
     dh = wh*0.6
     dw = 400
     $(klass+" input[type='text']").css("width","325px")
+    $(klass+" select").css("width","325px")
     $(klass+" textarea").css("width","325px")
 
     #手机端浏览单独设置
@@ -35,6 +36,7 @@ $(document).ready ->
   #调用函数执行样式
   set_order_modal(".order-modal", "absolute")
   set_order_modal(".fruit-modal", "absolute")
+  set_order_modal(".order-success","absolute")
 
   find_element_by_id = (id) ->
     document.getElementById(id)

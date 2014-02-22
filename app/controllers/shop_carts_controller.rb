@@ -22,7 +22,7 @@ class ShopCartsController < ApplicationController
 
   #向购物车添加商品
   def add
-    shop_cart = @global_customer_idstr
+    shop_cart = find_shop_cart(params)
     shop_cart.add_item(params)
 
     render :json => params.to_json

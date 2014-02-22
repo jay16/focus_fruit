@@ -1,0 +1,11 @@
+<tr id="<%= dom_id picture %>">
+  <td>
+    <%= image_tag(picture.blog_path,class: "img-rounded span2") %></td>
+  <td class="detail">
+    <div class="name"><%= picture.name %></div>
+    <div class="desc"><%= picture.desc %></div>
+  </td>
+  <td><%= link_to "编辑", [:edit, picture], remote: true, class: "btn btn-info btn-mini" %></td>
+  <td><%= link_to "删除", picture, method: :delete, remote: true, class: "btn btn-mini btn-danger", confirm: '此动作不可撤消，肯定删除?' %></td>
+</tr>
+

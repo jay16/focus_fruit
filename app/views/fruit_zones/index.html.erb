@@ -84,12 +84,14 @@
     if(order_state[0]==0) {
       alert("请选择水果");
     } else {
+      chk_order_list();
       $(".order-modal").modal("show");
     }
   }
 
   //遍历所有单类水果计算总数量与总价
   function check_out() {
+    var warn = "亲爱的果仁，订单不满50元，配送成本较高，加收10元快递费哦。感谢理解!"
     var total_count = 0;
     var total_price = 0;
     $(".fruit").each(function(e){
@@ -104,6 +106,11 @@
     //alert(total_count);
     $(".total-count").text(total_count);
     $(".total-price").text(total_price);
+    if(total_price<50) {
+      $(".order-warn").text(warn);
+    } else {
+      $(".order-warn").text("");
+    }
     return [total_count, total_price];
   };
 
@@ -130,19 +137,17 @@
          shop_cart += "<span class='label label-info' style='height:15px;'>￥"+price+"</span>x<span>"+count+"</span>"
          shop_cart += "</span>"
          shop_cart += "<span class='span7'>"+name+"</span>"
-         shop_cart += "<span class='span1'><i class='icon-remove'></i></span></div>"
-
-	 order_info += "<div class='row-fluid' style='margin-bottom:3px;'>"
-         order_info += "<span class='span4'><span class='label label-info' style='height:15px;'>￥"+price+"</span>x<span>"+count+"</span>"
-	 order_info += "</span>"
-	 order_info += "<span class='span8'>"+name+"</span></div>"
+         shop_cart += "<span class='span1'><i id='icon-remove'></i></span></div>"
        }
     });
     var order_rt = check_out();
-    order_info += "<div class='row-fluid' style='margin-bottom:3px;'><span class='span4'>数量:<span class='label label-info'>" + order_rt[0] + "</span></span><span class='span6'>总金额:<span class='label label-info'>" + order_rt[1] + "</span></span></div>"
+    shop_cart += "<div class='row-fluid' style='margin-bottom:3px;'>"
+    shop_cart += "<span class='span4'>数量:<span class='label label-info'>" + order_rt[0] + "</span></span>"
+    shop_cart += "<span class='span7'>总金额:<span class='label label-info'>￥" + order_rt[1] + "</span></span>"
+    shop_cart += "</div>"
 
     $("#order_item_list").attr("value","["+list.toString()+"]");
-    $("#order_info").attr("value", order_info);
+    $("#order_info").attr("value", shop_cart);
     $("#order_count").attr("value", order_rt[0]);
     $("#order_checkout").attr("value", order_rt[1]);
     $(".order-items").html(shop_cart);
@@ -261,5 +266,3 @@ $(function(){
 <%= render "fruit_zones/modal_order" %>
 <%= render "orders/modal_success" %>
 
-<script>
-</script>

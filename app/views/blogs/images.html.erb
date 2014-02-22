@@ -1,0 +1,43 @@
+<div class="span6 offset3">
+  <h3>
+    <%= @blog.title %>
+    [图片管理]
+  </h3>
+
+  <p id="notice"><%= notice %></p>
+
+  <ul class="nav nav-tabs" id="folder_pictures">
+    <li class="active">
+      <a href="#picture_list" style="font-size:14px;">
+        图片列表
+      </a>
+    </li>
+    <li>
+      <a href="#picture_upload" style="font-size:14px;">
+       图片上传
+      </a>
+    </li>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="picture_list">
+        <%= @blog.weixin_image %>
+	<%= render partial: "blogs/picture_list" %>
+    </div>
+
+    <div class="tab-pane" id="picture_upload">
+	<%= render partial: "blogs/picture_upload" %>
+    </div>
+  </div>
+   
+<script>
+//tab toggle show
+$(function () {
+  $('#folder_pictures a:first').tab('show');
+
+  $('#folder_pictures a').click(function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+  });
+});
+</script>

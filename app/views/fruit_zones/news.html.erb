@@ -1,0 +1,121 @@
+    <%= javascript_include_tag "fruit_zones" %>
+
+    <div class="accordion" id="fruit_zone">
+
+        <% @fruit_zones.each_with_index do |fruit_zone, index| %> 
+          <div class="accordion-group">
+              <div class="accordion-heading">
+                  <a class="accordion-toggle collapsed nolink" data-parent="#fruit_zone" data-toggle="collapse" href="#<%= dom_id fruit_zone %>" onclick="chk_collapse_state(this);">
+                    <%= fruit_zone.name %>|<span class="collapse-state"><%=  index == 0 ? '收起' : '展开' %></span>
+		  </a>
+              </div>
+
+              <div class="accordion-body collapse <%= index == 0 ? 'in' : '' %>" id="<%= dom_id fruit_zone %>">
+                  <div class="accordion-inner">
+		    <% fruit_zone.fruits.each_with_index do |fruit, i| %>
+                          <div class="row-fluid fruit" id="<%= dom_id fruit %>">
+                              <div class="span6">
+                                  <a onclick="$('#<%= dom_id fruit %>_modal').modal('show');"><span class="name"><%= fruit.name %></span></a>
+                              </div>
+                              <div class="span2">
+                                <span class="label label-warning">￥<span class="price"><%= fruit.price %></span></span>
+                              </div>
+                              <div class="span4">
+			         <span class="label label-info">
+				      <i class="icon-shopping-cart icon-white">
+				      </i>
+				      <% count = shop_cart_count(@shop_cart[:items],fruit) %>
+				      <span class="count" style="display:none;"><%= count %></span>
+				      <a class="add-to-cart" style="color:white;"><%= count > 0 ? "取消预约" : "预约新品" %></a>
+				  </span>
+                              </div>
+
+                          </div>
+		    <% end %>
+                  </div>
+		  <!-- accordion-inner-->
+              </div>
+	      <!--accordion-body-->
+          </div>
+	  <!--accordion-group-->
+
+	<% end %>
+
+    </div>
+
+
+  <!--
+    该模式框必须放在最外层
+    css定位模式是absolute,在其他div中会受限制
+  -->
+  <% @fruit_zones.each do |fruit_zone| %>
+    <% fruit_zone.fruits.each do |fruit| %>
+      <%= render partial: "fruit_zones/modal_fruit", locals: { fruit: fruit } %>
+    <% end if fruit_zone.fruits.size > 0 %>
+  <% end if @fruit_zones %>
+<script>
+  function chk_collapse_state(e) {
+    $(".accordion-toggle").each(function() { 
+	$(this).children(".collapse-state").html("展开");
+     }); 
+
+    if($(e).children(".collapse-state").html()=="展开") {
+      $(e).children(".collapse-state").html("收起");
+    } else {
+      $(e).children(".collapse-state").html("展开");
+    }
+  }
+
+function add_to_cart(item) {
+   operate_item("add",item);
+}
+function rm_from_cart(item) {
+   operate_item("rm",item);
+}
+function operate_item(operation, item) {
+  var weixin  = $("#hidden_weixin").attr("value");
+  if(operation == "add") {
+    url = "/shop_carts/add.json";
+  } else {
+    url = "/shop_carts/rm.json";
+  }
+  $.post(url,
+  {
+    weixin: weixin,
+    item: item
+  },
+  function(data,status){
+    //if(status=="success")
+    console.log(status);
+  });
+}
+
+$(function(){
+  //添加或删减水果
+  $(".fruit").each(function(e){
+      var id = $(this).attr("id");
+
+      var name = $("#"+id+" .name").text();
+      var price = parseInt($("#"+id+" .price").text());
+      var count = parseInt($("#"+id+" .count").text());
+      var item = { "id": id, "name": name, "price": price };
+
+      //add 
+      $("#"+id+" .add-to-cart").click(function(){
+	var count = parseInt($("#"+id+" .count").text());
+	if(count==0) {
+	  add_to_cart(item);
+	  $("#"+id+" .count").html(count+1);
+	  $("#"+id+" .add-to-cart").html("取消预约");
+	} else {
+	  rm_from_cart(item);
+	  $("#"+id+" .add-to-cart").html("预约新品");
+	}
+      });
+
+  });
+
+});
+</script>
+
+

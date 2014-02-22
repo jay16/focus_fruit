@@ -19,6 +19,10 @@
 
 
   <div>
+      <%= render partial: "blogs/carousel", locals: { blog: @blog } if @blog.pictures.size > 0 %>
+  </div>
+
+  <div>
     <%= @blog.markdown.html_safe %>
   </dvi>
 

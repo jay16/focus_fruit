@@ -11,6 +11,10 @@ class BlogsController < ApplicationController
     end
   end
 
+  def list
+    @blogs = Blog.where("klass in ('distribution','call-center','payment')")
+  end
+
   # GET /blogs/1
   # GET /blogs/1.json
   def show
@@ -37,6 +41,19 @@ class BlogsController < ApplicationController
     render "show"
   end
 
+  def images
+    @blog = Blog.find(params[:id])
+    @pictures =  @blog.pictures
+
+    respond_to do |format|
+      format.html { render layout: "layouts/application" }
+    end
+  end
+
+  def upload
+    @blog = Blog.find(params[:id])
+    deal_with_local(@blog)    
+  end
 
   # GET /blogs/new
   # GET /blogs/new.json
@@ -106,5 +123,37 @@ class BlogsController < ApplicationController
     # Also, you can specialize this method with per-user checking of permissible attributes.
     def blog_params
       params.require(:blog).permit(:author, :content, :markdown, :link, :title, :klass)
+    end
+
+
+    def deal_with_local(blog)
+      (0..50).each_with_index do |i,index|
+	key = "file_#{i}"
+	next if params[key].nil?
+
+	image = params[key]
+
+	original_name = image.original_filename.to_s
+	image_name   = chk_image_name(original_name)
+	image_path = Rails.root.join("public","pictures","blog")
+
+	FileUtils.mkdir_p(image_path) unless File.exist?(image_path)
+
+	image_path = File.join(image_path, image_name)
+	File.open(image_path, "wb") { |f| f.write(image.read) }
+
+	picture = blog.pictures.create({
+	 :name => original_name,
+	 :desc => original_name,
+	 :store => image_name
+	 })
+      end
+    end
+    def chk_image_name(str)
+      types = %w(.jpg .jpeg .png .bmp .gif .ico).select { |d| str.downcase.include?(d) }
+      type = (types.empty? ? ".jpg" : types[0])
+
+      name = UUIDTools::UUID.md5_create(UUIDTools::UUID_DNS_NAMESPACE, str+Time.now.to_s).to_s
+      return (name+type)
     end
 end

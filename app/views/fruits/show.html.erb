@@ -49,7 +49,7 @@
  
   <% if @fruit.replies.size > 0 %>
     <h4>评论</h4>
-    <div class="comments">
+    <div id="comments">
       <% @fruit.replies.each do |reply| %>
         <div class="comment">
 	  <span><%= reply.name %>:</span>

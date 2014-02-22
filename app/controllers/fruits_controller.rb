@@ -1,6 +1,6 @@
 #encoding: utf-8
 class FruitsController < ApplicationController
-  before_filter :find_fruit, :only => [:show, :images, :upload, :edit, :update, :destroy]
+  before_filter :find_fruit, :only => [:show, :state, :images, :upload, :edit, :update, :destroy]
 
   def index
     @fruits = Fruit.all
@@ -19,6 +19,10 @@ class FruitsController < ApplicationController
         @shop_cart[:count] = shop_cart.cart_items_count
         @shop_cart[:price] = shop_cart.cart_items_price
     end
+  end
+
+  def state
+    @fruit.update_attributes(params[:fruit])
   end
 
   def images

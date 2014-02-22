@@ -31,7 +31,7 @@
 	      <%= item["name"] %></span><span class="span1"><i class="icon-remove"></i>
 	    </span>
 	   </div>
-	 <% end unless @shop_cart[:items].empty? %>
+	 <% end if @shop_cart[:items].empty? and 1 == 2%>
       </div>
 
       <div class="center">

@@ -9,7 +9,8 @@ class FruitZone < ActiveRecord::Base
   def mappings
     [
       ["在售","onsale"],
-      ["下架","saleout"]
+      ["下架","saleout"],
+      ["新品","new"]
     ]
   end
 

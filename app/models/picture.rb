@@ -9,7 +9,7 @@ class Picture < ActiveRecord::Base
   has_many :fruits, :through => :fruit_with_pictures
 
   has_many :blog_with_pictures, :dependent => :destroy
-  has_many :blogs, :through => :blog_with_picutres
+  has_many :blogs, :through => :blog_with_pictures
 
   def path
     base_path(self.folder.id.to_s)
@@ -17,6 +17,10 @@ class Picture < ActiveRecord::Base
 
   def fruit_path
    base_path("fruit") 
+  end
+
+  def blog_path
+    base_path("blog")
   end
 
   def base_path(folder)

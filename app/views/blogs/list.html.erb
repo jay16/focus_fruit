@@ -1,0 +1,14 @@
+  <table class="table table-hover">
+  <% @blogs.each do |blog| %>
+    <tr>
+      <td>
+        <%= link_to blog.title, blog %></td>
+      <td>
+          <span class="label label-info"> 
+	    <%= blog.type %>
+	  </span>
+      </td>
+    </tr>
+  <% end %>
+  </table>
+

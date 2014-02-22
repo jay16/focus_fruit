@@ -11,6 +11,10 @@
 
 
       <div style="text-align:left;">
+	  <h4>
+	    <span class="name"><%= fruit.name %></span> |
+	     ￥<span class="price"><%= fruit.price %></span>
+	   </h4>
         <div>
 	  <%= render partial: "fruits/carousel", locals: { fruit: fruit } if fruit.pictures.size > 0 %>
 	</div>

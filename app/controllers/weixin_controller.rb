@@ -7,7 +7,17 @@ class WeixinController < ApplicationController
   
   respond_to :xml, :html, :js
 
-  def event; end
+  #添加/取消关注 
+  def event
+    if @weixin.event == "subscribe"
+      if (@fruits = Fruit.where("state='推荐'")).size == 0
+        @fruits = Fruit.all.first(2)
+      end
+      render template: "weixin/menu_subscribe" 
+    else
+    end
+  end
+
   def receive; end
   def other; end
 
@@ -36,8 +46,8 @@ class WeixinController < ApplicationController
       @info = menu_service(@weixin,"distribution")
       render template: "weixin/menu"
     when "f" #了解更多
-      @info = menu_service(@weixin,"call-center")
-      render template: "weixin/menu"
+      @blogs = Blog.where("klass in ('distribution','call-center','payment')")
+      render template: "weixin/menu_blogs"
     when "g" #评论
       #评论为空
       if content.length > 1
@@ -47,16 +57,18 @@ class WeixinController < ApplicationController
 	if orders.size > 0
 	  comment = content[1,content.length-1]
 	  @info = "评论成功!\n"
-	  @info << "评论内容:[#{comment}]"
+	  @info << "评论内容:[#{comment}]\n"
 	  items = orders.first.items 
+	  @info << "您最近一笔订单的水果列表:"
 	  items.each do |item|
-	    fruit = Fruit.find(item.fruit_id)
-	    fruit.replies.create({
-	      :name => @weixin.from_user_name,
-	      :content => comment
-	    }) if fruit
+	    if fruit = Fruit.find(item.fruit_id)
+	      fruit.replies.create({
+		:name => @weixin.from_user_name,
+		:content => comment
+	      })
+	      @info << "\n<a href='#{fruit.link}?weixin=#{@weixin.from_user_name}#comments'>#{fruit.name}</a>"
+	    end
 	  end
-
 	else
 	  @info = "错误提示:没有您的成交记录\n"  
 	  @info << "温馨提示:G开头的任意文字，都自动作为评论"
@@ -94,17 +106,17 @@ class WeixinController < ApplicationController
     url_base = "http://fruit.solife.us"
     url_shop = "#{url_base}?weixin=#{weixin}"
     url_rmd  = "#{url_base}/recommends?weixin=#{weixin}"
-    url_news = "#{url_base}/news?weixin=#{weixin}"
+    url_news = "#{url_base}/shop/news?weixin=#{weixin}"
     url_send = "#{url_base}/distribution?weixin=#{weixin}"
-    url_list = "#{url_base}/more?weixin=#{weixin}"
+    url_list = "#{url_base}/list?weixin=#{weixin}"
     help = "您好，越先越鲜，点击<a href='#{url_shop}'>此处</a>开始选购吧。或回复字母[爱果]一下吧！\n"
     help << "A.会员尊享\n"
-    help << "B.<a href='#{url_rmd}'>今日特惠</a>\n"
+    help << "B.<a href='#{url_shop}'>今日特惠</a>\n"
     help << "C.<a href='#{url_shop}'>在线订购</a>\n"
     help << "D.<a href='#{url_news}'>预约新品</a>\n"
     help << "E.<a href='#{url_send}'>配送范围</a>\n"
-    help << "F.果仁新作\n"
-    help << "G.<a href='#{url_list}'>了解更多</a>\n"
+    help << "F.<a href='#{url_list}'>了解更多</a>\n"
+    help << "G. 评论[G+反馈内容]"
   end
 
   #菜单服务

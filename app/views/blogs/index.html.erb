@@ -24,8 +24,11 @@
 	    <%= blog.author %>
 	  </span>
       </td>
-      <td><%= link_to '阅读', blog, class: "btn btn-mini btn-info", target: "blank" %></td>
-      <td><%= link_to '编辑', edit_blog_path(blog), class: "btn btn-mini btn-success", target: "blank" %></td>
+      <td><%= link_to '阅读', blog, class: "btn btn-mini btn-info", target: "_blank" %></td>
+      <td>
+        <%= link_to '编辑', edit_blog_path(blog), class: "btn btn-mini btn-success", target: "_blank" %>
+        <%= link_to '上传图片', [:images, blog], class: "btn btn-mini btn-success", target: "_blank" %>
+      </td>
       <td>
         <% if blog.klass == "blog" %>
 	  <%= link_to '删除', blog, confirm: '此动作不可撤消，肯定删除?', method: :delete, class: "btn btn-mini btn-danger"%>

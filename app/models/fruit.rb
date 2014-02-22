@@ -1,3 +1,4 @@
+#encoding: utf-8
 class Fruit < ActiveRecord::Base
   attr_accessible :inventory, :name, :price, :state
   attr_accessible :pic
@@ -37,5 +38,9 @@ class Fruit < ActiveRecord::Base
   def link
     config = SiteConfig.find(1)
     return "#{config.text1}/fruits/#{self.id}"
+  end
+
+  def fruit_state
+    ["新品","推荐","无"]
   end
 end

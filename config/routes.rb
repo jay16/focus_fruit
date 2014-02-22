@@ -46,16 +46,27 @@ FocusFruit::Application.routes.draw do
 
   # 水果达人相关服务界面
   match "/shop"         => "fruit_zones#index"
+  match "/shop/news"    => "fruit_zones#news"
   match "/distribution" => "blogs#distribution"
   match "/payment"     => "blogs#payment"
   match "/call-center" => "blogs#callcenter"
+  match "/list"        => "blogs#list"
 
   #博文
-  resources :blogs
+  resources :blogs do
+    collection do
+      get "list"
+    end
+    member do
+      get "images"
+      post "upload"
+    end
+  end
 
   #水果
   resources :fruits do
     member do
+      post "state"
       get "images"
       post "upload"
       delete "remove"
@@ -67,6 +78,7 @@ FocusFruit::Application.routes.draw do
       post "upload"
       get  "download"
       get  "admin"
+      get "news"  #果仁新品
     end
     member do
       post "list"

@@ -31,7 +31,28 @@ class Blog < ActiveRecord::Base
     end
   end
 
-  def link
-    "http://fruit.solife.us/blogs/"+self.id.to_s
+
+  #微信新闻消息显示的图片
+  #每个水果有多张展示图片
+  #手工可以设置了微信展示图片
+  #pid 存放图片id
+  def weixin_image
+    config = SiteConfig.find(1)
+    if self.pictures.size > 0
+      @picture = self.pictures.first
+      @picture = File.join(config.text1,"/pictures/blog",@picture.store)
+    else
+      #没有水果展示图片
+      @picture = "http://img0.bdstatic.com/static/common/widget/search_box_search/logo/logo_3b6de4c.png"
+    end
+    return @picture
   end
+
+
+  #微信新闻消息显介绍水果的链接
+  def link
+    config = SiteConfig.find(1)
+    return "#{config.text1}/blogs/#{self.id}"
+  end
+
 end

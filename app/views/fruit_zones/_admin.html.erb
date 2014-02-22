@@ -13,19 +13,7 @@
     <div class="accordion-body collapse <%= index == 0 ? 'in' : '' %>" id="<%= dom_id fruit_zone %>_accordion">
 	<div class="accordion-inner">
 	  <% fruit_zone.fruits.each_with_index do |fruit, i| %>
-		<div class="row-fluid fruit" id="<%= dom_id fruit %>">
-		    <div class="span6">
-			<%= link_to fruit.name, fruit, target: "_blank" %>
-		    </div>
-		    <div class="span2">
-		      <span class="label label-warning">￥<span class="price"><%= fruit.price %></span></span>
-		    </div>
-		    <div class="span4">
-		      <%= link_to "编辑博文", [:edit, fruit], target: "blank" %> |
-		      <%= link_to "编辑图片", [:images, fruit], target: "blank" %> |
-		      <%= link_to "删除", [fruit_zone, fruit], method: :delete, remote: true %>
-		    </div>
-		</div>
+	      <%= render partial: "fruit_zones/admin_fruit", locals: { fruit: fruit, fruit_zone: fruit_zone } if fruit %>
 	  <% end %>
 	</div>
 	<!-- accordion-inner-->
@@ -33,4 +21,3 @@
     <!--accordion-body-->
 </div>
 <!--accordion-group-->
-

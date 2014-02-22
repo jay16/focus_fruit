@@ -1,0 +1,30 @@
+<div class="row-fluid fruit" id="<%= dom_id fruit %>">
+    <div class="span4">
+	<%= link_to fruit.name, fruit, target: "_blank" %>
+    </div>
+    <div class="span2">
+      <span class="label label-warning">￥<span class="price"><%= fruit.price %></span></span>
+    </div>
+    <div class="span4">
+      <%= link_to "编辑博文", [:edit, fruit], target: "_blank" %> |
+      <%= link_to "编辑图片", [:images, fruit], target: "_blank" %> |
+      <%= link_to "删除", [fruit_zone, fruit], method: :delete, remote: true %>
+    </div>
+
+    <div class="span2">
+	<%= form_tag([:state, fruit], :remote => true, style: "margin:0px;") do %>
+	  <%= select_tag("#{dom_id fruit}_state",options_for_select(fruit.fruit_state, fruit.state||fruit.fruit_state),
+	  { name: "fruit[state]", include_blank: true, class: "chosen-select", onchange: "$('#fruit_state_#{fruit.id}').trigger('click');" }) %>
+	   <%= submit_tag "submit", id: "fruit_state_#{fruit.id}", style: "display:none;" %>
+	<% end %>
+    </div>
+    <script>
+    $(function(){
+      $("#<%= dom_id fruit %>_state").chosen({
+	  allow_single_deselect: true,
+	  no_results_text: 'No results matched',
+	  width: '90px'
+       });
+    });
+    </script>
+</div>

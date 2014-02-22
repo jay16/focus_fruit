@@ -21,7 +21,7 @@ class FruitZonesController < ApplicationController
     
     #若有购买记录
     #再填写订单内容时可免填写
-    @customer = Customer.find_by_idstr(@global_customer_idstr)
+    @customer = Customer.where("idstr='#{@global_customer_idstr}'").order("created_at desc").first
 
     #为用户创建的订单
     @order = Order.new
@@ -29,6 +29,24 @@ class FruitZonesController < ApplicationController
     @order.item_list = @shop_cart[:items].to_s.gsub('=>',':')
 
   end 
+
+  #预约新品
+  def news
+    @fruit_zones = FruitZone.where("state='new'")
+
+    #顾客购物车
+    #已经选购商品/商品数量/商品总值
+    @shop_cart = {
+      :items => [],
+      :count => 0,
+      :price => 0
+    }
+    if (shop_cart = ShopCart.find_by_idstr(@global_customer_idstr))
+        @shop_cart[:items] = shop_cart.cart_items
+        @shop_cart[:count] = shop_cart.cart_items_count
+        @shop_cart[:price] = shop_cart.cart_items_price
+    end
+  end
 
   def admin
   end

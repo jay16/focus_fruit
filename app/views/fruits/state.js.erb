@@ -1,0 +1,6 @@
+<% if @fruit and @fruit.save %>
+  $("#<%= dom_id @fruit %>").replaceWith("<%= j render partial: 'fruit_zones/admin_fruit', locals: { fruit: @fruit, fruit_zone: @fruit.fruit_zones.first } if @fruit  %>");
+<% else %>
+  alert("订单状态更新失败");
+  window.location.reload();
+<% end %>

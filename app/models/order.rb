@@ -11,6 +11,14 @@ class Order < ActiveRecord::Base
   after_create :build_order_with_customer
   after_create :build_order_with_fruits
 
+  #配送时间
+  def date_at_list
+    ["早10点-10点半",
+     "中午11点半-12点",
+     "下午4点至4点半",
+     "晚８点至９点"]
+  end
+
   #创建订单&商品关联
   def build_order_with_fruits
     jsons = JSON.parse(self.item_list)
