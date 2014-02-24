@@ -1,4 +1,5 @@
 #encoding: utf-8
+require 'cgi'
 class WeixinController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
@@ -25,16 +26,14 @@ class WeixinController < ApplicationController
     content = params[:xml][:Content]
     match = menu_match(content)
 
+    @site_config   = SiteConfig.find(1)
+    @weixin_config = SiteConfig.find(3)
+
     case content.to_s.downcase[0]
     when "b"
       @fruit_zones = FruitZone.find(1)#where("state='onsale'")
       @fruits = @fruit_zones.fruits
       render template: "weixin/menu_news"
-
-      #@info = "今日特惠： \n"
-      #@fruit_zones.each_with_index do |fruit_zone,index|
-      #	@info << "1.#{fruit_zone.list} #{fruit_zone.name}\n"
-      #end
     when "c" #在线订购
       @info = menu_service(@weixin,"shop")
       render template: "weixin/menu"
@@ -53,13 +52,16 @@ class WeixinController < ApplicationController
       if content.length > 1
 	orders = Order.where("weixin='#{@weixin.from_user_name}'")
 	           .order("created_at desc")
+	comment = content[1,content.length-1]
 	#当前用户没有下过单
 	if orders.size > 0
-	  comment = content[1,content.length-1]
-	  @info = "评论成功!\n"
-	  @info << "评论内容:[#{comment}]\n"
+	  #@info = "评论成功!\n"
+	  #@info << "感谢您的评论:[#{comment}]\n"
+	  @info = @weixin_config.text3
 	  items = orders.first.items 
-	  @info << "您最近一笔订单的水果列表:"
+	  #@info << "您最近一笔订单的水果列表:"
+	  @info << @weixin_config.text4 + "\n"
+
 	  items.each do |item|
 	    if fruit = Fruit.find(item.fruit_id)
 	      fruit.replies.create({
@@ -69,13 +71,20 @@ class WeixinController < ApplicationController
 	      @info << "\n<a href='#{fruit.link}?weixin=#{@weixin.from_user_name}#comments'>#{fruit.name}</a>"
 	    end
 	  end
+	#无订单评论
 	else
-	  @info = "错误提示:没有您的成交记录\n"  
-	  @info << "温馨提示:G开头的任意文字，都自动作为评论"
+	  #@info = "您的评论已收到，感谢回复./:share\n"  
+	  @info = @weixin_config.text5
+	  user = User.find(1)
+	  user.replies.create({
+	    :name => @weixin.from_user_name,
+	    :content => comment
+	  })
 	end
       else
-        @info = "错误提示:评论不可为空\n"
-	@info << "温馨提示:G开头的任意文字，都自动作为评论"
+        #@info = "错误提示:评论不可为空\n"
+	#@info << "温馨提示:G开头的任意文字，都自动作为评论"
+	@info = @weixin_config.text6
       end
       render template: "weixin/menu"   
       #@info = menu_service(@weixin,"shop")
@@ -83,40 +92,37 @@ class WeixinController < ApplicationController
       #@info = menu_service(@weixin,"payment")
       #@info = menu_service(@weixin,"call-center")
     else
-      @info = menu_help(@weixin.from_user_name)
+      @info = menu_help(@site_config,@weixin_config,@weixin.from_user_name)
       render template: "weixin/menu"
     end
 
-    #if @fruit_zone
-    #  render template: "weixin/fruit_zone"
-    #elsif @blogs
-    #  render template: "weixin/blog"
-    #else
-    #  unless @info
-    #	@fruit_zones = FruitZone.where("state='onsale'").order("list asc")
-    #	@info = menu_help(@weixin.from_user_name)
-    #  end
-    #  render template: "weixin/menu"
-   # end
   end
 
 
   #主菜单
-  def menu_help(weixin)
-    url_base = "http://fruit.solife.us"
+  def menu_help(site_config,weixin_config,weixin)
+    #url_base = "http://fruit.solife.us"
+    url_base = site_config.text1.to_s
     url_shop = "#{url_base}?weixin=#{weixin}"
     url_rmd  = "#{url_base}/recommends?weixin=#{weixin}"
     url_news = "#{url_base}/shop/news?weixin=#{weixin}"
     url_send = "#{url_base}/distribution?weixin=#{weixin}"
     url_list = "#{url_base}/list?weixin=#{weixin}"
-    help = "您好，越先越鲜，点击<a href='#{url_shop}'>此处</a>开始选购吧。或回复字母[爱果]一下吧！\n"
+    #help = "您好,欢迎关注爱果，越先越鲜，回复以下字母开始体验.\n"
+    #help << "温馨提示:目前仅为闵行(梅陇镇/莘庄工业区/古美/莘庄镇)提供[爱果]服务.\n"
+    help = CGI::unescape(weixin_config.text1)
+    help = weixin_config.text1 + "\n"
+    help << weixin_config.text7 + "\n"
     help << "A.会员尊享\n"
     help << "B.<a href='#{url_shop}'>今日特惠</a>\n"
     help << "C.<a href='#{url_shop}'>在线订购</a>\n"
     help << "D.<a href='#{url_news}'>预约新品</a>\n"
     help << "E.<a href='#{url_send}'>配送范围</a>\n"
     help << "F.<a href='#{url_list}'>了解更多</a>\n"
-    help << "G. 评论[G+反馈内容]"
+    #help << "发表评论请回复: G评论内容"
+    help << weixin_config.text2
+    puts help
+    return help
   end
 
   #菜单服务

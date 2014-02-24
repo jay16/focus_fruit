@@ -12,7 +12,7 @@ class AdminController < ApplicationController
     @blogs = Blog.all
     @folders = Folder.all
     @shop_carts =ShopCart.all
-    @site_config = SiteConfig.find(1)
+    @site_configs = SiteConfig.where("id in (1,3)")
 
 
     @nav_tab_config = SiteConfig.find_or_create_by_name("页签管理")

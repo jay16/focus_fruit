@@ -2,7 +2,7 @@
 
 <div
 <% if mobile? %>
-  class="span10 offset1 fruit"
+  class="span11 fruit"
 <% else %>
   class="span6 offset3 fruit"
 <% end %>
@@ -21,29 +21,29 @@
 
 
   <div style="height:30px; margin-bottom:20px;">
-    <%= link_to "链接", @fruit.link, class: "nolink" if @fruit.link and !mobile? %>
-    <label class="label label-success" style="display:inline;"><%= @fruit.fruit_zones.first.name %></label>
+    <label style="display:inline;"><a href="#comments">看评论</a>
 
     <span style="text-align:right" class="right">
-	<span class="label label-info">
+	<span class="label label-info" style="height:25px;max-height:25px;">
 	    <i class="icon-shopping-cart icon-white">
 	    </i>
 	    <% count = shop_cart_count(@shop_cart[:items],@fruit) %>
             <span class="count" style="display:none;"><%= count %></span>
-	    <a class="add-to-cart" style="color:white;"><%= count > 0 ? "已" : "" %>加入购物车</a>
+	    <a href="/?weixin=<%= params[:weixin] || 'no' %>" class="add-to-cart" style="color:white;font-size:14px;">加入购物车</a>
 	</span>
-	<span class="label label-success">
-	    <a href="/?weixin=<%= params[:weixin] || 'no' %>" style="color:white;">
+        &nbsp;&nbsp;
+	<span class="label label-info" style="height:25px;max-height:25px;">
+	    <a href="/?weixin=<%= params[:weixin] || 'no' %>" style="color:white;font-size:14px;" id="view_other">
 	      <i class="icon-circle-arrow-up icon-white">
 	      </i>
-	      结帐
+	      看其他
 	    </a>
 	</span>
     </span>
   </div>
 
 
-  <div class="content">
+  <div class="content" style="font-size:16px;">
     <%= @fruit.markdown.html_safe if @fruit.markdown %>
   </dvi>
  
@@ -52,7 +52,7 @@
     <div id="comments">
       <% @fruit.replies.each do |reply| %>
         <div class="comment">
-	  <span><%= reply.name %>:</span>
+	  <span><%= reply.name[0..1]+"**"+reply.name[reply.name.length-2..reply.name.length-1] %>:</span>
 	  <span><%= reply.content.html_safe %></span>
 	</div>
       <% end %>
@@ -130,20 +130,24 @@ $(function(){
 
 	if(count==0){
 	  add_to_cart(item);
-	  $("#"+id+" .count").html(count+1);
-	  $("#"+id+" .add-to-cart").html("已加入购物车");
+	  //$("#"+id+" .count").html(count+1);
+	  // $("#"+id+" .add-to-cart").html("已加入购物车");
+	  $("#view_other").trigger("click");
+	  //alert("f");
 	} else {
-	   var shop_cart = "";
-	   shop_cart += "<div class='row-fluid' style='margin-bottom:3px;'>"
-	   shop_cart += "<span class='span4'>"
-	   shop_cart += "<span class='label label-info' style='height:15px;'>￥"+price+"</span>x<span>"+count+"</span>"
-	   shop_cart += "</span>"
-	   shop_cart += "<span class='span7'>"+name+"</span>"
-	   shop_cart += "<span class='span1'><i class='icon-remove'></i></span></div>"
+	    $("#view_other").trigger("click");
+	   //var shop_cart = "";
+	   //shop_cart += "<div class='row-fluid' style='margin-bottom:3px;'>"
+	   //shop_cart += "<span class='span4'>"
+	   //shop_cart += "<span class='label label-info' style='height:15px;'>￥"+price+"</span>x<span>"+count+"</span>"
+	   //shop_cart += "</span>"
+	   //shop_cart += "<span class='span7'>"+name+"</span>"
+	   //shop_cart += "<span class='span1'><i class='icon-remove'></i></span></div>"
 
-	  $("#already_in_cart_modal .modal-body").html(shop_cart);
-	  $("#already_in_cart_modal").modal("show");
+	  //$("#already_in_cart_modal .modal-body").html(shop_cart);
+	  //$("#already_in_cart_modal").modal("show");
 	}
+	  $("#view_other").trigger("click");
       });
   });
   

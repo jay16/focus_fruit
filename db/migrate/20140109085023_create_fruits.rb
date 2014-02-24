@@ -4,6 +4,7 @@ class CreateFruits < ActiveRecord::Migration
       t.string :name
       t.integer :inventory
       t.float :price
+      t.string :unit
       t.string :state
       t.text :desc
       t.text :markdown

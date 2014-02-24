@@ -1,4 +1,13 @@
     <%= javascript_include_tag "fruit_zones" %>
+<style>
+.control-group {
+  margin-bottom: 5px;
+}
+
+.input-append, .input-prepend {
+    margin-bottom: 0;
+}
+</style>
 
     <div class="accordion" id="fruit_zone">
 
@@ -15,7 +24,7 @@
 		    <% fruit_zone.fruits.each_with_index do |fruit, i| %>
                           <div class="row-fluid fruit" id="<%= dom_id fruit %>">
                               <div class="span6">
-                                  <a onclick="$('#<%= dom_id fruit %>_modal').modal('show');"><span class="name"><%= fruit.name %></span></a>
+                                  <a onclick="$('#<%= dom_id fruit %>_modal').modal('show');"><span class="name"><%= "#{fruit.name}[#{fruit.unit}]" %></span></a>
                               </div>
                               <div class="span2">
                                 <span class="label label-warning">￥<span class="price"><%= fruit.price %></span></span>
@@ -91,7 +100,8 @@
 
   //遍历所有单类水果计算总数量与总价
   function check_out() {
-    var warn = "亲爱的果仁，订单不满50元，配送成本较高，加收10元快递费哦。感谢理解!"
+    var warn1 = "亲爱的果仁，订单不满50元，配送成本较高，加收10元快递费哦。感谢理解!"
+    var warn2 = "亲爱的果仁，订单已满50元，免收10元快递费哦。欢迎再来!"
     var total_count = 0;
     var total_price = 0;
     $(".fruit").each(function(e){
@@ -107,9 +117,9 @@
     $(".total-count").text(total_count);
     $(".total-price").text(total_price);
     if(total_price<50) {
-      $(".order-warn").text(warn);
+      $(".order-warn").text(warn1);
     } else {
-      $(".order-warn").text("");
+      $(".order-warn").text(warn2);
     }
     return [total_count, total_price];
   };
@@ -163,12 +173,13 @@
     }
   }
 function add_to_cart(item) {
-   operate_item("add",item);
+   return operate_item("add",item);
 }
 function rm_from_cart(item) {
-   operate_item("rm",item);
+   return operate_item("rm",item);
 }
 function operate_item(operation, item) {
+  var operate_state = true; //是否成功同步至数据库
   var weixin  = $("#hidden_weixin").attr("value");
   if(operation == "add") {
     url = "/shop_carts/add.json";
@@ -181,9 +192,15 @@ function operate_item(operation, item) {
     item: item
   },
   function(data,status){
-    //if(status=="success")
-    console.log(status);
+    if(status=="success") {
+      console.log(status);
+      operate_state = true;
+    } else {
+      operate_state = false;
+      alert("^_^,操作失败");
+    }
   });
+  return operate_state;
 }
 
 function shop_cart_list() {
@@ -239,25 +256,30 @@ $(function(){
       $("#"+id+" .buy-more").click(function(){
         var $buy_count = $("#"+id+" .count");
         var already_budy = parseInt($buy_count.text());
-        already_budy += 1;
-        $buy_count.text(already_budy);
-	add_to_cart(item);
-        check_out();
-        chk_order_list();
+        var add_to_cart_state = add_to_cart(item);
+	//alert(add_to_cart_state);
+        if(add_to_cart_state){
+	  already_budy += 1;
+	  $buy_count.text(already_budy);
+	  check_out();
+	  chk_order_list();
+	  console.log("add_to_cart");
+	}
       });
       //plus
       $("#"+id+" .buy-less").click(function(){
         var $buy_count = $("#"+id+" .count");
         var already_budy = parseInt($buy_count.text());
         if(already_budy>0) {
-          already_budy -= 1;
-	  rm_from_cart(item);
+	  var rm_from_cart_state = rm_from_cart(item);
+	  if(rm_from_cart_state) {
+	    already_budy -= 1;
+	    $buy_count.text(already_budy);
+	    check_out();
+	    chk_order_list();
+	  }
 	}
-        $buy_count.text(already_budy);
-        check_out();
-	chk_order_list();
       });
-
   });
 
 });
@@ -265,4 +287,3 @@ $(function(){
 
 <%= render "fruit_zones/modal_order" %>
 <%= render "orders/modal_success" %>
-

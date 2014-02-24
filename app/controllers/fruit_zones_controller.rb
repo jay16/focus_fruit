@@ -137,7 +137,8 @@ class FruitZonesController < ApplicationController
       fruit = fruit_zone.fruits.create({
         :name => name,
 	:desc => desc1,
-	:price => price
+	:price => price,
+	:unit => unit || "每份"
       }) unless fruit
     end if sheet1
   end

@@ -21,8 +21,19 @@ class FruitsController < ApplicationController
     end
   end
 
+  #水果中有两大特类
+  #果仁新作，今日推荐，各一个
   def state
-    @fruit.update_attributes(params[:fruit])
+    if %w(new recommand).include?(params[:state])
+      #为确保只有一个
+      #应该把旧的状态更新
+      @fruits = Fruit.where("state='#{params[:state]}'")
+      @fruits.each do |fruit|
+        fruit.update_attribute(:state, "null")
+      end if @fruits.size > 0
+      #再设置水果状态
+      @fruit.update_attribute(:state,params[:state])
+    end
   end
 
   def images
@@ -38,10 +49,13 @@ class FruitsController < ApplicationController
   end
 
   def new
+    @fruit_zone = FruitZone.find(params[:fruit_zone_id])
+    @fruit = @fruit_zone.fruits.new
   end
 
   def create
-    @folder = Folder.find_by_name("水果图片")
+    @fruit_zone = FruitZone.find(params[:fruit_zone_id])
+    @fruit = @fruit_zone.fruits.create(params[:fruit])
   end
 
   def edit
@@ -78,7 +92,7 @@ class FruitsController < ApplicationController
   # params.require(:person).permit(:name, :age)
   # Also, you can specialize this method with per-user checking of permissible attributes.
   def fruit_params
-    params.require(:fruit).permit(:inventory, :name, :price, :state, :desc, :markdown, :pic, :link)
+    params.require(:fruit).permit(:inventory, :name, :price,:unit, :state, :desc, :markdown, :pic, :link)
   end
 
   def deal_with_local(fruit)

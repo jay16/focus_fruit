@@ -6,6 +6,8 @@
   display: inline;
 }
 </style>
+
+
 <div class="accordion" id="fruit_zone_accordion_group">
 
     <% @fruit_zones.each_with_index do |fruit_zone, index| %> 
@@ -14,12 +16,12 @@
 
 </div>
 
-  <!--
-    该模式框必须放在最外层
-    css定位模式是absolute,在其他div中会受限制
-  -->
-  <% @fruit_zones.each do |fruit_zone| %>
-    <% fruit_zone.fruits.each do |fruit| %>
-      <%= render partial: "fruit_zones/modal_fruit", locals: { fruit: fruit } %>
-    <% end if fruit_zone.fruits.size > 0 %>
-  <% end if @fruit_zones %>
+<div class="warn">
+  说明:<br>
+  <ol>
+   <li> [果仁新作][今日推荐]当前设置只允许各有一个水果商品，点击[设置按钮]后会替换旧的设置.</li>
+   <li> [果仁新作]水果专区中可以上传多种新水果商品，只有被选中的商品在微信响应中显示.</li>
+   <li> 除[果仁新作]水果专区的水果专区都会在[在线订购]中显示，若想隐藏可以设置为[下架].</li>
+  </ol>
+</div>
+

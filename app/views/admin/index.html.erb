@@ -47,16 +47,25 @@
 
     <div class="tab-pane" id="tab_fruit">
       <div style="margin-bottom:20px;">
-        <%= form_tag("fruit_zones/upload", remote: true, 
-	  :class => 'form-horizontal', :multipart => true, :style => "display:inline;") do %>
-	  <%= file_field_tag :file_url, :class => 'text_field' %>
-	  <%= submit_tag "上传水果信息", class: "btn" %>
-	<% end %> 
+	<div style="display:inline">
+	  <%= form_tag("fruit_zones/upload", remote: true, 
+	    :class => 'form-horizontal', :multipart => true, :style => "display:inline;") do %>
+	    <%= file_field_tag :file_url, :class => 'text_field' %>
+	    <%= submit_tag "上传水果信息", class: "btn" %>
+	  <% end %> 
 
-	<%= form_tag("fruit_zones/download.xls", 
-	   :class => 'form-horizontal', :style => "display:inline;") do %>
-	  <%= submit_tag "下载模板",  class: "btn" %>
-	<% end %>
+	  <%= form_tag("fruit_zones/download.xls", 
+	     :class => 'form-horizontal', :style => "display:inline;") do %>
+	    <%= submit_tag "下载模板",  class: "btn" %>
+	  <% end %>
+	</div>
+
+	<span class="fruit-new-recommand right">
+	  <span class="label label-info">果仁新作</span>:
+	  <span class="fruit-new"><%= fruit_new() %></span>
+	  <span class="label label-info">今日推荐</span>:
+	  <span class="fruit-recommand"><%= fruit_recommand() %></span>
+	</span>
       </div>
 
       <%= render template: "fruit_zones/admin" %>
@@ -66,15 +75,11 @@
       <%= render template: "blogs/index" %>
     </div>
 
-    <div class="tab-pane" id="tab_picture">
-      <%= render template: "folders/index" %>
-    </div>
-
     <div class="tab-pane" id="tab_shop_cart">
       <%= render template: "shop_carts/index" %>
     </div>
     <div class="tab-pane" id="tab_site_config">
-      <%= render template: "site_configs/1" %>
+      <%= render partial: "site_configs/accodition" %>
     </div>
      
   </div>

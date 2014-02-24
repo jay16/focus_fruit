@@ -1,6 +1,6 @@
 #encoding: utf-8
 class Fruit < ActiveRecord::Base
-  attr_accessible :inventory, :name, :price, :state
+  attr_accessible :inventory, :name, :price, :unit, :state
   attr_accessible :pic
   attr_accessible :desc, :markdown
 
@@ -41,6 +41,17 @@ class Fruit < ActiveRecord::Base
   end
 
   def fruit_state
-    ["新品","推荐","无"]
+    [["果仁新作","new"],
+     ["今日推荐","recommand"]
+    ]
+  end
+
+  def chk_state
+    state, label = false, ""
+    if %w(recommand new).include?(self.state)
+       state = true
+       label = self.state == "new" ? "果仁新作" : "今日推荐"
+    end
+    return [state, label]
   end
 end

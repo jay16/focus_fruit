@@ -21,9 +21,10 @@ $(document).ready ->
 
     #手机端浏览单独设置
     if runtime == "mobile"
-      dh = wh*0.6
+      dh = wh*0.7
       dw = ww*0.8
       $(klass+" input[type='text']").css("width","190px")
+      $(klass+" select").css("width","190px")
       $(klass+" textarea").css("width","190px")
 
     dlg.css({

@@ -1,5 +1,14 @@
 <% if @fruit and @fruit.save %>
+  <% @fruits.each do |fruit| %>
+    $("#<%= dom_id fruit %>").replaceWith("<%= j render partial: 'fruit_zones/admin_fruit', locals: { fruit: fruit, fruit_zone: fruit.fruit_zones.first } if @fruit  %>");
+  <% end if @fruits.size > 0 %>
+
   $("#<%= dom_id @fruit %>").replaceWith("<%= j render partial: 'fruit_zones/admin_fruit', locals: { fruit: @fruit, fruit_zone: @fruit.fruit_zones.first } if @fruit  %>");
+  <% if @fruit.state == "new" %>
+    $(".fruit-new").html("<%= @fruit.name %>");
+  <% elsif @fruit.state == "recommand" %>
+    $(".fruit-recommand").html("<%= @fruit.name %>");
+  <% end %>
 <% else %>
   alert("订单状态更新失败");
   window.location.reload();

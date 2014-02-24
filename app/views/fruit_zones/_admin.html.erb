@@ -4,9 +4,10 @@
 	  <%= fruit_zone.name %>|<span class="collapse-state">展开</span>
 	</a>
 
-	<span class="right" style="display:none;">
-	<%= link_to "编辑", [:edit, fruit_zone], remote: true %> |
-	<%= link_to "删除", fruit_zone, method: :delete, remote: true %>
+	<span class="right" style="margin-top: -30px;margin-right:10px;">
+	<% link_to "编辑", [:edit, fruit_zone], remote: true %>
+	<% link_to "删除", fruit_zone, method: :delete, remote: true %>
+	<%= link_to "添加水果", new_fruit_zone_fruit_path(fruit_zone), :remote => true %>
 	</span>
     </div>
 

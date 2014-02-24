@@ -10,4 +10,7 @@ class User < ActiveRecord::Base
 
   validates :email, presence: true, uniqueness: true
   # attr_accessible :title, :body
+
+  has_many :user_with_replies, :dependent => :destroy
+  has_many :replies, :through => :user_with_replies
 end

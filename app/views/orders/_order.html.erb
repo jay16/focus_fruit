@@ -1,30 +1,47 @@
-  <tr id="<%= dom_id order %>">
-    <td><%= order.created_at.strftime("%Y/%m/%d %H:%M") %></td>
-    <td><%= order.name %></td>
-    <td><%= order.count %></td>
-    <td><%= order.checkout %></td>
-    <td><%= link_to "顾客", {controller: :orders, action:  order.id, type: "customer"}, remote: true, class: "btn btn-mini btn-info" %></td>
-    <td><%= link_to "订单", {controller: :orders, action:  order.id, type: "order"}, remote: true, class: "btn btn-mini btn-info" %></td>
-    <td><%= link_to t("btn.edit"), edit_order_path(order), remote: true,class: "btn btn-mini btn-success" %></td>
-    <td>
-      <% link_to t("btn.del"), order, method: :delete, remote: true, data: { confirm: "Are you sure?" },class: "btn btn-mini btn-danger" %>
-
-        <%= form_tag([:state, order], :remote => true, style: "margin:0px;") do %>
-          <%= select_tag("#{dom_id order}_state",options_for_select(order.state_map, order.state), { name: "order[state]", include_blank: true,
-             class: "chosen-select order-state", onchange: "$('#order_state_#{order.id}').trigger('click');" }) %>
-          <%= submit_tag "submit", id: "order_state_#{order.id}", style: "display:none;" %>
-        <% end %>
-    </td>
+<table class="table table-hover">
+  <tr>
+    <th>日期</th>
+    <th>顾客</th>
+    <th>水果数量</th>
+    <th>金额</th>
+    <th>顾客</th>
+    <th>明细</th>
+    <th>编辑</th>
+    <th>状态</th>
   </tr>
 
+  <% orders.each do |order| %>
+    <tr id="<%= dom_id order %>">
+      <td><%= order.created_at.strftime("%Y/%m/%d %H:%M") %></td>
+      <td><%= order.name %></td>
+      <td><%= order.count %></td>
+      <td><%= order.checkout %></td>
+      <td><%= link_to "顾客", {controller: :orders, action:  order.id, type: "customer"}, remote: true, class: "btn btn-mini btn-info" %></td>
+      <td><%= link_to "订单", {controller: :orders, action:  order.id, type: "order"}, remote: true, class: "btn btn-mini btn-info" %></td>
+      <td><%= link_to t("btn.edit"), edit_order_path(order), remote: true,class: "btn btn-mini btn-success" %></td>
+      <td>
+	<% link_to t("btn.del"), order, method: :delete, remote: true, data: { confirm: "Are you sure?" },class: "btn btn-mini btn-danger" %>
+
+	  <%= form_tag([:state, order], :remote => true, style: "margin:0px;") do %>
+	    <%= select_tag("order_#{dom_id order}_state",options_for_select(order.state_map, order.state), { name: "order[state]", include_blank: true,
+	       class: "chosen-select order-state", onchange: "$('#order_state_#{order.id}').trigger('click');" }) %>
+	    <%= submit_tag "submit", id: "order_state_#{order.id}", style: "display:none;" %>
+	  <% end %>
+      </td>
+    </tr>
+  <% end if orders.size > 0 %>
+
+</table>
 
 
 <script>
 $(function(){
-  $("#<%= dom_id order %>_state").chosen({
-      allow_single_deselect: true,
-      no_results_text: 'No results matched',
-      width: '90px'
-   });
+  <% orders.each do |order| %>
+    $("#order_<%= dom_id order %>_state").chosen({
+	allow_single_deselect: true,
+	no_results_text: 'No results matched',
+	width: '90px'
+     });
+   <% end if orders.size > 0 %>
 });
 </script>

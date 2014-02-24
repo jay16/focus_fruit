@@ -66,7 +66,7 @@ FocusFruit::Application.routes.draw do
   #水果
   resources :fruits do
     member do
-      post "state"
+      get "state"
       get "images"
       post "upload"
       delete "remove"

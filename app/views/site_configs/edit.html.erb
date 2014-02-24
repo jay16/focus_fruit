@@ -1,6 +1,6 @@
 <h3>编辑</h3>
 
-<%= render 'form1' %>
+<%= render "form#{@site_config.id}" %>
 
 <%= link_to 'Show', @site_config %> |
 <%= link_to 'Back', site_configs_path %>

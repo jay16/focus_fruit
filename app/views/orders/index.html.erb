@@ -1,16 +1,41 @@
-<table class="table table-hover">
-  <tr>
-    <th>日期</th>
-    <th>顾客</th>
-    <th>水果数量</th>
-    <th>金额</th>
-    <th>顾客</th>
-    <th>明细</th>
-    <th>编辑</th>
-    <th>状态</th>
-  </tr>
- 
-  <% @orders.each do |order| %>
-    <%= render partial: "orders/order", locals: { order: order } if order  %>
-  <% end if @orders %>
-</table>
+<div class="accordion" id="order_accordition">
+
+    <% @orders.first.state_map.each_with_index do |state, index| %>
+
+      <% orders = @orders.select { |o| o.state == state[1] } %>
+
+	<div class="accordion-group">
+	    <div class="accordion-heading">
+		<a class="accordion-toggle collapsed nolink" data-parent="#order_accordition" data-toggle="collapse" 
+		  href="#<%= index %>_order_acc" onclick="chk_collapse_state(this);">
+		  <%= state[0] %>(<%= orders.size %>)|<span class="collapse-state"><%=  index == 0 ? '收起' : '展开' %></span>
+		</a>
+	    </div>
+
+	    <div class="accordion-body collapse <%= index == 0 ? 'in' : '' %>" id="<%= index %>_order_acc">
+		<div class="accordion-inner">
+		  <%= render partial: "orders/order", locals: { orders: orders } if orders  %>
+		</div>
+		<!-- accordion-inner-->
+	    </div>
+	    <!--accordion-body-->
+	</div>
+	<!--accordion-group-->
+
+    <% end if @orders.size > 0 %>
+
+</div>
+
+<script>
+  function chk_collapse_state(e) {
+    $(".accordion-toggle").each(function() {
+        $(this).children(".collapse-state").html("展开");
+     });
+
+    if($(e).children(".collapse-state").html()=="展开") {
+      $(e).children(".collapse-state").html("收起");
+    } else {
+      $(e).children(".collapse-state").html("展开");
+    }
+  }
+</script>

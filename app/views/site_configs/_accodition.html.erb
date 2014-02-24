@@ -1,0 +1,43 @@
+
+<div class="accordion" id="site_configs">
+
+    <% @site_configs.each_with_index do |site_config, index| %>
+      <div class="accordion-group">
+	  <div class="accordion-heading">
+	      <a class="accordion-toggle collapsed nolink" data-parent="#site_configs" data-toggle="collapse" href="#<%= dom_id site_config %>" onclick="chk_collapse_state(this);">
+		<%= site_config.name %>|<span class="collapse-state"><%=  index == 0 ? '收起' : '展开' %></span>
+	      </a>
+		<%= link_to '编辑', edit_site_config_path(site_config), target: "_blank", style: "float:right;margin-right:20px;margin-top:-25px;" %>
+	  </div>
+
+	  <div class="accordion-body collapse <%= index == 0 ? 'in' : '' %>" id="<%= dom_id site_config %>">
+	      <div class="accordion-inner">
+		      <div class="row-fluid site_config" id="<%= dom_id site_config %>">
+			  <div class="span10">
+			     <%= render partial: "site_configs/a#{site_config.id}", locals: { site_config: site_config } %>            
+			  </div>
+		      </div>
+	      </div>
+	      <!-- accordion-inner-->
+	  </div>
+	  <!--accordion-body-->
+      </div>
+      <!--accordion-group-->
+
+    <% end %>
+
+</div>
+
+<script>
+  function chk_collapse_state(e) {
+    $(".accordion-toggle").each(function() {
+        $(this).children(".collapse-state").html("展开");
+     });
+
+    if($(e).children(".collapse-state").html()=="展开") {
+      $(e).children(".collapse-state").html("收起");
+    } else {
+      $(e).children(".collapse-state").html("展开");
+    }
+  }
+</script>

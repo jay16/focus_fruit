@@ -16,4 +16,17 @@ module FruitZonesHelper
     end
     return count
   end
+
+  #今日推荐
+  def fruit_new
+    if fruit = Fruit.find_by_state("new")
+      return fruit.name
+    end
+  end
+  #果仁新作
+  def fruit_recommand
+    if fruit = Fruit.find_by_state("recommand")
+      return fruit.name
+    end
+  end
 end

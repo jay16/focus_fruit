@@ -1,4 +1,4 @@
-<div class="modal hide fade fruit-modal" style="margin:0px;" id="<%= dom_id fruit %>_modal">
+<div class="modal hide fade fruit-modal" style="margin:0 0 10px 0;" id="<%= dom_id fruit %>_modal">
 
   <div class="modal-header" style="padding:0px;">
       <div style="background:black;color:white;font-size:12px;padding:5px;margin:0px;height:15px;margin-bottom:5px;">
@@ -7,10 +7,10 @@
       </div>
   </div>
 
-  <div class="modal-body" style="text-align:left;padding: 5px;max-height: 300px;">
+  <div class="modal-body" style="text-align:left;padding: 5px;max-height: 300px;overflow:auto;">
 
 
-      <div style="text-align:left;">
+      <div style="text-align:left;margin-bottom:50px;">
 	  <h4>
 	    <span class="name"><%= fruit.name %></span> |
 	     ￥<span class="price"><%= fruit.price %></span>
@@ -20,6 +20,19 @@
 	</div>
 
 	<%= fruit.markdown.html_safe if fruit.markdown %>
+
+	  <% if fruit.replies.size > 0 %>
+	    <h4>评论</h4>
+	    <div id="comments">
+	      <% fruit.replies.each do |reply| %>
+		<div class="comment">
+		  <span><%= reply.name[0..1]+"**"+reply.name[reply.name.length-2..reply.name.length-1] %>:</span>
+		  <span><%= reply.content.html_safe %></span>
+		</div>
+	      <% end %>
+	    </div>
+	  <% end %>
+
       </div>
 
   </div>

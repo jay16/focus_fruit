@@ -1,37 +1,32 @@
   <%= simple_form_for(@site_config) do |f| %>
 
-    <%= f.input :name, wrapper: :prepend, label: false do %>
-      <%= content_tag :span, content_tag(:span, "name", class: "span2"), class: "add-on" %>
-      <%= f.input_field :name, :as => :string, placeholder: "name", autofocus: true, :class => "span8" %>
-    <% end %>
-
     <%= f.input :text1,wrapper: :prepend, label: false do %>
-      <%= content_tag :span, content_tag(:span, "网站域名", class: "span2"), :class => "add-on" %>
+      <%= content_tag :span, content_tag(:span, "菜单标题", class: "span2"), :class => "add-on" %>
       <%= f.input_field :text1, :as => :string, placeholder: "text1", :class => "span8" %>
     <% end %>
 
     <%= f.input :text2,wrapper: :prepend, label: false do %>
-      <%= content_tag :span, content_tag(:span, "网站名称", class: "span2"), :class => "add-on" %>
+      <%= content_tag :span, content_tag(:span, "菜单评论", class: "span2"), :class => "add-on" %>
       <%= f.input_field :text2, :as => :string, placeholder: "text2", :class => "span8" %>
     <% end %>
 
     <%= f.input :text3,wrapper: :prepend, label: false do %>
-      <%= content_tag :span, content_tag(:span, "网站标题", class: "span2"), :class => "add-on" %>
+      <%= content_tag :span, content_tag(:span, "有订单评论", class: "span2"), :class => "add-on" %>
       <%= f.input_field :text3, :as => :string, placeholder: "text3", :class => "span8" %>
     <% end %>
 
     <%= f.input :text4,wrapper: :prepend, label: false do %>
-      <%= content_tag :span, content_tag(:span, "管理员 ", class: "span2"), :class => "add-on" %>
+      <%= content_tag :span, content_tag(:span, "有订单评论列表", class: "span2"), :class => "add-on" %>
       <%= f.input_field :text4, :as => :string, placeholder: "text4", :class => "span8" %>
     <% end %>
 
     <%= f.input :text5,wrapper: :prepend, label: false do %>
-      <%= content_tag :span, content_tag(:span, "联系邮箱", class: "span2"), :class => "add-on" %>
+      <%= content_tag :span, content_tag(:span, "无订单评论", class: "span2"), :class => "add-on" %>
       <%= f.input_field :text5, :as => :string, placeholder: "text5", :class => "span8" %>
     <% end %>
 
     <%= f.input :text6,wrapper: :prepend, label: false do %>
-      <%= content_tag :span, content_tag(:span, "text6", class: "span2"), :class => "add-on" %>
+      <%= content_tag :span, content_tag(:span, "评论为空", class: "span2"), :class => "add-on" %>
       <%= f.input_field :text6, :as => :string, placeholder: "text6", :class => "span8" %>
     <% end %>
 
