@@ -1,6 +1,13 @@
 #encoding: utf-8
 FocusFruit::Application.routes.draw do
 
+  #会员信息
+  resources :customers do
+    collection do
+      get "join"
+    end
+  end
+
   #购物车
   resources :shop_carts do
     collection do

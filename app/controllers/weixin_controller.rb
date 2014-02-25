@@ -30,17 +30,19 @@ class WeixinController < ApplicationController
     @weixin_config = SiteConfig.find(3)
 
     case content.to_s.downcase[0]
+    when "a" #会员尊享
+      @info = menu_service(@site_config,@weixin_config,@weixin,"user")
+      render template: "weixin/menu"
     when "b" #今日特惠
       @fruits = Fruit.where("state='recommand'")
       render template: "weixin/menu_fruits"
     when "c" #在线订购
-      @info = menu_service(@weixin,"shop")
+      @info = menu_service(@site_config,@weixin_config,@weixin,"shop")
       render template: "weixin/menu"
     when "d" #预约新品
       @fruits = Fruit.where("state='new'")
       render template: "weixin/menu_fruits"
     when "e" #配送范围
-      #@info = menu_service(@weixin,"distribution")
       @blogs = Blog.where("klass='distribution'")
       render template: "weixin/menu_blogs"
     when "f" #了解更多
@@ -86,10 +88,6 @@ class WeixinController < ApplicationController
 	@info = @weixin_config.text6
       end
       render template: "weixin/menu"   
-      #@info = menu_service(@weixin,"shop")
-      #@info = menu_service(@weixin,"distribution")
-      #@info = menu_service(@weixin,"payment")
-      #@info = menu_service(@weixin,"call-center")
     else
       @info = menu_help(@site_config,@weixin_config,@weixin.from_user_name)
       render template: "weixin/menu"
@@ -102,6 +100,7 @@ class WeixinController < ApplicationController
   def menu_help(site_config,weixin_config,weixin)
     #url_base = "http://fruit.solife.us"
     url_base = site_config.text1.to_s
+    url_user = "#{url_base}/customers/join?weixin=#{weixin}"
     url_shop = "#{url_base}/shop?weixin=#{weixin}"
     url_rmd  = "#{url_base}/recommends?weixin=#{weixin}"
     url_news = "#{url_base}/shop/news?weixin=#{weixin}"
@@ -112,7 +111,7 @@ class WeixinController < ApplicationController
     help = CGI::unescape(weixin_config.text1)
     help = weixin_config.text1 + "\n"
     help << weixin_config.text7 + "\n"
-    help << "A.会员尊享\n"
+    help << "A.<a href='#{url_user}'>会员尊享</a>\n"
     help << "B.<a href='#{url_shop}'>今日特惠</a>\n"
     help << "C.<a href='#{url_shop}'>在线订购</a>\n"
     help << "D.<a href='#{url_news}'>预约新品</a>\n"
@@ -125,25 +124,24 @@ class WeixinController < ApplicationController
   end
 
   #菜单服务
-  def menu_service(weixin,type)
-    info = "[爱果]为您服务,请点击此处"
-    url = "http://fruit.solife.us"
+  def menu_service(site_config,weixin_config,weixin,type)
+    url = site_config.text1.to_s
     case type
-    when "distribution"
-      url = "#{url}/#{type}"
-      klass = "查看配送服务" 
-    when "payment"
-      url = "#{url}/#{type}"
-      klass = "查看支付方式" 
-    when "call-center"
-      url = "#{url}/#{type}"
-      klass = "查看电话客服" 
+    when "user"
+      @info = weixin_config.text8
+      url = "#{url}/customers/join?weixin=#{weixin.from_user_name}"
+      klass = "详情点击"
+    when "shop"
+      @info = weixin_config.text9
+      url = "#{url}/shop?weixin=#{weixin.from_user_name}"
+      klass = "开始选购水果" 
     else
-      url = "#{url}?weixin=#{weixin.from_user_name}"
+      @info = weixin_config.text9
+      url = "#{url}/shop?weixin=#{weixin.from_user_name}"
       klass = "开始选购水果" 
     end
 
-    info << "<a href='#{url}'>#{klass}</a>"
+    @info << "<a href='#{url}'>#{klass}</a>"
   end
 
   def menu_query(order)
