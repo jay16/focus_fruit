@@ -13,8 +13,11 @@
   <% end %>
 
   </div>
-  <a data-slide="prev" href="#<%= dom_id blog %>_carousel" class="left carousel-control">‹</a>
-  <a data-slide="next" href="#<%= dom_id blog %>_carousel" class="right carousel-control">›</a>
+
+  <% if blog.pictures.size > 1 %>
+    <a data-slide="prev" href="#<%= dom_id blog %>_carousel" class="left carousel-control">‹</a>
+    <a data-slide="next" href="#<%= dom_id blog %>_carousel" class="right carousel-control">›</a>
+  <% end %>
 </div>
 <script>
 $(function(){

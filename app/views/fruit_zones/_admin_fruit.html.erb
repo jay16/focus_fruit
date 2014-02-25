@@ -18,7 +18,7 @@
       <% else %>
         <% fruit_zone_state = fruit.fruit_zones.first.state %>
         <% if fruit_zone_state == "new" %>
-	  <%= link_to "果仁新作", state_fruit_path(state: "new",id: fruit.id),
+	  <%= link_to "预约新品", state_fruit_path(state: "new",id: fruit.id),
 	    remote: true, class: "btn btn-mini btn-primary" %> 
 	<% elsif fruit_zone_state == "onsale" %>
 	  <%= link_to "今日推荐", state_fruit_path(state: "recommand",id: fruit.id),

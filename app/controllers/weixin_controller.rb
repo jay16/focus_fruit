@@ -30,17 +30,15 @@ class WeixinController < ApplicationController
     @weixin_config = SiteConfig.find(3)
 
     case content.to_s.downcase[0]
-    when "b"
-      @fruit_zones = FruitZone.find(1)#where("state='onsale'")
-      @fruits = @fruit_zones.fruits
-      render template: "weixin/menu_news"
+    when "b" #今日特惠
+      @fruits = Fruit.where("state='recommand'")
+      render template: "weixin/menu_fruits"
     when "c" #在线订购
       @info = menu_service(@weixin,"shop")
       render template: "weixin/menu"
     when "d" #预约新品
-      @fruit_zones = FruitZone.find(2)#where("state='onsale'")
-      @fruits = @fruit_zones.fruits
-      render template: "weixin/menu_news"
+      @fruits = Fruit.where("state='new'")
+      render template: "weixin/menu_fruits"
     when "e" #配送范围
       @info = menu_service(@weixin,"distribution")
       render template: "weixin/menu"

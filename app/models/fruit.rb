@@ -41,8 +41,8 @@ class Fruit < ActiveRecord::Base
   end
 
   def fruit_state
-    [["果仁新作","new"],
-     ["今日推荐","recommand"]
+    [["预约新品","new"],
+     ["今日特惠","recommand"]
     ]
   end
 
@@ -50,8 +50,17 @@ class Fruit < ActiveRecord::Base
     state, label = false, ""
     if %w(recommand new).include?(self.state)
        state = true
-       label = self.state == "new" ? "果仁新作" : "今日推荐"
+       label = self.state == "new" ? "预约新品" : "今日特惠"
     end
     return [state, label]
+  end
+
+  def state_label
+    case self.state
+    when "new"
+      "[预约新品]"
+    when "recommand"
+      "[今日特惠]"
+    end
   end
 end

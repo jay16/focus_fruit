@@ -1,5 +1,14 @@
 <%= javascript_include_tag "fruits" %>
 
+<style>
+.carousel-caption {
+  padding: 3px 15px 3px 10px;
+}
+.carousel-caption h4 {
+  margin: 0px;
+}
+</style>
+
 <div
 <% if mobile? %>
   class="span11 fruit"
@@ -13,6 +22,7 @@
   <h3>
     <span class="name"><%= @fruit.name %></span> | 
    ￥<span class="price"><%= @fruit.price %></span>
+   <span>[<%= @fruit.unit %>]</span>
   </h3>
 
   <div>
@@ -117,6 +127,7 @@ function operate_item(operation, item) {
   });
 }
 $(function(){
+  //对水果的操作
   $(".fruit").each(function(){
       var id = $(this).attr("id");
 
