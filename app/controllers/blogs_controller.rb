@@ -59,7 +59,8 @@ class BlogsController < ApplicationController
   # GET /blogs/new.json
   def new
     @blog = Blog.new
-    @blog.author = "水果达人"
+    @blog.author = "爱果"
+    @blog.klass = params[:service]
   
     respond_to do |format|
       format.html # new.html.erb
@@ -111,6 +112,7 @@ class BlogsController < ApplicationController
     @blog.destroy
 
     respond_to do |format|
+      format.js
       format.html { redirect_to blogs_url }
       format.json { head :no_content }
     end

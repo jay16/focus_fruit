@@ -9,7 +9,7 @@
   <% @blogs.each do |blog| %>
   <item>
     <Title><![CDATA[<%= blog.title %>]]></Title>
-    <Description><![CDATA[<%= blog.content[0,20] %>]]></Description>
+    <Description><![CDATA[<%= "#{blog.content.to_s.split(/[\r\n]+/)[0]}..." %>]]></Description>
     <PicUrl><![CDATA[<%= blog.weixin_image %>]]></PicUrl>
     <Url><![CDATA[<%= blog.link %>?weixin=<%= @weixin.from_user_name %>]]></Url>
   </item>

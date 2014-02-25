@@ -8,10 +8,9 @@ class Blog < ActiveRecord::Base
   def mappings
     [
       [["达人说","blog"],1],
-      [["配送服务","distribution"],2],
-      [["电话客服","call-center"],3],
-      [["支付方式","payment"],4],
-      [["使用教程","course"],5]
+      [["爱果服务","service"],2],
+      [["配送范围","distribution"],3],
+      [["使用教程","course"],4]
     ]
   end
 

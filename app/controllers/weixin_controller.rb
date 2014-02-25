@@ -40,10 +40,11 @@ class WeixinController < ApplicationController
       @fruits = Fruit.where("state='new'")
       render template: "weixin/menu_fruits"
     when "e" #配送范围
-      @info = menu_service(@weixin,"distribution")
-      render template: "weixin/menu"
+      #@info = menu_service(@weixin,"distribution")
+      @blogs = Blog.where("klass='distribution'")
+      render template: "weixin/menu_blogs"
     when "f" #了解更多
-      @blogs = Blog.where("klass in ('distribution','call-center','payment')")
+      @blogs = Blog.where("klass in ('service')")
       render template: "weixin/menu_blogs"
     when "g" #评论
       #评论为空
@@ -101,7 +102,7 @@ class WeixinController < ApplicationController
   def menu_help(site_config,weixin_config,weixin)
     #url_base = "http://fruit.solife.us"
     url_base = site_config.text1.to_s
-    url_shop = "#{url_base}?weixin=#{weixin}"
+    url_shop = "#{url_base}/shop?weixin=#{weixin}"
     url_rmd  = "#{url_base}/recommends?weixin=#{weixin}"
     url_news = "#{url_base}/shop/news?weixin=#{weixin}"
     url_send = "#{url_base}/distribution?weixin=#{weixin}"

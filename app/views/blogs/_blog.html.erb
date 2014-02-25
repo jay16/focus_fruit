@@ -1,0 +1,32 @@
+
+  <table class="table table-hover">
+    <tr>
+      <th>标题</th>
+      <th>类型</th>
+      <th>编辑</th>
+      <th>删除</th>
+    </tr>
+
+    <% blogs.each do |blog| %>
+    <tr id="<%= dom_id blog %>">
+      <td><%= link_to blog.title, blog, target: "_blank" %></td>
+      <td>
+          <span class="label label-info"> 
+	    <%= blog.type %>
+	  </span>
+      </td>
+      <td>
+        <%= link_to '文字', edit_blog_path(blog), class: "btn btn-mini btn-success", target: "_blank" %>
+        <%= link_to '图片', [:images, blog], class: "btn btn-mini btn-success", target: "_blank" %>
+      </td>
+      <td>
+        <% if blog.klass != "blog" %>
+	  <strike>删除</strike>
+	<% else %>
+	  <%= link_to '删除', blog, method: :delete, remote: true,confirm: '此动作不可撤消，肯定删除?', class: "btn btn-mini btn-danger"%>
+	<% end %>
+      </td>
+    </tr>
+    <% end %>
+  </table>
+
