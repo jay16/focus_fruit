@@ -1,0 +1,5 @@
+  <%= form_tag(logo_site_configs_path(), remote: true,
+    :class => 'form-horizontal', :multipart => true, :style => "display:inline;") do %>
+    <%= file_field_tag :logo_url, class: 'text_field', onchange: "$('#logo_change_submit').trigger('click');" %>
+    <%= submit_tag "更换logo", class: "btn", style: "display:none;", id: "logo_change_submit" %>
+  <% end %>

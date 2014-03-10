@@ -25,9 +25,10 @@
   <% end %>
   <input type="hidden" name="weixin" value="<%= params['weixin'] || 'no' %>" id="hidden_weixin" />
 
-<style>
-.accordion-group .accordion-heading {  background: #C4CBDF; }
-</style>
+  <link href="/assets/<%= @global_config.text4 %>" rel="icon">
+  <style>
+  .accordion-group .accordion-heading {  background: #C4CBDF; }
+  </style>
 </head>
 
 <body>

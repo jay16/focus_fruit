@@ -1,3 +1,4 @@
+#encoding: utf-8
 class SiteConfigsController < ApplicationController
   # GET /site_configs
   # GET /site_configs.json
@@ -81,6 +82,26 @@ class SiteConfigsController < ApplicationController
     end
   end
 
+  #修改logo
+  def logo
+    image = params[:logo_url]
+    @ret = [true, "修改logo成功"]
+
+    original_name = image.original_filename.to_s
+    types   = chk_image_name(original_name.to_s)
+    if types.size > 0
+      logo_image = "favicon" + types[0]
+      image_path = Rails.root.join("app","assets","images", logo_image)
+      File.delete(image_path) if File.exists?(image_path)
+      File.open(image_path, "wb") { |f| f.write(image.read) }
+      @site_config = SiteConfig.find(1)
+      @site_config.update_attribute(:text4,logo_image)
+    else
+      @ret = [false, "图片格式不正确"]
+    end
+
+  end
+
   private
 
     # Use this method to whitelist the permissible parameters. Example:
@@ -89,4 +110,8 @@ class SiteConfigsController < ApplicationController
     def site_config_params
       params.require(:site_config).permit(:name, :text1, :text2, :text3, :text4, :text5, :text6, :text7, :text8, :text9)
     end
+
+  def chk_image_name(str)
+    types = %w(.jpg .jpeg .png .bmp .gif .ico).select { |d| str.downcase.include?(d) }
+  end
 end

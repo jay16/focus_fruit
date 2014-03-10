@@ -19,7 +19,11 @@ FocusFruit::Application.routes.draw do
   end
 
   #全局配置
-  resources :site_configs
+  resources :site_configs do
+    collection do
+      put "logo"
+    end
+  end
 
   #图片管理
   resources :pictures
