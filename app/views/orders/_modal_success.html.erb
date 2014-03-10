@@ -1,8 +1,12 @@
-<div id="order_success" class="modal hide fade order-success" style="position:absolute;margin:0px;">
-  <div class="modal-header">
-    <h3>购物成功</h3>
-  </div>
-  <div class="modal-body">
-    <p>loading...</p>
+<div class="modal fade hide order-success" style="position:absolute;margin:0px;">
+  <div class="modal-body" style="padding:3px;">
+    <div style="background:black;color:white;font-size:12px;padding:0 5px 5px;margin:0px;height:15px;margin-bottom:5px;">
+      <span class="left">购物成功</span>
+      <% link_to "关闭", "javascript:void(0);", class: "right", onclick: "$('.order-success').modal('hide');" %>
+    </div>
+
+    <div class="order-success-details">
+      loading..
+    </div>
   </div>
 </div>

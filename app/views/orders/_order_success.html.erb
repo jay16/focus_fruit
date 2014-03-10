@@ -1,69 +1,63 @@
-<% @order= Order.last %>
 
 <div id="order_success_items" style="display:none;">
-  <table class="table table-hover" style="width:500px">
+  <table class="table table-hover">
     <% total_count = 0 %>
     <tr>
       <td colspan="2" style="text-align:left;">
-	  下单成功：
+	  商品列表：
       </td>
     </tr>
     <% @order.items.each do |item| %>
       <tr>
-	<td width="50%"><strong><%= item.name %></strong></td>
+	<td width="50%"><%= item.name %></td>
 	<% total_count += item.price*item.count %>
-	<td width="50%"><label class="label label-info" style="display:inline;">￥<%= item.price %></label>x<%= item.count %></td>
+	<td width="50%"><span class="label label-info" style="display:inline;">￥<%= item.price %>x<%= item.count %></span></td>
       </tr>
     <% end %>
     <tr class="success">
-      <td colspan="2">共计:￥<label class="label label-success" style="display:inline;"><%= total_count %></label></td>
+      <td>共计</td><td><span class="label label-success" style="display:inline;">￥<%= total_count %></span></td>
     </tr>
     <tr>
-      <td colspan="2">
-	<a onclick="window.location.reload();" class="btn">
-	  继续购物
+      <td colspan="2" style="text-align:center;">
+        <a onclick="$('#order_success_customer').css('display','block');$('#order_success_items').css('display','none');" class="btn">
+	  查看联系信息
 	</a>
-        <a onclick="$('#order_success_customer').css('display','block');$('#order_success_items').css('display','none');" class="btn btn-primary">
-	  联系信息
+	<a onclick="window.location.reload();" class="btn btn-primary">
+	  继续购物
 	</a>
       </td>
     </tr>
   </table>
 </div>
 <div id="order_success_customer">
-  <table class="table table-hover" style="width:500px">
+  <table class="table table-hover">
     <tr>
       <td colspan="2" style="text-align:left;">
 	  联系信息：
       </td>
     </tr>
     <tr>
-      <td width="20%">名称</td>
-      <td><%= @order.name %></td>
+      <td colspan="2">名称: <%= @order.name %></td>
     </tr>
     <tr>
-      <td width="20%">电话</td>
-      <td><%= @order.phone %></td>
+      <td colspan="2">电话: <%= @order.phone %></td>
     </tr>
     <tr>
-      <td width="20%">地址</td>
-      <td><%= @order.address %></td>
+      <td colspan="2">地址: <%= @order.address %></td>
     </tr>
     <tr>
-      <td width="20%">配送时间</td>
-      <td><%= @order.date_at %></td>
+      <td colspan="2">配送时: <%= @order.date_at %></td>
     </tr>
     <tr>
-      <td width="20%">留言</td>
-      <td><%= @order.remark %></td>
+      <td colspan="2">留言: <%= @order.remark %></td>
     </tr>
     <tr>
-      <td colspan="2">
-	<a onclick="window.location.reload();" class="btn">
-	  继续购物
+      <td colspan="2" style="text-align:center;">
+	<a onclick="$('#order_success_customer').css('display','none');$('#order_success_items').css('display','block');" class="btn">
+	  查看订单信息
 	</a>
-	<a onclick="$('#order_success_customer').css('display','none');$('#order_success_items').css('display','block');" class="btn btn-primary">
-	  订单信息
+	<a onclick="window.location.reload();" class="btn btn-primary">
+	  继续购物
 	</a>
       </td>
     </tr>

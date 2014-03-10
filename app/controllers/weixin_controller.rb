@@ -11,10 +11,13 @@ class WeixinController < ApplicationController
   #添加/取消关注 
   def event
     if @weixin.event == "subscribe"
-      if (@fruits = Fruit.where("state='推荐'")).size == 0
-        @fruits = Fruit.all.first(2)
-      end
-      render template: "weixin/menu_subscribe" 
+      #  if (@fruits = Fruit.where("state='推荐'")).size == 0
+      #    @fruits = Fruit.all.first(2)
+      #  end
+      @site_config   = SiteConfig.find(1)
+      @weixin_config = SiteConfig.find(3)
+      @info = menu_help(@site_config,@weixin_config,@weixin.from_user_name)
+      render template: "weixin/menu" 
     else
     end
   end
@@ -112,7 +115,7 @@ class WeixinController < ApplicationController
     help = weixin_config.text1 + "\n"
     help << weixin_config.text7 + "\n"
     help << "A.<a href='#{url_user}'>会员尊享</a>\n"
-    help << "B.<a href='#{url_shop}'>今日特惠</a>\n"
+    help << "B. 今日特惠\n"
     help << "C.<a href='#{url_shop}'>在线订购</a>\n"
     help << "D.<a href='#{url_news}'>预约新品</a>\n"
     help << "E.<a href='#{url_send}'>配送范围</a>\n"

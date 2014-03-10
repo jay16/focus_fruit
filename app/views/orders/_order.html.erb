@@ -23,7 +23,7 @@
 	<% link_to t("btn.del"), order, method: :delete, remote: true, data: { confirm: "Are you sure?" },class: "btn btn-mini btn-danger" %>
 
 	  <%= form_tag([:state, order], :remote => true, style: "margin:0px;") do %>
-	    <%= select_tag("order_#{dom_id order}_state",options_for_select(order.state_map, order.state), { name: "order[state]", include_blank: true,
+	    <%= select_tag("order_#{dom_id order}_state",options_for_select(order.state_map, order.state), { name: "order[state]",
 	       class: "chosen-select order-state", onchange: "$('#order_state_#{order.id}').trigger('click');" }) %>
 	    <%= submit_tag "submit", id: "order_state_#{order.id}", style: "display:none;" %>
 	  <% end %>

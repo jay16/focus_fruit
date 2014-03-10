@@ -11,4 +11,39 @@ module ApplicationHelper
     return false if agent_str =~ /ipad/
     agent_str =~ Regexp.new(MOBILE_USER_AGENTS)
   end
+
+  def page_title(config, params)
+    config.text2 + 
+    case params[:controller]
+    when "customers"
+      case params[:action]
+      when "join"
+        "-会员尊享"
+      else
+        ""
+      end
+    when "admin"
+      "-管理台"
+    when "fruit_zones"
+      case params[:action]
+      when "index"
+	"-在线订购" 
+      when "news"
+        "-预约新品"
+      else 
+        ""
+      end
+    when "blogs"
+      case params[:action]
+      when "distribution"
+        "-配送范围"
+      when "list"
+        "-了解更多"
+      else
+        ""
+      end
+    else
+      ""
+    end
+  end
 end

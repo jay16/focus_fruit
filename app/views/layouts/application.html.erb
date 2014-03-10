@@ -4,7 +4,7 @@
   <%= javascript_include_tag "application" %>
   <%= stylesheet_link_tag "application" %>
 
-  <title><%= @global_config.text2 || "水果达人" %></title>
+  <title><%= page_title(@global_config, params) %></title>
 
 
   <% if mobile? %>

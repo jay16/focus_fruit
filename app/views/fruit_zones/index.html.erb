@@ -75,6 +75,7 @@
       <%= render partial: "fruit_zones/modal_fruit", locals: { fruit: fruit } %>
     <% end if fruit_zone.fruits.size > 0 %>
   <% end if @fruit_zones %>
+
 <script>
   function chk_collapse_state(e) {
     $(".accordion-toggle").each(function() { 
@@ -130,7 +131,6 @@
   function chk_order_list() {
     var list = new Array();
     var shop_cart  = "";
-    var order_info = "";
 
     $(".fruit").each(function(e){
        var id = $(this).attr("id");
@@ -138,7 +138,6 @@
        var price = parseInt($("#"+id+" .price").text());
        var count = parseInt($("#"+id+" .count").text());
        if(count > 0) {
-         //list.push('{' + '"id":'+ id.split("_")[1]+ ',"count":' + count + ',"price":' +  price +'}')
 	 var json = {"id": id.split("_")[1], "name": name, "count": count, "price": price};
 	 list.push(JSON.stringify(json));
 
@@ -151,15 +150,16 @@
        }
     });
     var order_rt = check_out();
-    shop_cart += "<div class='row-fluid' style='margin-bottom:3px;'>"
-    shop_cart += "<span class='span4'>数量:<span class='label label-info'>" + order_rt[0] + "</span></span>"
-    shop_cart += "<span class='span7'>总金额:<span class='label label-info'>￥" + order_rt[1] + "</span></span>"
-    shop_cart += "</div>"
+    //shop_cart += "<div class='row-fluid' style='margin-bottom:3px;'>"
+    //shop_cart += "<span class='span4'>数量:<span class='label label-info'>" + order_rt[0] + "</span></span>"
+    //shop_cart += "<span class='span7'>总金额:<span class='label label-info'>￥" + order_rt[1] + "</span></span>"
+    //shop_cart += "</div>"
 
     $("#order_item_list").attr("value","["+list.toString()+"]");
     $("#order_info").attr("value", shop_cart);
     $("#order_count").attr("value", order_rt[0]);
     $("#order_checkout").attr("value", order_rt[1]);
+    $(".order-items-title").html("购物车[金额:￥"+order_rt[1]+"]");
     $(".order-items").html(shop_cart);
   }
 

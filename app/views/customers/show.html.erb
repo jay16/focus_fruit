@@ -1,0 +1,28 @@
+<% if mobile? %>
+  <div class="span11" style="margin-left:12px;">
+<% else %>
+  <div class="span6 offset3">
+<% end %>
+  <h3>会员信息</h3>
+
+  <p style="display:none;">
+    <b>Idstr:</b>
+    <%= @customer.idstr %>
+  </p>
+
+  <p>
+    <b>用户名称:</b>
+    <%= @customer.name %>
+  </p>
+
+  <p>
+    <b>联系方式:</b>
+    <%= @customer.phone %>
+  </p>
+
+  <p>
+    <b>配送地址:</b>
+    <%= @customer.address %>
+  </p>
+
+</div>

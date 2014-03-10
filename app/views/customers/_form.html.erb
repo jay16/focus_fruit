@@ -1,0 +1,25 @@
+  <%= simple_form_for(@customer) do |f| %>
+
+    <%= f.input_field :idstr, :as => :hidden %>
+
+    <%= f.input :name, wrapper: :prepend, label: false do %>
+      <%= content_tag :span, content_tag(:span, "用户名称", class: ""), class: "add-on" %>
+      <%= f.input_field :name, placeholder: "用户名称", autofocus: true, class: "span10" %>
+    <% end %>
+
+    <%= f.input :phone, wrapper: :prepend, label: false do %>
+      <%= content_tag :span, content_tag(:span, "联系方式", class: ""), class: "add-on" %>
+      <%= f.input_field :phone, placeholder: "联系方式", class: "span10" %>
+    <% end %>
+
+    <%= f.input :address, wrapper: :prepend, label: false do %>
+      <%= content_tag :span, content_tag(:span, "配送地址", class: ""), class: "add-on" %>
+      <%= f.input_field :address, placeholder: "配送地址", class: "span10" %>
+    <% end %>
+
+    <div class="control-group">
+      <div class="controls">
+	  <%= f.button :submit, "提交", class: "btn" %>
+      </div>
+    </div>
+  <% end %>

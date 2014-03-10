@@ -39,16 +39,16 @@ $(document).ready ->
   set_order_modal(".fruit-modal", "absolute")
   set_order_modal(".order-success","absolute")
 
-  find_element_by_id = (id) ->
+  find_element_with_id = (id) ->
     document.getElementById(id)
 
   #检测订单必填项是否填写
-  chk_submit_enable = () ->
-    #name  = find_element_by_id("order_name").value.length > 0 ? true : false
-    #phone = find_element_by_id("order_phone").value.length > 0 ? true : false
-    address = find_element_by_id("order_address").value.length > 0 ? true : false
-    #date_at = find_element_by_id("order_date_at").value.length > 0 ? true : false
-    #remark = find_element_by_id("order_remark").value.length > 0 ? true : false
+  self.chk_submit_enable = () ->
+    name  = find_element_with_id("order_name").value.length > 0 ? true : false
+    #phone = find_element_with_id("order_phone").value.length > 0 ? true : false
+    address = find_element_with_id("order_address").value.length > 0 ? true : false
+    #date_at = find_element_with_id("order_date_at").value.length > 0 ? true : false
+    #remark = find_element_with_id("order_remark").value.length > 0 ? true : false
     phone = true
     #手机号为数字且11位
     if $("#order_phone").val().toString().match(/^[-]?[0-9]+[\.]?[0-9]*$/) == null or $("#order_phone").val().toString().length != 11
@@ -58,10 +58,12 @@ $(document).ready ->
       $("#order_phone").css("color","black")
       phone = true
 
-    if phone and address
-      $("input[type='submit']").removeAttr("disabled")
+    if name and phone and address
+      $("#new_order input[type='submit']").removeAttr("disabled")
+      $("#new_order input[type='submit']").addClass("btn-primary")
     else
-      $("input[type='submit']").attr("disabled","disabled")
+      $("#new_order input[type='submit']").attr("disabled","disabled")
+      $("#new_order input[type='submit']").removeClass("btn-primary")
 
   $("#order_name").keyup () ->
     chk_submit_enable()
@@ -71,5 +73,6 @@ $(document).ready ->
     chk_submit_enable()
   $("#order_date_at").keyup () ->
     chk_submit_enable()
-  $("#order_remark").keyup () ->
-    chk_submit_enable()
+
+  #加载时初始化
+  chk_submit_enable()
