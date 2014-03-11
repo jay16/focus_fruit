@@ -12,22 +12,11 @@
       <td><%= site_config.text3 %></td>
     </tr>
     <tr>
-      <td>管理员名称</td>
-      <td><%= site_config.text4 %></td>
-    </tr>
-    <tr>
-      <td>管理员邮箱</td>
-      <td><%= site_config.text5 %></td>
-    </tr>
-    <tr>
-      <td>管理员邮箱</td>
-      <td><%= site_config.text6 %></td>
-    </tr>
-
-    <tr>
       <td>网站logo</td>
       <td class="change-logo">
-        <%= render "site_configs/logo" %>
+        <%= render partial: "site_configs/logo", locals: { logo: site_config.text4 } %>
       </td>
+	</tr>
+
 </table>
 

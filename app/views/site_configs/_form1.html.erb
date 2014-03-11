@@ -20,13 +20,8 @@
       <%= f.input_field :text3, :as => :string, placeholder: "text3", :class => "span8" %>
     <% end %>
 
-    <%= f.input :text4,wrapper: :prepend, label: false do %>
-      <%= content_tag :span, content_tag(:span, "管理员 ", class: "span2"), :class => "add-on" %>
-      <%= f.input_field :text4, :as => :string, placeholder: "text4", :class => "span8" %>
-    <% end %>
-
     <%= f.input :text5,wrapper: :prepend, label: false do %>
-      <%= content_tag :span, content_tag(:span, "联系邮箱", class: "span2"), :class => "add-on" %>
+      <%= content_tag :span, content_tag(:span, "text5", class: "span2"), :class => "add-on" %>
       <%= f.input_field :text5, :as => :string, placeholder: "text5", :class => "span8" %>
     <% end %>
 

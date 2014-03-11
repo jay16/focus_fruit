@@ -85,19 +85,22 @@ class SiteConfigsController < ApplicationController
   #修改logo
   def logo
     image = params[:logo_url]
-    @ret = [true, "修改logo成功"]
+    @ret = [true, "修改logo成功", "null"]
 
     original_name = image.original_filename.to_s
     types   = chk_image_name(original_name.to_s)
     if types.size > 0
-      logo_image = "favicon" + types[0]
-      image_path = Rails.root.join("app","assets","images", logo_image)
-      File.delete(image_path) if File.exists?(image_path)
+	  uid = UUIDTools::UUID.md5_create(UUIDTools::UUID_DNS_NAMESPACE, original_name+Time.now.to_s).to_s
+      logo_name  = uid + types[0]
+
+      image_path = Rails.root.join("public","favicon", logo_name)
       File.open(image_path, "wb") { |f| f.write(image.read) }
+
       @site_config = SiteConfig.find(1)
-      @site_config.update_attribute(:text4,logo_image)
+      @site_config.update_attribute(:text4,logo_name)
+	  @ret[2] = logo_name
     else
-      @ret = [false, "图片格式不正确"]
+      @ret = [false, "图片格式不正确", "null"]
     end
 
   end
