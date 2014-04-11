@@ -1,0 +1,129 @@
+zh-CN:
+  layout:
+    whatido: 我在做...
+    module: 模块
+    blog: 博客
+    photo: 相集
+    todo: ToDo
+    favorwall: 兴趣墙
+    consume: 消费清单
+    taggroup: 标签组
+    tag: 标签
+    traffic: 流量
+    member: 会员
+    edm: 电子报
+    edm_log: 发信日志
+    editor: 编辑器
+    about: 关于
+    lang: 语言
+    loading: 加载中
+  tooltip:
+    blog: 博客归档
+    consume: 个人消费清单
+    photo: 图片集
+    editor: MarkDown 编辑器
+    about: 关于SOLife
+    solife: 跳转至solife主页
+    jay_li: 关于Jay_Li
+  lang:
+    english: 英文
+    chinese: 中文
+  user:
+    login: 登陆
+    logout: 退出
+    login_info: 欢迎登陆 
+    logout_info: 再见
+    login_fail: 登陆失败
+  btn:
+    new: 新建
+    show: 明细
+    edit: 编辑
+    del: 删除
+    submit: 提交
+    cancel: 取消
+  member:
+    name: 用户名
+    email: 邮箱
+    type: 级别
+    mx: MX
+    detail: 明细
+    edit: 编辑
+    del: 删除
+    isvalid: 是否有效
+    issubscribed: 是否定阅
+    msg: 备注
+  form:
+    value: 数值
+    msg: 说明
+    date: 日期
+    created_at: 创建时间
+    updated_at: 更新时间
+    tag: 标签
+    action: 操作
+  date:
+    today: 今天
+    yesterday: 昨天
+    lastday: 前天
+
+  activerecord:
+    errors:
+      models:
+        reply:
+          attributes:
+            name:
+              blank: '名称不允许为空'
+            content: 
+              blank: '评论不允许为空'
+        consume:
+          attributes:
+            volue:
+              blank: 'volue not allow empty'
+
+  devise:
+    failure:
+      user:
+        not_found_in_database: '该用户不存在'
+      already_authenticated: '您已经登录.'
+      unauthenticated: '继续操作前请注册或者登录.'
+      unconfirmed: '继续操作前请先激活您的帐号.'
+      locked: '您的帐号已被锁定.'
+      invalid: '密码错误'
+      invalid_token: '认证码无效.'
+      timeout: '您已登录超时，请重新登录.'
+      inactive: '您还没有激活帐户.'
+    sessions:
+      signed_in: '登录成功.'
+      signed_out: '退出成功.'
+    passwords:
+      send_instructions: '稍后你将收到帐号激活的电子邮件'
+      updated: '您的密码已修改成功，您现在已登录.'
+      updated_not_active: '您的密码已修改成功.'
+      send_paranoid_instructions: '如果您的邮箱存在于我们的数据库中，您将收到一封找回密码的邮件.'
+      blank: '密码为空.'
+    confirmations:
+      send_instructions: '稍后你将收到帐号激活的电子邮件'
+      confirmed: '您的帐号已经激活，您现在已登录.'
+      send_paranoid_instructions: '如果您的邮箱存在于我们的数据库中，您将收到一封激活账号的邮件.'
+    registrations:
+      signed_up: '欢迎您！您已注册成功.'
+      updated: '帐号资料更新成功.'
+      update_needs_confirmation: '您更改了邮箱地址，我们需要验证您的新邮箱地址，请查看您的邮箱，点击激活链接来验证您的新邮箱地址.'
+      destroyed: '再见！您的帐户已成功注销。我们希望很快可以再见到您.'
+      signed_up_but_unconfirmed: '带有激活链接的信息已经发送到你的邮箱。请打开此链接来激活你的帐号'
+      signed_up_but_inactive: '虽然您已经注册成功，但因为你的帐号还未激活，所以你暂时无法登录'
+      signed_up_but_locked: '虽然您已经注册成功，但因为你的帐号已被锁定，所以你暂时无法登录'
+    unlocks:
+      send_instructions: '稍后你将收到帐号激活的电子邮件'
+      unlocked: '您的帐号已成功解锁，您现在已登录.'
+      send_paranoid_instructions: '如果您的邮箱存在于我们的数据库中，您将收到一封解锁账号的邮件.'
+    omniauth_callbacks:
+      success: '成功地从 %{kind}获得授权.'
+      failure: '因为 %{reason}，所以您无法从 %{kind}获得授权.'
+    mailer:
+      confirmation_instructions:
+        subject: 'Focus Mail 激活信息'
+      reset_password_instructions:
+        subject: 'Focus Mail 重置密码信息'
+      unlock_instructions:
+        subject: 'Focus Mail 解锁信息'
+

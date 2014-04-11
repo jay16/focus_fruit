@@ -6,10 +6,10 @@ gem "rails", "3.2.3"
 gem "mysql2"
 #gem "grape"
 
-gem "angular-rails"
+#gem "angular-rails"
 
 #微博
-gem "weibo_2"
+#gem "weibo_2"
 gem "hashie"
 
 gem "devise"
@@ -25,7 +25,7 @@ gem "ip_reverse"
 
 #blog标题翻译为拼音做链接
 #翻译为英语最佳
-gem "ruby-pinyin"
+#gem "ruby-pinyin"
 gem "uuidtools"
 
 #pdf excel zip
@@ -48,7 +48,7 @@ gem "bootstrap-will_paginate"
 gem "remotipart"
 gem "jquery-atwho-rails"
 
-gem "font-awesome-less"
+#gem "font-awesome-less"
 
 
 
